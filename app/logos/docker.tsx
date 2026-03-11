@@ -1,17 +1,16 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import Image from "next/image";
-import logo from "@/assets/images/logos/next-js.svg";
+import logo from "@/assets/images/logos/docker.svg";
 
-export default function NextJSLogo() {
+export default function DockerLogo() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className='text-center'>NextJS</CardTitle>
+                <CardTitle className='text-center'>Docker</CardTitle>
             </CardHeader>
             <CardContent>
-                <Image src={logo} alt="NextJS Logo" width={64} height={64}/>
+                <Image src={logo} alt="Docker Logo" width={64} height={64}/>
             </CardContent>
         </Card>
     );
 }
-

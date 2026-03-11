@@ -9,7 +9,7 @@ export default function GitLogo() {
                 <CardTitle className='text-center'>Git</CardTitle>
             </CardHeader>
             <CardContent>
-                <Image src={logo} alt="Git Logo" width={64} height={64}/>
+                <Image src={logo} alt="Git Logo" width={52} height={52} className="h-[52px] w-[52px] object-contain"/>
             </CardContent>
         </Card>
     );
