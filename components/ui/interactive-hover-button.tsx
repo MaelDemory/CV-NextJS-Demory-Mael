@@ -20,7 +20,7 @@ export function InteractiveHoverButton({
   ...props
 }: InteractiveHoverButtonProps) {
   const childLabel = asChild && React.isValidElement(children)
-    ? children.props.children
+    ? (children.props as any).children
     : children
 
   const content = (
