@@ -14,9 +14,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Maël DEMORY - Portfolio",
-  description: "Portfolio de Maël DEMORY - Développeur fullstack, étudiant en BUT Informatique et alternant à l'IMT Nord Europe",
-  keywords: ["développeur", "fullstack", "portfolio", "IMT Nord Europe", "BUT Informatique"],
+  title: "Maël Demory — Portfolio",
+  description: "Portfolio of Maël Demory — Software Engineer Apprentice at Arjo France and computer science engineering student at IMT Nord Europe.",
+  keywords: ["software engineer", "fullstack developer", "portfolio", "IMT Nord Europe", "apprenticeship"],
 };
 
 export default function RootLayout({
@@ -25,7 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="dark scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Applique thème + langue avant le premier paint pour éviter tout flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);if(localStorage.getItem("locale")==="fr"){document.documentElement.lang="fr"}}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

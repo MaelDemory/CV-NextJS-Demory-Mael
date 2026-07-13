@@ -1,4 +1,3 @@
-export {default as AgentsAI} from './agents';
 export {default as AngularLogo} from './angular';
 export {default as BootstrapLogo} from './bootstrap';
 export {default as DockerLogo} from './docker';
@@ -13,7 +12,6 @@ export {default as IonicLogo} from './ionic';
 export {default as JavaLogo} from './java';
 export {default as JavaScriptLogo} from './javascript';
 export {default as LaravelLogo} from './laravel';
-export {default as LLM} from './llm';
 export {default as LinkedInLogo} from './linkedin';
 export {default as LinuxLogo} from './linux';
 export {default as MongodbLogo} from './mongodb';
