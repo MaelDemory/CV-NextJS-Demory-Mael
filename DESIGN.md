@@ -27,6 +27,13 @@ sans aucun marqueur "généré par IA" (dégradés décoratifs, glassmorphism g�
   (dock de navigation, boutons theme/GitHub). Jamais deux matériaux empilés.
 - `prefers-reduced-transparency` : le matériau devient opaque.
 
+## Élément signature
+
+Le nom du hero, en display géant sur deux lignes (uppercase, `clamp(3.25rem, 11vw, 6.5rem)`),
+dont la graisse de Geist (fonte variable 100–900) réagit à la proximité du curseur lettre par
+lettre via des springs. C'est le seul geste spectaculaire de la page — tout le reste doit rester
+discipliné. Désactivé en `prefers-reduced-motion` et sur pointeur tactile (graisse fixe 500).
+
 ## Motion
 
 - Springs critiquement amortis (`type: "spring", bounce: 0, duration ~0.7`) pour les entrées.

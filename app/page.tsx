@@ -3,7 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import photoCV from "@/assets/images/photo_cv.png";
-import { AnimatePresence, MotionConfig, motion } from "framer-motion";
+import {
+    AnimatePresence,
+    MotionConfig,
+    motion,
+    useMotionTemplate,
+    useReducedMotion,
+    useSpring,
+    type MotionValue,
+} from "framer-motion";
 import { translations, type Locale, type Project } from "@/app/translations";
 import {
     AngularLogo,
@@ -207,6 +215,107 @@ const competencesCategories = [
 
 // Ordre aligné sur t.competences.aiSkills
 const aiSkillIcons = [SquareTerminal, Boxes, Bot, Network, Braces, BrainCircuit];
+
+/* Élément signature : le nom du hero en display géant, dont la graisse
+   (Geist variable, 100–900) réagit à la proximité du curseur, lettre par lettre. */
+const NAME_LINES = ["Maël", "Demory"];
+const HERO_WEIGHT_BASE = 500;
+const HERO_WEIGHT_PEAK = 900;
+const HERO_WEIGHT_RADIUS = 170;
+
+type HeroLetterHandle = {
+    element: HTMLSpanElement;
+    weight: MotionValue<number>;
+};
+
+function HeroLetter({
+    char,
+    index,
+    register,
+}: {
+    char: string;
+    index: number;
+    register: (handle: HeroLetterHandle | null, index: number) => void;
+}) {
+    const weight = useSpring(HERO_WEIGHT_BASE, { stiffness: 400, damping: 28 });
+    const fontVariationSettings = useMotionTemplate`'wght' ${weight}`;
+
+    return (
+        <motion.span
+            ref={(element) => register(element ? { element, weight } : null, index)}
+            style={{ fontVariationSettings }}
+            className="inline-block"
+        >
+            {char}
+        </motion.span>
+    );
+}
+
+function HeroName() {
+    const shouldReduceMotion = useReducedMotion();
+    const letters = useRef<(HeroLetterHandle | null)[]>([]);
+
+    const register = (handle: HeroLetterHandle | null, index: number) => {
+        letters.current[index] = handle;
+    };
+
+    const handlePointerMove = (event: React.PointerEvent<HTMLHeadingElement>) => {
+        if (shouldReduceMotion || event.pointerType !== "mouse") {
+            return;
+        }
+
+        for (const handle of letters.current) {
+            if (!handle) {
+                continue;
+            }
+            const rect = handle.element.getBoundingClientRect();
+            const distance = Math.hypot(
+                event.clientX - (rect.left + rect.width / 2),
+                event.clientY - (rect.top + rect.height / 2)
+            );
+            const proximity = Math.max(0, 1 - distance / HERO_WEIGHT_RADIUS);
+            handle.weight.set(HERO_WEIGHT_BASE + (HERO_WEIGHT_PEAK - HERO_WEIGHT_BASE) * proximity);
+        }
+    };
+
+    const resetWeights = () => {
+        for (const handle of letters.current) {
+            handle?.weight.set(HERO_WEIGHT_BASE);
+        }
+    };
+
+    return (
+        <h1
+            aria-label="Maël Demory"
+            onPointerMove={handlePointerMove}
+            onPointerLeave={resetWeights}
+            style={{ fontWeight: HERO_WEIGHT_BASE }}
+            className="text-[clamp(3.25rem,11vw,6.5rem)] uppercase leading-[0.95] tracking-[-0.02em]"
+        >
+            <span aria-hidden="true">
+                {NAME_LINES.map((line, lineIndex) => {
+                    const offset = lineIndex === 0 ? 0 : NAME_LINES[0].length;
+
+                    return (
+                        <span key={line} className="block">
+                            {Array.from(line).map((char, charIndex) => (
+                                <HeroLetter
+                                    key={charIndex}
+                                    char={char}
+                                    index={offset + charIndex}
+                                    register={register}
+                                />
+                            ))}
+                            {lineIndex === NAME_LINES.length - 1 && (
+                                <span className="font-bold text-primary">.</span>
+                            )}
+                        </span>
+                    );
+                })}
+            </span>
+        </h1>
+    );
+}
 
 function Section({
     id,
@@ -611,10 +720,8 @@ export default function Home() {
                         </motion.div>
 
                         <motion.div variants={fadeUp}>
-                            <h1 className="text-5xl font-semibold leading-[1.05] tracking-[-0.028em] sm:text-6xl">
-                                Maël Demory<span className="text-primary">.</span>
-                            </h1>
-                            <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+                            <HeroName />
+                            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
                                 {t.hero.tagline}
                             </p>
                         </motion.div>
