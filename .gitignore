@@ -16,6 +16,12 @@
 # production
 /build
 
+# IDE
+.idea/
+
+# python
+.venv/
+
 # misc
 .DS_Store
 *.pem
