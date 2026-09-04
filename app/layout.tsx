@@ -17,12 +17,23 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Maël Demory — Portfolio",
-  description: "Portfolio of Maël Demory — Software Engineer Apprentice at Arjo France and computer science engineering student at IMT Nord Europe.",
-  keywords: ["software engineer", "fullstack developer", "portfolio", "IMT Nord Europe", "apprenticeship"],
+  description: "Maël Demory — software engineer apprentice at Arjo France and engineering student at IMT Nord Europe, seeking a software engineering internship abroad from June to September 2027.",
+  keywords: [
+    "software engineering internship",
+    "internship abroad",
+    "international internship",
+    "software engineer intern",
+    "fullstack developer",
+    "PHP developer",
+    "portfolio",
+    "IMT Nord Europe",
+    "apprenticeship",
+    "Maël Demory",
+  ],
   alternates: { canonical: "/" },
   openGraph: {
     title: "Maël Demory — Portfolio",
-    description: "Software Engineer Apprentice at Arjo France & computer science engineering student at IMT Nord Europe.",
+    description: "Two years shipping production software in a medical-device group. Seeking a software engineering internship abroad, June to September 2027.",
     url: "/",
     siteName: "Maël Demory",
     type: "website",
@@ -31,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Maël Demory — Portfolio",
-    description: "Software Engineer Apprentice at Arjo France & computer science engineering student at IMT Nord Europe.",
+    description: "Two years shipping production software in a medical-device group. Seeking a software engineering internship abroad, June to September 2027.",
   },
 };
 

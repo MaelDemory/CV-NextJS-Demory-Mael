@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Maël Demory — Software Engineer Apprentice & engineering student";
+export const alt = "Maël Demory — software engineer seeking an internship abroad, June to September 2027";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -23,10 +23,21 @@ export default function OpengraphImage() {
                     Maël Demory<span style={{ color: "#0071e3" }}>.</span>
                 </div>
                 <div style={{ display: "flex", marginTop: 28, fontSize: 34, color: "#6e6e73" }}>
-                    Software Engineer Apprentice & engineering student
+                    Software Engineer Apprentice · Arjo France · IMT Nord Europe
                 </div>
-                <div style={{ display: "flex", marginTop: 12, fontSize: 28, color: "#6e6e73" }}>
-                    Arjo France · IMT Nord Europe
+                <div
+                    style={{
+                        display: "flex",
+                        marginTop: 32,
+                        padding: "14px 28px",
+                        borderRadius: 999,
+                        backgroundColor: "rgba(0, 113, 227, 0.1)",
+                        color: "#0071e3",
+                        fontSize: 28,
+                        fontWeight: 500,
+                    }}
+                >
+                    Seeking an internship abroad · June – September 2027
                 </div>
             </div>
         ),
