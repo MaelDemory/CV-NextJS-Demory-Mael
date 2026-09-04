@@ -947,9 +947,12 @@ export default function Home() {
                     viewport={{ once: true, margin: "-80px" }}
                     className="grid grid-cols-1 gap-4 md:grid-cols-2"
                 >
-                    {t.projets.map((projet) => (
+                    {/* Clé positionnelle et non le titre : celui-ci change avec la locale,
+                        ce qui remontait la carte à l'opacité 0 sans que le `whileInView`
+                        du parent (once: true) ne se rejoue. */}
+                    {t.projets.map((projet, index) => (
                         <motion.button
-                            key={projet.title}
+                            key={index}
                             type="button"
                             onClick={() => setSelectedProject(projet)}
                             variants={fadeUp}
