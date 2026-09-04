@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Notes de travail : rapports d'alternance et audit du CV.
+# Non versionnés — le dépôt est public et ces fichiers contiennent
+# des noms de collègues et des références internes à l'entreprise.
+tasks/
