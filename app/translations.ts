@@ -126,7 +126,7 @@ export const translations: Record<Locale, Dictionary> = {
         },
         hero: {
             photoAlt: "Photo of Maël Demory",
-            tagline: "Two years building production software inside companies, while training as an engineer.",
+            tagline: "Passionate about new technology, future software engineer and PHP/JavaScript developer.",
             availability: "Seeking a software engineering internship abroad · June – September 2027",
             studentAt: "Engineering student at",
             apprenticeAt: "Software Engineer Apprentice at",
@@ -199,7 +199,8 @@ export const translations: Record<Locale, Dictionary> = {
                 period: "Sept. 2025 – Present",
                 description: [
                     "Build and maintain the internal business applications that run the French subsidiary's operations, covering service contracts, equipment fleet, spare parts, technician scheduling and invoicing. Around 500 to 600 people use them daily. Stack: PHP 8, SQL Server, JavaScript, jQuery, Bootstrap, Vite.",
-                    "Delivered a complete spare-parts maintenance referential from scratch over six months, from a specification written by the technical support team: nine back-office pages, around 22,000 lines of code, 220 commits. It replaced manual Excel and PDF handling with a single source of truth, computes per-customer pricing automatically from the M3 ERP, and publishes validated data to the customer portal.",
+                    "Built a complete spare-parts maintenance referential from scratch over six months, from a specification written by the technical support team: nine back-office pages, around 22,000 lines of code, 220 commits.",
+                    "It replaces manual handling through Excel files and PDFs with a single source of truth, computes each customer's pricing automatically from the M3 ERP, and publishes approved parts to the customer portal.",
                     "Contributed 213 commits across 391 files to a team-wide modernisation of a legacy monolith: migrated back-office tables to server-side pagination and sorting, rebuilt more than twenty scheduled jobs on a shared template, and traced a systemic data-access defect that had been causing nightly false alerts.",
                     "Extended the SQL Server FileStream storage layer the team had introduced, around 1,300 lines extended rather than rewritten: built the supervision dashboard used by the IT department, and brought a second application onto it, putting around ten document directories under transactional backup.",
                     "Set up the team's AI-assisted development workflow (custom agents, hooks and skills), now used on production code under systematic human review.",
@@ -243,6 +244,7 @@ export const translations: Record<Locale, Dictionary> = {
                 period: "Feb. 2024 – Aug. 2025",
                 description: [
                     "Sole developer on three internal web applications for the school's intranet portal: business-card ordering, student event requests and new-hire recruitment tracking. Database design through to the front end, for around 100 staff and student users.",
+                    "Working from a specification that set out the functional scope and the approval flow, I took on the database design, the back end and the front end of each application.",
                     "Met the departments concerned (catering, reprographics, student life, HR) alongside my manager and my tutor, to collect their feedback and take the tools further.",
                     "Followed the team's engineering practices: GitLab, one issue per task on a kanban board, the issue number referenced in every commit, and staged deployment through pre-production before release.",
                     "Stack: PHP/Laravel, MySQL, JavaScript, Bootstrap.",
@@ -499,30 +501,6 @@ export const translations: Record<Locale, Dictionary> = {
                     { label: "Team", value: "4 developers" },
                     { label: "Role", value: "Lead developer" },
                     { label: "Stack", value: "Spring Boot / React" },
-                ],
-                github: "",
-                link: "",
-            },
-            {
-                title: "Accounting Data Extractor",
-                eyebrow: "Document automation",
-                description: "A web tool where you drop invoices in PDF form and get back the number of hours worked for each client, without having to read them off one by one.",
-                longDescription:
-                    "This tool answers a repetitive task: copying out by hand, every month, the hours listed on PDF invoices. The application reads the invoices and returns the hours per client. The visible part, where you drop the files, took an afternoon. Making the reading reliable, meaning that the result can be trusted without checking it by hand, took considerably longer.",
-                status: "Personal tool",
-                year: "2025",
-                role: "Functional design and development",
-                tags: ["Python", "Flask", "PDF parsing", "Personal"],
-                stack: ["Python", "Flask", "PDF parsing"],
-                highlights: [
-                    "Automated reading of PDF invoices, replacing a manual pass through each document.",
-                    "Per-client aggregation of billable hours, ready to use downstream.",
-                    "A deliberately narrow scope: one repetitive task, removed properly.",
-                ],
-                stats: [
-                    { label: "Input", value: "PDF invoices" },
-                    { label: "Output", value: "Hours per client" },
-                    { label: "Purpose", value: "Removing manual work" },
                 ],
                 github: "",
                 link: "",
