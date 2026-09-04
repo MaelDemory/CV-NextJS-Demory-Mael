@@ -591,7 +591,7 @@ export const translations: Record<Locale, Dictionary> = {
         },
         hero: {
             photoAlt: "Photo de Maël Demory",
-            tagline: "Passioné par les nouvelles technologies, futur ingénieur logiciel et développeur PHP/JavaScript.",
+            tagline: "Passionné par les nouvelles technologies, futur ingénieur logiciel et développeur PHP/JavaScript.",
             availability: "À la recherche d'un stage d'ingénieur logiciel à l'étranger · juin – septembre 2027",
             studentAt: "Étudiant ingénieur à",
             apprenticeAt: "Alternant ingénieur logiciel chez",
