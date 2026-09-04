@@ -65,8 +65,6 @@ type Dictionary = {
     about: {
         paragraphs: string[];
         pillars: TitledBody[];
-        workStyleTitle: string;
-        workStyle: TitledBody[];
         availabilityTitle: string;
         availabilityLead: string;
         availabilityHighlights: LabelledValue[];
@@ -152,39 +150,28 @@ export const translations: Record<Locale, Dictionary> = {
             ],
             pillars: [
                 {
-                    title: "Two years in a company, not internships",
+                    title: "I have been working in a company for two years",
                     body: "Two apprenticeship contracts back to back, on software real teams use every day.",
                 },
                 {
-                    title: "From a business need to a technical solution",
+                    title: "I turn a business need into a technical solution",
                     body: "The need comes from the business. The technical design, the build and the follow-up with users are mine.",
                 },
                 {
-                    title: "A regulated industrial environment",
+                    title: "I develop in a regulated setting",
                     body: "A medical-device group certified ISO 13485 and ISO 9001, where traceability shapes every change.",
                 },
                 {
-                    title: "AI-assisted development",
-                    body: "Set up for my team, used on production code with a human reviewing every change.",
-                },
-            ],
-            workStyleTitle: "How I work",
-            workStyle: [
-                {
-                    title: "I finish things",
-                    body: "The spare-parts feature took six months and I was on it from the empty file to training the support team. Including the parts I had no idea how to do in December.",
+                    title: "I set up my team's AI workflow",
+                    body: "Custom agents, hooks and skills, applied to production code with a human reviewing every change.",
                 },
                 {
-                    title: "Old code doesn't scare me",
-                    body: "Most of my professional work happens in applications older than my studies. I read a lot before I touch anything.",
+                    title: "I test and I measure",
+                    body: "Rules and sensitive calculations are covered by automated tests, and I only claim a performance gain once I have measured it under a repeatable protocol.",
                 },
                 {
-                    title: "I can talk to people who aren't developers",
-                    body: "Every feature I've shipped went through review meetings with the people who use it.",
-                },
-                {
-                    title: "Small commits, reviewed",
-                    body: "One issue per task, one commit per page or per routine, and a senior developer reads it before it goes anywhere.",
+                    title: "I work without disturbing what is already there",
+                    body: "When I contribute to someone else's project, I add rather than rewrite: I follow the conventions already in place and keep my changes to what is strictly needed.",
                 },
             ],
             availabilityTitle: "Availability and languages",
@@ -298,9 +285,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "F1dle",
                 eyebrow: "Formula 1 puzzle site",
-                description: "Six Formula 1 guessing games on one site, backed by a Laravel API holding every driver since 1950. Three Fly.io apps, with Prometheus and Grafana watching them.",
+                description: "A site of Formula 1 guessing games. You have to find a driver or a champion, and hints appear with each attempt. Six different modes, fed by the data of every Grand Prix since 1950.",
                 longDescription:
-                    "It started as one Wordle clone for F1 drivers and kept growing. There are six modes now, including one where you name the world champion for every season back to 1950, and a Connections-style grid. Most of the work sits behind the game: an API that caches race results in MySQL and falls back to the Ergast data source when a season is missing, five sync commands to seed it, and a component library I wrote instead of installing. Tuning the hints took longer than the game logic. Too few and it is luck, too many and there is nothing left to work out.",
+                    "The project started as a plain Wordle clone applied to Formula 1 drivers, then grew to six game modes, one of which asks you to name the world champion of every season back to 1950. Most of the work sits behind the game though, in the part that stores and serves the data. Race results are kept in a local database rather than requested again for every match, and the site only reaches out to a public online source when a season is still missing. Tuning the hints took longer than the game logic: too few and the match comes down to luck, too many and there is nothing left to work out.",
                 status: "Live",
                 year: "2024 – 2026",
                 role: "Product, frontend, API and infrastructure",
@@ -323,9 +310,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Boring Notch",
                 eyebrow: "Open-source contribution, macOS",
-                description: "A fork of the macOS app Boring Notch with six opt-in indicators added to the MacBook notch: weather, CPU and memory, VPN, Bluetooth device battery, Focus modes and DeepSeek API credit.",
+                description: "A macOS app that turns the MacBook notch into a small dashboard. I added six pieces of information, each one switchable on its own: weather, processor and memory load, VPN status, Bluetooth device battery, the Focus mode in use, and a DeepSeek account balance.",
                 longDescription:
-                    "The upstream project has over 1,400 commits and is not mine. My contribution sits ten commits ahead of it, 23 files and around 1,550 lines. Each indicator follows the same shape, a manager, its models and its view, and stays off until you enable it in Settings. The system monitor reads CPU load and memory pressure straight from the Mach APIs, VPN detection goes through Network and SystemConfiguration, and Bluetooth battery through IOKit. The fork also carries a fix: HUD replacement was being silently disabled whenever the XPC helper did not inherit the main app's Accessibility grant.",
+                    "Boring Notch is a free application built by a team that has already put more than 1,400 changes into it. I am not its author: I worked on my own copy of the project, what is called a fork, to add features and offer a fix. The six indicators I wrote all follow the same shape, one part that fetches the information, one that formats it and one that displays it, and each stays off until the user turns it on in Settings. I also fixed a defect in the original application: the replacement of macOS system indicators would switch itself off without warning, because a helper component did not inherit the permissions granted to the main app.",
                 status: "Open source",
                 year: "2026",
                 role: "Feature development and bug fix",
@@ -347,24 +334,24 @@ export const translations: Record<Locale, Dictionary> = {
             },
             {
                 title: "Kablam!",
-                eyebrow: "Multiplayer game, built from scratch",
-                description: "Online Bomberman for 2 to 4 players. Share a four-letter code, three minutes a match. TypeScript monorepo with an authoritative server and a simulation shared by client and server.",
+                eyebrow: "Multiplayer engine, two games",
+                description: "Two multiplayer games playable in the browser, a Bomberman and a Worms. You create a match, share a four-letter code, and the others type it in to join. Both run on the same engine, which I wrote for the occasion.",
                 longDescription:
-                    "I wanted to understand how online games stay in sync, so I built one. The server owns the game state and broadcasts snapshots at 20 Hz. The client runs the same movement code locally so your character reacts immediately, then reconciles by replaying its inputs once the authoritative state arrives. The simulation sits in a shared package imported by both sides, with a seeded PRNG so the same sequence of inputs always produces the same match. There is a test that checks exactly that.",
+                    "The engine shared by both games is 340 lines and holds nothing specific to either one: the time loop, the random draw and the messages exchanged over the network. The rules of Bomberman and those of Worms each live in their own module, and a registry declares them to the server and the client alike, so adding a game means writing its module and registering it there. Bomberman was the first case, Worms the validation. The shared difficulty is that the player's machine and the server must compute exactly the same match. The client therefore anticipates the outcome to react without waiting for the network, then corrects itself when the server's version arrives. The slightest difference in calculation between the two would make the match diverge, which is why decimal numbers are banned from the game state.",
                 status: "Live",
                 year: "2026",
-                role: "Simulation, netcode, client and infrastructure",
-                tags: ["TypeScript", "WebSocket", "PixiJS", "Netcode", "Monorepo", "Docker", "Fly.io", "Personal"],
+                role: "Engine, netcode, games, client and infrastructure",
+                tags: ["TypeScript", "WebSocket", "PixiJS", "Netcode", "Determinism", "Monorepo", "Docker", "Fly.io", "Personal"],
                 stack: ["TypeScript", "Node.js + ws", "PixiJS", "Vite", "Vitest", "Docker", "Fly.io"],
                 highlights: [
-                    "Client-side prediction with input replay reconciliation, so movement feels instant on a 20 Hz server.",
-                    "Deterministic simulation in a package imported by both client and server, seeded PRNG, and a dedicated determinism test.",
-                    "Solo mode against bots at three difficulty levels, sudden death, and a leaderboard that survives restarts.",
-                    "Architecture decisions written down before coding, including the options I rejected and the reason for each.",
+                    "A 340-line generic engine and a game registry: the rules of Bomberman and Worms are two interchangeable modules, imported identically by client and server.",
+                    "Determinism enforced by fixed-point arithmetic, with no float in the game state, and by a trigonometric table computed in integers rather than through Math.sin, which is not specified bit for bit.",
+                    "Client-side prediction with input replay reconciliation, so movement stays instant despite an authoritative server running at 20 Hz.",
+                    "11 test files, 2,003 lines, including a determinism test, a fixed-point test, one prediction test per game and an end-to-end test on the server.",
                 ],
                 stats: [
-                    { label: "Code", value: "~3,100 lines of TS" },
-                    { label: "Tick rate", value: "20 Hz" },
+                    { label: "Code", value: "~6,200 lines of TS" },
+                    { label: "Tick rate", value: "20 Hz server" },
                     { label: "Players", value: "2 to 4" },
                 ],
                 github: "https://github.com/MaelDemory/BomberMan",
@@ -372,24 +359,25 @@ export const translations: Record<Locale, Dictionary> = {
             },
             {
                 title: "RayTracer",
-                eyebrow: "GPU rendering engine",
-                description: "Ray-tracing renderer in Java that dispatches automatically to the GPU through Vulkan compute, with a parallel CPU fallback. Renders a 100,000-triangle scene in 8K.",
+                eyebrow: "Multi-backend rendering engine",
+                description: "A program that produces synthetic images by simulating the path of light. You describe a scene in a text file and it computes the render, with its shadows and reflections, using the graphics card when one is available and the processor otherwise.",
                 longDescription:
-                    "This was a university assignment that I kept working on afterwards, because the CPU version was too slow to be interesting. It now has a Vulkan compute path, with the GLSL shader compiled to SPIR-V when the program starts, and it falls back to a multi-threaded CPU renderer when there is no GPU. The reference scene is the Stanford Dragon at 100,000 triangles, rendered at 7680x4320. Without the BVH it simply never finishes.",
+                    "The project started as a university assignment and I picked it up again on my own time to work on its performance. Computing an image this way means following millions of light rays, which a graphics card does far faster than a processor. The program therefore tries three paths in order: Metal, Apple's interface for talking to graphics cards, then Vulkan, its cross-platform equivalent, and finally the processor alone if no card can be used. Metal comes first on a Mac because it addresses the hardware directly, where Vulkan has to go through a translation layer. A path that is unavailable hands over to the next without interrupting the render, and an option forces a given one so the three can be compared on the same machine.",
                 status: "Open source",
-                year: "2025",
-                role: "Architecture, rendering pipeline and GPU programming",
-                tags: ["Java", "Vulkan", "GPU", "Multi-threading", "BVH", "Docker", "University & personal"],
-                stack: ["Java", "Vulkan compute (LWJGL)", "GLSL to SPIR-V", "BVH", "Docker", "Maven"],
+                year: "2025 – 2026",
+                role: "Backend architecture, optimisation and GPU programming",
+                tags: ["Java", "Metal", "Vulkan", "GPU", "BVH", "FFM API", "Docker", "University & personal"],
+                stack: ["Java 24+", "Metal Shading Language", "Vulkan compute (LWJGL)", "Objective-C", "Foreign Function & Memory API", "Maven", "Docker"],
                 highlights: [
-                    "Vulkan compute backend with GLSL shaders compiled to SPIR-V at runtime, and an automatic multi-threaded CPU fallback when no GPU is available.",
-                    "BVH acceleration structure, without which the reference scene (the Stanford Dragon, 100,000 triangles at 7680x4320) would not be renderable.",
-                    "Containerised with Docker and covered by a unit-test suite across geometry, camera and colour.",
+                    "Three backends behind one interface, probed in the order Metal, Vulkan, CPU, with automatic fallback and a system property to force a specific path.",
+                    "The Metal path renders x2.0 to x13.9 faster than the CPU, measured on an Apple M5 at 1920x1080. The 100,000-triangle dragon gains x4.5, but the largest gain goes to a scene of only 92 primitives traced over twelve reflection bounces: the speedup follows the work each pixel demands, not the number of objects.",
+                    "490-line Metal kernel carrying the BVH, called from Java through the Foreign Function & Memory API; the Command Line Tools are enough, since the shader is compiled at runtime.",
+                    "Fidelity checked pixel by pixel across seven scenes of 2,073,600 pixels: between 0.007% and 0.84% differ from the CPU render, and the differences sit on silhouettes, where in single precision a grazing ray can fall on the wrong side of an edge.",
                 ],
                 stats: [
-                    { label: "Geometry", value: "100k triangles" },
-                    { label: "Output", value: "8K (7680x4320)" },
-                    { label: "Backends", value: "Vulkan / CPU" },
+                    { label: "Dragon, 100k triangles", value: "551 ms at 1080p" },
+                    { label: "Metal over CPU", value: "x2.0 to x13.9" },
+                    { label: "Pixels identical to CPU", value: "99.1% at worst" },
                 ],
                 github: "https://github.com/MaelDemory/Raytracer",
                 link: "",
@@ -397,9 +385,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Retro games in the browser",
                 eyebrow: "WebAssembly and deployment",
-                description: "Quake 3 InstaGib and the 1993 Doom, both playable from a link, both multiplayer over WebSockets. Two engines compiled to WebAssembly, packaged and shipped.",
+                description: "Quake 3 and the 1993 Doom, playable together from a single link with nothing to install. You open the page, share the address of the match, and play in the browser.",
                 longDescription:
-                    "These are integration projects rather than engine work, and both READMEs credit the people whose ports I built on. What I did is everything between a compiled engine and a working URL: multi-stage Docker builds, an Emscripten compilation step, a WebSocket relay for rooms, and patching the Quake client so it follows the page protocol instead of the hard-coded one. Getting them onto Fly.io in a shape where the machine sleeps between games is why they cost close to nothing to leave online.",
+                    "Both games date from the 1990s and were not written by me: other developers converted their original code so it could run in a browser, and the READMEs credit their work. My contribution is everything between that converted code and a web address you can click and play. It covers packaging the game and its server, a relay that connects the players of a same match, and a fix to the Quake client, which insisted on contacting a hard-coded address instead of the page's own. Hosting is configured so the machine shuts down between matches and wakes on the first visitor, which is what makes leaving both games online cost almost nothing.",
                 status: "Live",
                 year: "2026",
                 role: "Packaging, networking and deployment",
@@ -421,33 +409,34 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "F1 Ticket System",
                 eyebrow: "Ethereum smart contract",
-                description: "Formula 1 ticketing on Ethereum. Tickets live on-chain, with a capped resale market, automatic refunds when a race is cancelled, and role-based access.",
+                description: "A Formula 1 ticketing site, built for the blockchain module of my engineering degree. You connect your wallet, pick a race and a seating category, and buy. After that you can transfer your ticket, resell it on the built-in market, or get a refund if the race is cancelled. Everything goes through Ethereum, so any operation stays verifiable by anyone.",
                 longDescription:
-                    "A thousand lines of Solidity with a React front end talking to it through ethers.js. The hard parts were all the ones where money can get stuck: refunds when a race is cancelled, funds locked per race, and a pull-payment pattern so no single account can block a withdrawal. Resale is capped at twice the original price to make scalping pointless, with a 5% cut going back to the platform.",
+                    "The contract covers a ticket's whole life, from purchase to resale or refund. The contract sets out three privileged roles, admin, race organiser and support, each limited to the operations that concern it. Everything else is open to any connected wallet: buying, transferring, reselling, claiming a refund or joining a waiting list needs no particular authorisation. The delicate parts are the ones where money can get stuck: sales proceeds are never sent automatically, they are recorded and then withdrawn on an explicit request, and what must stay available to refund a race is kept apart from what the platform can cash in. A ticket's price moves with how full the race is, down when many seats remain and up when almost none do, and the site can work out the exact price before the buyer confirms, without committing anything.",
                 status: "Open source",
                 year: "2026",
                 role: "Smart contract and front end",
                 tags: ["Solidity", "Ethereum", "Hardhat", "React", "ethers.js", "University"],
-                stack: ["Solidity", "Hardhat + Ignition", "React 19", "ethers.js v6", "Ganache", "MetaMask"],
+                stack: ["Solidity", "Hardhat Ignition", "React", "Vite", "ethers.js", "Tailwind CSS", "Ganache", "MetaMask"],
                 highlights: [
-                    "39 contract functions covering races, three ticket categories, dynamic pricing, waitlists and loyalty points.",
-                    "Three roles with different powers, admin, organiser and support, enforced in the contract rather than the interface.",
-                    "Front end with wallet connection, on-chain event listeners for live notifications, and PDF tickets carrying a QR code.",
+                    "1,004-line contract with 39 functions, fifteen events making every operation traceable on-chain, three access modifiers, and a pull-payment pattern so no single account can block a withdrawal.",
+                    "Dynamic pricing from -10% above 70% of seats remaining to +10% below 20%, resale capped at twice the price paid, a secondary market, per-race and per-category waiting lists, and loyalty points.",
+                    "Refunds when a race is cancelled, one by one or in batches, including a forced refund reserved for the support role.",
+                    "5,543-line React front end over eight pages, bilingual, with PDF ticket export, contract event listeners and EVM errors translated into readable messages.",
                 ],
                 stats: [
-                    { label: "Contract", value: "1,000 lines of Solidity" },
-                    { label: "Functions", value: "39" },
-                    { label: "Front end", value: "React 19, ethers v6" },
+                    { label: "Contract", value: "1,004 lines, 39 functions" },
+                    { label: "Resale", value: "capped at 2x price paid" },
+                    { label: "Front end", value: "8 pages, bilingual" },
                 ],
                 github: "https://github.com/MaelDemory/projet-blockchain-CI1",
-                link: "",
+                link: "https://f1-ticket-system.fly.dev/",
             },
             {
                 title: "Claude-config",
                 eyebrow: "AI development harness",
-                description: "The agentic development setup I built for my team at Arjo and use on my own projects: 13 specialised subagents, 26 skills, hooks, and a one-command installer.",
+                description: "A ready-to-use setup for working with an AI development assistant. One command installs it, and the assistant then inherits specialised roles, procedures for recurring tasks and the team's rules. It is the setup I put in place at Arjo.",
                 longDescription:
-                    "Working with an AI assistant on production code only pays off if it follows the same rules as everyone else, so I wrote the rules down as configuration. One subagent per role, one skill per recurring task, and a workflow that runs plan, build, review, simplify, test. The installer took the longest. It is idempotent, it backs up whatever it replaces, it merges permissions into an existing config without touching hooks somebody else set up, and it skips a component cleanly when an optional dependency is missing.",
+                    "Working with an AI on production code only pays off if it follows the same rules as the rest of the team. Those rules are therefore written down once as configuration: one specialised assistant per role, one procedure per recurring task, and an enforced sequence running from plan to build, then review, simplification and tests. The installer took most of the work, because it lands on a machine that already has a configuration of its own. It can be run again safely, backs up what it replaces, adds to existing settings without overwriting the ones already there, and simply skips a component when the tool it depends on is not installed.",
                 status: "Open source",
                 year: "2026",
                 role: "Design and tooling",
@@ -469,9 +458,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Gatcha",
                 eyebrow: "Distributed microservices",
-                description: "Gacha-style game built as seven services behind an NGINX gateway: authentication, players, monsters, summoning and combat, with a Next.js front end.",
+                description: "An online game where you summon monsters at random, level them up and send them into battle. A university project built by two of us for the Web API and data module of my engineering degree, split into seven independent services rather than one application.",
                 longDescription:
-                    "Two of us built this for a distributed systems module. I took the Player service, wrote the Combat API, and set up Prometheus and Grafana so we could see what our seven services were actually doing. The thing I would do differently is the monster ownership model, which I had to move to UUIDs halfway through once the summoning service started needing it.",
+                    "A university project built by two of us, for the Web API and data module of my engineering degree. Rather than one application, the game is split into seven independent programs talking to each other over the network, each responsible for one part of the game: accounts, players, monsters, summoning, combat. I took on the players service, the combat one, and the monitoring of the whole, meaning the tools that continuously collect what the seven services are doing and show it on dashboards. The part I would do differently is how a monster is attached to its owner: I had to change its identifier partway through, once another service needed it.",
                 status: "University project",
                 year: "2025",
                 role: "Player and Combat services, observability stack",
@@ -493,9 +482,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Travel Social Network",
                 eyebrow: "Team project — lead developer",
-                description: "A complete social network built around travel, with a Spring Boot API and a React front end, delivered by a team of four.",
+                description: "A social network built around travel, where everyone shares their destinations and follows other people's. A four-person team project from my bachelor's degree, where I was the lead developer.",
                 longDescription:
-                    "Four of us, and I ended up being the one making the calls: how to split it, what the conventions were, what the API looked like. First time I had done that. It went well enough, though I badly underestimated how much time goes into stopping four people from writing the same thing twice.",
+                    "The largest team project of my degree, and my first experience of leading others. Beyond writing code, my role was to split the work, agree the conventions the four of us would follow, and settle the architecture decisions, meaning how the different parts of the software fit together, early enough that they would still assemble at the end. The time spent stopping two people from building the same thing was well beyond my initial estimate.",
                 status: "University project",
                 year: "2024",
                 role: "Lead developer",
@@ -517,9 +506,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Accounting Data Extractor",
                 eyebrow: "Document automation",
-                description: "Web application that reads PDF invoices and automatically extracts the hours worked per client.",
+                description: "A web tool where you drop invoices in PDF form and get back the number of hours worked for each client, without having to read them off one by one.",
                 longDescription:
-                    "I was re-typing the same numbers off PDF invoices every month, so I wrote something to do it for me. It reads the invoices and gives back hours per client. The web part took an afternoon. Getting the extraction to be right took a lot longer than that.",
+                    "This tool answers a repetitive task: copying out by hand, every month, the hours listed on PDF invoices. The application reads the invoices and returns the hours per client. The visible part, where you drop the files, took an afternoon. Making the reading reliable, meaning that the result can be trusted without checking it by hand, took considerably longer.",
                 status: "Personal tool",
                 year: "2025",
                 role: "Functional design and development",
@@ -541,9 +530,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Concert Ticket App",
                 eyebrow: "Team project — mobile",
-                description: "Mobile application for managing concert tickets, with a Laravel API and a React Native client, built by a team of three.",
+                description: "A mobile app for buying concert tickets and showing them at the door, including when the phone has no signal. A three-person team project from my bachelor's degree.",
                 longDescription:
-                    "Three of us. Laravel on one side, React Native on the other, and I worked across both. The constraint that shaped it was that a ticket has to still work when the phone has no signal, which inside a concert venue is most of the time.",
+                    "A three-person project. The work was split in two, a server holding the tickets and the accounts, and the application installed on the phone, and I worked on both. The constraint that shaped everything was that a ticket has to stay usable when the phone has no signal, which inside a concert venue is most of the time.",
                 status: "University project",
                 year: "2024",
                 role: "Developer — API and mobile client",
@@ -565,9 +554,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Portfolio",
                 eyebrow: "This site",
-                description: "The site you are reading: my background, skills and projects, in English and French.",
+                description: "The site you are reading. It presents my background, my skills and my projects, in English and French, and doubles as a project in its own right.",
                 longDescription:
-                    "The site you are on. I wanted something that reads like a page rather than a CV template, so there is one accent colour, no gradients, and the only showy thing is the name at the top reacting to the cursor. Everything exists in English and French. The theme is resolved before the first paint so it never flashes white.",
+                    "The site you are on. The aim was for it to read like an editorial page rather than a CV template: a single accent colour, no gradients, and one deliberate flourish, the name at the top whose weight reacts to how close the cursor is. Everything exists in English and French, and the choice between light and dark theme is applied before the page appears, to avoid the brief white flash you get on many sites.",
                 status: "Continuously evolving",
                 year: "2026",
                 role: "Product design, frontend and integration",
@@ -648,39 +637,28 @@ export const translations: Record<Locale, Dictionary> = {
             ],
             pillars: [
                 {
-                    title: "Deux ans d'alternance en entreprise",
+                    title: "Je travaille en entreprise depuis deux ans",
                     body: "Deux contrats d'alternance consécutifs, sur des logiciels utilisés tous les jours par de vraies équipes.",
                 },
                 {
-                    title: "D'un besoin métier à une solution technique",
+                    title: "Je traduis un besoin métier en solution technique",
                     body: "Le besoin vient du métier. La conception technique, le développement et le suivi auprès des utilisateurs relèvent de mon périmètre.",
                 },
                 {
-                    title: "Un environnement industriel régulé",
+                    title: "Je développe dans un cadre régulé",
                     body: "Un groupe de dispositifs médicaux certifié ISO 13485 et ISO 9001, où la traçabilité conditionne chaque développement.",
                 },
                 {
-                    title: "Du développement assisté par IA",
-                    body: "Mis en place pour mon équipe, appliqué à du code de production sous vérification humaine.",
-                },
-            ],
-            workStyleTitle: "Ma façon de travailler",
-            workStyle: [
-                {
-                    title: "Mener une fonctionnalité de bout en bout",
-                    body: "La fonctionnalité pièces détachées s'est étalée sur six mois, du fichier vide jusqu'à la formation du support technique, en passant par une trentaine de retours traités et validés un par un.",
+                    title: "J'ai monté le workflow IA de mon équipe",
+                    body: "Agents personnalisés, hooks et skills, appliqués à du code de production sous vérification humaine.",
                 },
                 {
-                    title: "Intervenir sur du code existant",
-                    body: "L'essentiel de mon travail se déroule dans des applications antérieures à mes études. Comprendre le travail d'autrui avant d'agir est un exercice très différent du développement d'une fonctionnalité neuve.",
+                    title: "Je teste et je mesure",
+                    body: "Les règles et les calculs sensibles sont couverts par des tests automatisés, et je n'annonce un gain de performance qu'après l'avoir mesuré selon un protocole reproductible.",
                 },
                 {
-                    title: "Dialoguer avec des interlocuteurs non techniques",
-                    body: "Mes interlocuteurs se répartissent en deux cercles : l'équipe technique au quotidien, et les métiers pour qui je développe. Expliquer un sujet technique à un non-spécialiste fait partie du travail.",
-                },
-                {
-                    title: "Rigueur méthodologique",
-                    body: "Commits atomiques, estimation des tâches dans Azure DevOps, revue de code systématique par les développeurs expérimentés de l'équipe, corrections traçables et validées une à une.",
+                    title: "J'interviens sans déranger l'existant",
+                    body: "Quand je contribue au projet de quelqu'un d'autre, j'ajoute plutôt que je ne réécris : je respecte les conventions en place et je limite mes modifications au strict nécessaire.",
                 },
             ],
             availabilityTitle: "Disponibilité et langues",
@@ -796,9 +774,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "F1dle",
                 eyebrow: "Site de jeux Formule 1",
-                description: "Six jeux de devinettes Formule 1 sur un même site, adossés à une API Laravel qui contient tous les pilotes depuis 1950. Trois apps Fly.io, surveillées par Prometheus et Grafana.",
+                description: "Un site de jeux de devinettes sur la Formule 1. Il faut retrouver un pilote ou un champion, et des indices se dévoilent à chaque essai. Six modes différents, alimentés par les données de tous les Grands Prix depuis 1950.",
                 longDescription:
-                    "Le projet a démarré comme un simple clone de Wordle appliqué aux pilotes de Formule 1, puis s'est étoffé jusqu'à six modes de jeu, dont un consistant à nommer le champion du monde de chaque saison depuis 1950 et une grille inspirée de Connections. L'essentiel du travail se situe derrière le jeu : une API qui met les résultats de courses en cache dans MySQL et bascule sur la source Ergast lorsqu'une saison est absente, cinq commandes de synchronisation pour l'alimenter, et une bibliothèque de composants développée en interne. Le réglage des indices a demandé plus de temps que la logique de jeu elle-même.",
+                    "Le projet a démarré comme un simple clone de Wordle appliqué aux pilotes de Formule 1, puis s'est étoffé jusqu'à six modes de jeu, dont un où il faut nommer le champion du monde de chaque saison depuis 1950. L'essentiel du travail se situe derrière le jeu, dans le fonctionnement qui stocke et sert les données. Les résultats de courses sont conservés dans une base locale plutôt que redemandés à chaque partie, et le site ne va les chercher sur une source publique en ligne que lorsqu'une saison manque.",
                 status: "En ligne",
                 year: "2024 – 2026",
                 role: "Produit, frontend, API et infrastructure",
@@ -807,7 +785,7 @@ export const translations: Record<Locale, Dictionary> = {
                 highlights: [
                     "Six modes qui partagent un même moteur, du classique « devine le pilote » au Higher or Lower, à la grille des écuries et à un plateau façon Connections.",
                     "API Laravel sur cinq tables couvrant tous les pilotes, champions et courses depuis 1950, avec les résultats mis en cache dans MySQL et un repli externe quand une saison manque.",
-                    "Trois apps Fly.io distinctes, un front public, une API privée et MySQL sur un volume, plus Prometheus et Grafana avec un dashboard provisionné.",
+                    "Trois apps Fly.io distinctes, un front public, une API privée et MySQL sur un volume, plus Prometheus et Grafana avec un dashboard.",
                     "Interface intégralement en anglais et en français, une bibliothèque de composants maison, et 13 fichiers de tests sur les modes de jeu et l'API.",
                 ],
                 stats: [
@@ -821,9 +799,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Boring Notch",
                 eyebrow: "Contribution open source, macOS",
-                description: "Fork de l'application macOS Boring Notch, enrichi de six indicateurs optionnels dans l'encoche du MacBook : météo, CPU et mémoire, VPN, batterie des périphériques Bluetooth, modes de concentration et solde de l'API DeepSeek.",
+                description: "Une application macOS qui transforme l'encoche du MacBook en petit tableau de bord. J'y ai ajouté six informations, activables une par une : météo, charge du processeur et de la mémoire, état du VPN, batterie des appareils Bluetooth, mode de concentration en cours et solde de compte DeepSeek.",
                 longDescription:
-                    "Le projet d'origine compte plus de 1 400 commits et ne m'appartient pas. Ma contribution tient dans dix commits en avance sur l'upstream, soit 23 fichiers et environ 1 550 lignes ajoutées. Chaque indicateur suit le même découpage (un manager, ses modèles, sa vue) et reste désactivé par défaut, activable depuis les réglages. Le moniteur système interroge directement les APIs Mach pour la charge processeur et la pression mémoire, la détection du VPN passe par Network et SystemConfiguration, et la batterie des périphériques Bluetooth par IOKit. Le fork embarque également un correctif : le remplacement du HUD système était silencieusement désactivé lorsque le helper XPC n'héritait pas de l'autorisation d'accessibilité de l'application principale.",
+                    "Boring Notch est une application libre développée par une équipe qui lui a déjà consacré plus de 1 400 modifications. Je n'en suis pas l'auteur : j'ai travaillé sur ma propre copie du projet, pour y ajouter des fonctionnalités et proposer une correction. Les six indicateurs que j'ai écrits suivent tous la même organisation, une partie qui va chercher l'information, une partie qui la met en forme et une partie qui l'affiche, et chacun reste éteint tant que l'utilisateur ne l'active pas dans les réglages. J'ai également corrigé un défaut de l'application d'origine : le remplacement des indicateurs système de macOS se désactivait sans prévenir, parce qu'un composant auxiliaire n'héritait pas des autorisations accordées à l'application principale.",
                 status: "Open source",
                 year: "2026",
                 role: "Développement de fonctionnalités et correctif",
@@ -845,24 +823,24 @@ export const translations: Record<Locale, Dictionary> = {
             },
             {
                 title: "Kablam!",
-                eyebrow: "Jeu multijoueur, écrit de zéro",
-                description: "Un Bomberman en ligne de 2 à 4 joueurs. On partage un code à quatre lettres, la partie dure trois minutes. Monorepo TypeScript, serveur autoritaire, simulation partagée entre le client et le serveur.",
+                eyebrow: "Moteur multijoueur, deux jeux",
+                description: "Deux jeux multijoueurs jouables dans le navigateur, un Bomberman et un Worms. On crée une partie, on partage un code à quatre lettres, les autres le saisissent pour rejoindre. Les deux tournent sur le même moteur, que j'ai écrit pour l'occasion.",
                 longDescription:
-                    "L'objectif de départ était de comprendre comment un jeu en ligne maintient la cohérence entre plusieurs joueurs. Le serveur détient l'état de la partie et diffuse des snapshots à 20 Hz. Le client rejoue localement le même code de déplacement, ce qui permet une réaction immédiate, puis se réconcilie en rejouant ses inputs à réception de l'état autoritaire. La simulation est isolée dans un package importé par le client comme par le serveur, avec un générateur pseudo-aléatoire à graine : une même suite d'inputs produit toujours la même partie, et un test dédié le vérifie.",
+                    "Le moteur commun aux deux jeux tient en 340 lignes et ne contient rien de spécifique à l'un ou à l'autre : la boucle de temps, le tirage aléatoire et les messages échangés sur le réseau. Les règles de Bomberman et celles de Worms vivent chacune dans leur module, et un registre les déclare au serveur comme au client, si bien qu'ajouter un jeu revient à écrire son module puis à l'inscrire à cet endroit. Bomberman a servi de premier cas, Worms de validation. La difficulté commune est que la machine du joueur et celle du serveur doivent calculer exactement la même partie. Le client anticipe donc le résultat pour réagir sans attendre le réseau, puis se corrige quand la version du serveur arrive. Le moindre écart de calcul entre les deux ferait diverger la partie.",
                 status: "En ligne",
                 year: "2026",
-                role: "Simulation, netcode, client et infrastructure",
-                tags: ["TypeScript", "WebSocket", "PixiJS", "Netcode", "Monorepo", "Docker", "Fly.io", "Personnel"],
+                role: "Moteur, netcode, jeux, client et infrastructure",
+                tags: ["TypeScript", "WebSocket", "PixiJS", "Netcode", "Déterminisme", "Monorepo", "Docker", "Fly.io", "Personnel"],
                 stack: ["TypeScript", "Node.js + ws", "PixiJS", "Vite", "Vitest", "Docker", "Fly.io"],
                 highlights: [
-                    "Prédiction côté client et réconciliation par rejeu des inputs, pour que le déplacement reste instantané malgré un serveur à 20 Hz.",
-                    "Simulation déterministe dans un package importé par le client et le serveur, PRNG à graine, et un test de déterminisme dédié.",
-                    "Mode solo contre des bots à trois niveaux de difficulté, mort subite, et un classement qui survit aux redémarrages.",
-                    "Choix d'architecture écrits avant de coder, avec les options écartées et la raison de chacune.",
+                    "Moteur générique de 340 lignes et registre de jeux : les règles de Bomberman et de Worms sont deux modules interchangeables, importés à l'identique par le client et par le serveur.",
+                    "Déterminisme assuré par une arithmétique en virgule fixe, sans aucun flottant dans l'état du jeu, et par une table trigonométrique calculée en entiers plutôt que par Math.sin, qui n'est pas spécifiée bit à bit.",
+                    "Prédiction côté client et réconciliation par rejeu des inputs, pour que le déplacement reste instantané malgré un serveur autoritaire à 20 Hz.",
+                    "11 fichiers de tests, soit 2 003 lignes, dont un test de déterminisme, un test de la virgule fixe, un test de prédiction par jeu et un test de bout en bout côté serveur.",
                 ],
                 stats: [
-                    { label: "Code", value: "~3 100 lignes de TS" },
-                    { label: "Fréquence", value: "20 Hz" },
+                    { label: "Code", value: "~6 200 lignes de TS" },
+                    { label: "Fréquence", value: "serveur à 20 Hz" },
                     { label: "Joueurs", value: "2 à 4" },
                 ],
                 github: "https://github.com/MaelDemory/BomberMan",
@@ -870,24 +848,25 @@ export const translations: Record<Locale, Dictionary> = {
             },
             {
                 title: "RayTracer",
-                eyebrow: "Moteur de rendu GPU",
-                description: "Moteur de lancer de rayons en Java qui bascule automatiquement sur le GPU via Vulkan compute, avec un repli CPU parallèle. Rend une scène de 100 000 triangles en 8K.",
+                eyebrow: "Moteur de rendu multi-backend",
+                description: "Un programme qui fabrique des images de synthèse en simulant le trajet de la lumière. On lui décrit une scène dans un fichier texte, il en calcule le rendu avec ses ombres et ses reflets, en utilisant la carte graphique quand elle est disponible et le processeur sinon.",
                 longDescription:
-                    "Le projet initial a été réalisé dans un cadre universitaire, puis repris à titre personnel pour en améliorer les performances. Il dispose aujourd'hui de plusieurs backends : un chemin Vulkan compute, dont le shader GLSL est compilé en SPIR-V au démarrage, et un rendu CPU multi-threadé qui prend le relais en l'absence de GPU, la détection étant automatique. La scène de référence est le Stanford Dragon, soit 100 000 triangles rendus en 7680x4320 ; sans la structure d'accélération BVH, le calcul n'aboutit pas.",
+                    "Le projet initial a été réalisé dans un cadre universitaire, puis repris à titre personnel pour en travailler les performances. Le projet de base a été conçu pour que le CPU fasse les calculs, or calculer une image de cette façon demande de suivre des millions de rayons lumineux, ce qu'une carte graphique fait bien plus vite qu'un processeur. Le programme essaie donc trois chemins dans l'ordre : Metal, l'interface d'Apple pour parler aux cartes graphiques, puis Vulkan, son équivalent multiplateforme, et enfin le processeur seul si aucune carte n'est exploitable. Metal passe en premier sur Mac parce qu'il s'adresse directement au matériel, là où Vulkan doit traverser une couche de traduction. Un chemin indisponible laisse la place au suivant sans interrompre le rendu, et une option permet d'en forcer un pour comparer les trois sur une même machine.",
                 status: "Open source",
-                year: "2025",
-                role: "Architecture, pipeline de rendu et programmation GPU",
-                tags: ["Java", "Vulkan", "GPU", "Multi-threading", "BVH", "Docker", "Universitaire et personnel"],
-                stack: ["Java", "Vulkan compute (LWJGL)", "GLSL vers SPIR-V", "BVH", "Docker", "Maven"],
+                year: "2025 – 2026",
+                role: "Architecture des backends, optimisation et programmation GPU",
+                tags: ["Java", "Metal", "Vulkan", "GPU", "BVH", "FFM API", "Docker", "Universitaire et personnel"],
+                stack: ["Java 24+", "Metal Shading Language", "Vulkan compute (LWJGL)", "Objective-C", "Foreign Function & Memory API", "Maven", "Docker"],
                 highlights: [
-                    "Backend Vulkan compute avec shaders GLSL compilés en SPIR-V à l'exécution, et repli CPU multi-threadé automatique en l'absence de GPU.",
-                    "Structure d'accélération BVH, sans laquelle la scène de référence (le Stanford Dragon, 100 000 triangles en 7680x4320) ne serait pas calculable.",
-                    "Conteneurisé avec Docker et couvert par une suite de tests unitaires (géométrie, caméra, couleur).",
+                    "Trois backends derrière une même interface, sondés dans l'ordre Metal, Vulkan, CPU, avec repli automatique et sélection forçable par propriété système.",
+                    "Le chemin Metal accélère le rendu de ×2,0 à ×13,9 par rapport au CPU, sur Apple M5 en 1920×1080. Le dragon de 100 000 triangles gagne ×4,5, mais le meilleur gain revient à une scène de 92 primitives seulement, à douze rebonds de réflexion : l'accélération suit le travail demandé par pixel, pas le nombre d'objets.",
+                    "Kernel Metal de 490 lignes embarquant le BVH, appelé depuis Java par la Foreign Function & Memory API ; les Command Line Tools suffisent, le shader étant compilé à l'exécution.",
+                    "Fidélité contrôlée pixel par pixel sur sept scènes de 2 073 600 pixels : entre 0,007 % et 0,84 % s'écartent du rendu CPU, et les différences se concentrent sur les silhouettes, où un rayon rasant peut basculer du mauvais côté d'une arête en simple précision.",
                 ],
                 stats: [
-                    { label: "Géométrie", value: "100k triangles" },
-                    { label: "Sortie", value: "8K (7680x4320)" },
-                    { label: "Backends", value: "Vulkan / CPU" },
+                    { label: "Dragon, 100 k triangles", value: "551 ms en 1080p" },
+                    { label: "Gain Metal sur CPU", value: "×2,0 à ×13,9" },
+                    { label: "Pixels identiques au CPU", value: "99,1 % au pire" },
                 ],
                 github: "https://github.com/MaelDemory/Raytracer",
                 link: "",
@@ -895,9 +874,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Jeux rétro dans le navigateur",
                 eyebrow: "WebAssembly et déploiement",
-                description: "Quake 3 InstaGib et le Doom de 1993, jouables depuis un lien, tous les deux en multijoueur par WebSockets. Deux moteurs compilés en WebAssembly, empaquetés et mis en ligne.",
+                description: "Quake 3 et le Doom de 1993, jouables à plusieurs depuis un simple lien, sans rien installer. On ouvre la page, on partage l'adresse de la partie, et on joue dans le navigateur.",
                 longDescription:
-                    "Il s'agit de projets d'intégration et non de développement de moteur : les README créditent les auteurs des portages utilisés. Ma contribution couvre tout ce qui sépare un moteur compilé d'une URL fonctionnelle, à savoir les builds Docker multi-étapes, la compilation Emscripten, le relais WebSocket pour la gestion des rooms, et l'adaptation du client Quake pour qu'il suive le protocole de la page plutôt qu'une valeur codée en dur. Le déploiement sur Fly.io a été conçu pour que la machine s'arrête entre deux parties, ce qui permet de laisser les deux jeux en ligne à un coût négligeable.",
+                    "Ces deux jeux datent des années 1990 et n'ont pas été écrits par moi : d'autres développeurs ont converti leur code d'origine pour qu'il puisse tourner dans un navigateur, et les README créditent leur travail. Ma contribution est tout ce qui sépare ce code converti d'une adresse web sur laquelle on clique pour jouer. Cela comprend la mise en boîte du jeu et de son serveur, un relais qui met en relation les joueurs d'une même partie, et la correction du client de Quake, qui s'obstinait à contacter une adresse écrite en dur au lieu de celle de la page. L'hébergement est configuré pour que la machine s'éteigne entre deux parties et se rallume au premier visiteur, ce qui permet de laisser les deux jeux en ligne pour un coût négligeable.",
                 status: "En ligne",
                 year: "2026",
                 role: "Empaquetage, réseau et déploiement",
@@ -919,33 +898,34 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "F1 Ticket System",
                 eyebrow: "Smart contract Ethereum",
-                description: "Billetterie Formule 1 sur Ethereum. Les billets vivent on-chain, avec un marché de revente plafonné, des remboursements automatiques à l'annulation d'une course et une gestion de rôles.",
+                description: "Un site de billetterie Formule 1, réalisé pour le module blockchain de mon cursus d'ingénieur. On connecte son portefeuille, on choisit une course et une catégorie de place, on achète. Ensuite on peut transférer son billet, le revendre sur le marché intégré ou se faire rembourser si la course est annulée. Tout passe par Ethereum, donc chaque opération reste vérifiable par n'importe qui.",
                 longDescription:
-                    "Application de billetterie Formule 1 sur Ethereum, composée d'un contrat Solidity d'un millier de lignes et d'un front React qui dialogue avec lui via ethers.js. Les points les plus délicats concernent les cas où des fonds peuvent rester bloqués : remboursements à l'annulation d'une course, verrouillage des fonds par course, et pattern pull-payment qui empêche qu'un compte bloque un retrait. La revente est plafonnée au double du prix d'origine, avec une commission de 5 % reversée à la plateforme.",
+                    "Le contrat couvre le cycle de vie complet d'un billet, de l'achat à la revente ou au remboursement. Le contrat distingue trois rôles privilégiés, l'administrateur, l'organisateur de courses et le support, chacun limité aux opérations qui le concernent. Tout le reste est ouvert à n'importe quel portefeuille connecté : acheter, transférer, revendre, se faire rembourser ou rejoindre une liste d'attente ne demande aucune autorisation particulière. Les points délicats sont ceux où de l'argent peut rester bloqué : le produit des ventes n'est jamais envoyé automatiquement, il est comptabilisé puis retiré sur demande explicite, et ce qui doit rester disponible pour rembourser une course est tenu séparé de ce que la plateforme peut encaisser. Le prix d'un billet varie selon le remplissage, à la baisse quand il reste beaucoup de places et à la hausse quand il n'en reste presque plus, et le site sait calculer le prix exact avant que l'acheteur ne valide, sans rien engager.",
                 status: "Open source",
                 year: "2026",
                 role: "Smart contract et front-end",
                 tags: ["Solidity", "Ethereum", "Hardhat", "React", "ethers.js", "Universitaire"],
-                stack: ["Solidity", "Hardhat + Ignition", "React 19", "ethers.js v6", "Ganache", "MetaMask"],
+                stack: ["Solidity", "Hardhat Ignition", "React", "Vite", "ethers.js", "Tailwind CSS", "Ganache", "MetaMask"],
                 highlights: [
-                    "39 fonctions de contrat couvrant les courses, trois catégories de billets, la tarification dynamique, les listes d'attente et les points de fidélité.",
-                    "Trois rôles aux pouvoirs distincts, admin, organisateur et support, appliqués dans le contrat et pas dans l'interface.",
-                    "Front-end avec connexion du wallet, écoute des événements on-chain pour les notifications, et billets PDF avec QR code.",
+                    "Contrat de 1 004 lignes et 39 fonctions, quinze événements qui rendent chaque opération traçable on-chain, trois modificateurs d'accès, et un pattern pull-payment qui empêche qu'un compte bloque un retrait.",
+                    "Tarification dynamique de −10 % au-dessus de 70 % de places restantes à +10 % en dessous de 20 %, revente plafonnée au double du prix payé, marché secondaire, listes d'attente par course et par catégorie, et points de fidélité.",
+                    "Remboursements à l'annulation d'une course, à l'unité ou par lot, y compris un remboursement forcé réservé au rôle support.",
+                    "Front React de 5 543 lignes réparties sur huit pages, bilingue, avec export PDF des billets, écoute des événements du contrat et traduction des erreurs EVM en messages lisibles.",
                 ],
                 stats: [
-                    { label: "Contrat", value: "1 000 lignes de Solidity" },
-                    { label: "Fonctions", value: "39" },
-                    { label: "Front-end", value: "React 19, ethers v6" },
+                    { label: "Contrat", value: "1 004 lignes, 39 fonctions" },
+                    { label: "Revente", value: "plafonnée à 2× le prix payé" },
+                    { label: "Front", value: "8 pages, bilingue" },
                 ],
                 github: "https://github.com/MaelDemory/projet-blockchain-CI1",
-                link: "",
+                link: "https://f1-ticket-system.fly.dev/",
             },
             {
                 title: "Claude-config",
                 eyebrow: "Harnais de développement IA",
-                description: "Le dispositif de développement agentique que j'ai monté pour mon équipe chez Arjo et que j'utilise sur mes projets : 13 subagents spécialisés, 26 skills, des hooks et un installeur en une commande.",
+                description: "Une configuration prête à l'emploi pour travailler avec une IA de développement. Une commande suffit à l'installer, et l'assistant hérite alors d'agents spécialisés, de skills pour les tâches courantes et des règles de l'équipe. Il s'agit d'un dispositif destiné à mon usage personnel.",
                 longDescription:
-                    "Travailler avec une IA sur du code de production suppose qu'elle respecte les mêmes règles que le reste de l'équipe. Ces règles sont donc écrites sous forme de configuration : un subagent par rôle, une skill par tâche récurrente, et un enchaînement plan, build, revue, simplification, tests. L'installeur a représenté l'essentiel du travail. Il est idempotent, sauvegarde les fichiers qu'il remplace, fusionne les permissions dans une configuration existante sans toucher aux hooks déjà en place, et ignore proprement un composant lorsqu'une dépendance optionnelle est absente.",
+                    "Travailler avec une IA sur du code de production suppose qu'elle respecte les mêmes règles que le reste de l'équipe. Ces règles sont donc écrites une fois pour toutes sous forme de configuration : un agent spécialisé par rôle, une skill par tâche qui revient souvent, et un enchaînement imposé qui va du plan au développement, puis à la relecture, à la simplification et aux tests. L'installeur a représenté l'essentiel du travail, parce qu'il arrive sur un poste qui a déjà sa propre configuration. Il peut être relancé sans risque, sauvegarde ce qu'il remplace, complète les réglages existants sans écraser ceux qui étaient déjà là, et se contente d'ignorer un composant quand l'outil dont il dépend n'est pas installé.",
                 status: "Open source",
                 year: "2026",
                 role: "Conception et outillage",
@@ -967,22 +947,22 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Gatcha",
                 eyebrow: "Microservices distribués",
-                description: "Jeu de type gacha construit en sept services derrière une passerelle NGINX : authentification, joueurs, monstres, invocation et combat, avec un front Next.js.",
+                description: "Un jeu en ligne où l'on invoque des monstres au hasard, où on les fait progresser et où on les envoie au combat. Projet universitaire réalisé à deux pour le module Web API et data de mon cursus d'ingénieur, découpé en sept micro-services indépendants plutôt qu'en une seule application.",
                 longDescription:
-                    "Projet réalisé à deux dans le cadre d'un module sur les systèmes distribués. J'ai pris en charge le service Player, l'API Combat et la stack d'observabilité (Prometheus et Grafana), qui permet de suivre le comportement des sept services. Le modèle de possession des monstres constitue le point que je reprendrais : il a fallu le repasser en UUID en cours de projet, lorsque le service d'invocation en a eu besoin.",
+                    "Projet universitaire réalisé à deux, pour le module Web API et data de mon cursus d'ingénieur. Plutôt qu'une seule application, le jeu est découpé en sept micro-services indépendants qui se parlent par le réseau, chacun responsable d'une partie du jeu : les comptes, les joueurs, les monstres, l'invocation, le combat. J'ai pris en charge le service des joueurs, celui des combats, et la surveillance de l'ensemble, c'est-à-dire les outils qui collectent en continu ce que font les sept services et les restituent sur des tableaux de bord.",
                 status: "Projet universitaire",
                 year: "2025",
                 role: "Services Player et Combat, stack d'observabilité",
                 tags: ["Spring Boot", "MongoDB", "Next.js", "Docker", "Microservices", "Prometheus", "Grafana", "Universitaire"],
                 stack: ["Spring Boot", "MongoDB", "Next.js", "NGINX", "Docker", "Prometheus", "Grafana", "SonarQube"],
                 highlights: [
-                    "Création complète du service Player en Spring Boot et MongoDB, du modèle et du repository jusqu'au contrôleur, y compris le passage des monstres à une identification par UUID.",
+                    "Création complète du service Player en Spring Boot et MongoDB, du modèle et du repository jusqu'au contrôleur.",
                     "Développement de l'API Combat et de la fonctionnalité de renommage des monstres sur les services concernés.",
                     "Mise en place de toute la stack d'observabilité : collecte de métriques Prometheus et tableaux de bord Grafana, avec règles d'alerting.",
                 ],
                 stats: [
                     { label: "Équipe", value: "2 développeurs" },
-                    { label: "Architecture", value: "7 services" },
+                    { label: "Architecture", value: "7 micro-services" },
                     { label: "Mon périmètre", value: "Player, Combat, monitoring" },
                 ],
                 github: "https://github.com/RayzerDev/Gatcha",
@@ -991,9 +971,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Réseau social Voyage",
                 eyebrow: "Projet d'équipe — lead développeur",
-                description: "Un réseau social complet sur le thème du voyage, avec une API Spring Boot et un front React, livré par une équipe de quatre.",
+                description: "Un réseau social consacré au voyage, où chacun partage ses destinations et suit celles des autres. Projet d'équipe du BUT réalisé à quatre, dont j'étais le lead développeur.",
                 longDescription:
-                    "Plus gros projet d'équipe du BUT, et première expérience d'encadrement. Au-delà du développement, mon rôle a consisté à découper le travail, à fixer les conventions communes aux quatre membres et à trancher les choix d'architecture suffisamment tôt pour que les différentes parties restent assemblables. Le temps consacré à éviter que deux personnes développent la même chose a été nettement supérieur à mon estimation initiale.",
+                    "Plus gros projet d'équipe du BUT, et première expérience d'encadrement. Au-delà du développement, mon rôle a consisté à découper le travail, à fixer les conventions communes aux quatre membres et à trancher les choix d'architecture, c'est-à-dire la façon dont les différentes parties du logiciel s'emboîtent, suffisamment tôt pour qu'elles restent assemblables à la fin. Le temps consacré à éviter que deux personnes développent la même chose a été nettement supérieur à mon estimation initiale.",
                 status: "Projet universitaire",
                 year: "2024",
                 role: "Lead développeur",
@@ -1013,42 +993,18 @@ export const translations: Record<Locale, Dictionary> = {
                 link: "",
             },
             {
-                title: "Extracteur de données comptables",
-                eyebrow: "Automatisation documentaire",
-                description: "Application web qui lit des factures PDF et en extrait automatiquement les heures travaillées par client.",
-                longDescription:
-                    "Cet outil répond à une tâche répétitive : le report manuel, chaque mois, des heures figurant sur des factures PDF. L'application lit les factures et restitue les heures par client. La partie web a demandé un après-midi ; la fiabilisation de l'extraction, nettement plus.",
-                status: "Outil personnel",
-                year: "2025",
-                role: "Conception fonctionnelle et développement",
-                tags: ["Python", "Flask", "Lecture de PDF", "Personnel"],
-                stack: ["Python", "Flask", "Lecture de PDF"],
-                highlights: [
-                    "Lecture automatisée des factures PDF, en remplacement d'un passage manuel sur chaque document.",
-                    "Agrégation des heures facturables par client, directement exploitable en aval.",
-                    "Un périmètre volontairement étroit : une tâche répétitive, supprimée correctement.",
-                ],
-                stats: [
-                    { label: "Entrée", value: "Factures PDF" },
-                    { label: "Sortie", value: "Heures par client" },
-                    { label: "Objectif", value: "Supprimer du manuel" },
-                ],
-                github: "",
-                link: "",
-            },
-            {
                 title: "Application de tickets de concert",
                 eyebrow: "Projet d'équipe — mobile",
-                description: "Application mobile de gestion de tickets de concert, avec une API Laravel et un client React Native, réalisée par une équipe de trois.",
+                description: "Une application mobile pour acheter ses billets de concert et les présenter à l'entrée, y compris quand le téléphone ne capte pas. Projet d'équipe du BUT réalisé à trois.",
                 longDescription:
-                    "Projet réalisé à trois, avec une API Laravel d'un côté et un client React Native de l'autre, sur lesquels je suis intervenu. La contrainte structurante tenait à ce qu'un ticket reste utilisable lorsque le téléphone ne capte pas, situation fréquente dans une salle de concert.",
+                    "Projet réalisé à trois. Le travail était séparé en deux parties, un serveur qui détient les billets et les comptes, et l'application installée sur le téléphone, et je suis intervenu sur les deux. La contrainte qui a tout structuré tenait à ce qu'un billet reste utilisable lorsque le téléphone ne capte pas, situation fréquente dans une salle de concert.",
                 status: "Projet universitaire",
                 year: "2024",
                 role: "Développeur — API et client mobile",
                 tags: ["Laravel", "React Native", "Mobile", "API REST", "Universitaire"],
                 stack: ["Laravel", "React Native", "API REST", "MySQL"],
                 highlights: [
-                    "API REST Laravel consommée par un client React Native.",
+                    "API REST Laravel appelée par un client React Native.",
                     "Travail sur un contrat d'API partagé avec le reste de l'équipe.",
                     "Livraison mobile multiplateforme depuis une base de code unique.",
                 ],
@@ -1063,9 +1019,9 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Portfolio",
                 eyebrow: "Ce site",
-                description: "Le site que vous lisez : mon parcours, mes compétences et mes projets, en anglais et en français.",
+                description: "Le site que vous lisez. Il présente mon parcours, mes compétences et mes projets, en anglais et en français, et sert aussi de projet à part entière.",
                 longDescription:
-                    "Le site sur lequel vous vous trouvez. L'objectif était qu'il se lise comme une page éditoriale plutôt que comme un modèle de CV : une seule couleur d'accent, aucun dégradé, et un unique effet marqué, le nom en haut de page qui réagit à la proximité du curseur. Le contenu existe intégralement en anglais et en français, et le thème est résolu avant le premier rendu pour éviter tout flash.",
+                    "Le site sur lequel vous vous trouvez. L'objectif était qu'il se lise comme une page éditoriale plutôt que comme un modèle de CV : une seule couleur d'accent, aucun dégradé, et un unique effet marqué, le nom en haut de page dont la graisse réagit à la proximité du curseur. Le contenu existe intégralement en anglais et en français, et le choix entre thème clair et thème sombre est appliqué avant que la page ne s'affiche, pour éviter le bref éclair blanc qu'on voit sur beaucoup de sites.",
                 status: "En évolution continue",
                 year: "2026",
                 role: "Design produit, frontend et intégration",

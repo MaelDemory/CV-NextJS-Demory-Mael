@@ -69,7 +69,6 @@ import {
     Mail,
     MapPin,
     UserRound,
-    Users,
     Wrench,
     X,
 } from "lucide-react";
@@ -764,23 +763,6 @@ export default function Home() {
                                 <p className="mt-2 text-sm leading-6 text-muted-foreground">{pillar.body}</p>
                             </div>
                         ))}
-                    </motion.div>
-
-                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-7">
-                        <div className="mb-5 flex items-center gap-3.5">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-                                <Users className="h-5 w-5" />
-                            </div>
-                            <h3 className="text-lg font-semibold tracking-tight">{t.about.workStyleTitle}</h3>
-                        </div>
-                        <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-                            {t.about.workStyle.map((item) => (
-                                <div key={item.title}>
-                                    <h4 className="text-sm font-semibold tracking-tight">{item.title}</h4>
-                                    <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{item.body}</p>
-                                </div>
-                            ))}
-                        </div>
                     </motion.div>
 
                     <motion.div variants={fadeUp} className="surface-card p-6 sm:p-8">
