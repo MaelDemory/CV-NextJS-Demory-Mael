@@ -749,7 +749,7 @@ export default function Home() {
                     viewport={{ once: true, margin: "-80px" }}
                     className="space-y-4"
                 >
-                    <motion.div variants={fadeUp} className="max-w-3xl space-y-4">
+                    <motion.div variants={fadeUp} className="space-y-4">
                         {t.about.paragraphs.map((paragraph) => (
                             <p key={paragraph} className="text-[15px] leading-7 text-muted-foreground">
                                 {paragraph}

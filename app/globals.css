@@ -71,24 +71,30 @@
   /* Chrome flottant liquid glass — seul usage du blur dans l'interface.
      La lisibilité vient du blur + saturation, pas de l'opacité du fond ;
      les ombres inset dessinent le rebord lumineux du verre. */
+  /* Verre translucide : quasi aucun fond, la lisibilité vient du flou et de
+     la saturation. Le liseré supérieur clair joue le reflet spéculaire. */
   .nav-material {
-    background: rgba(255, 255, 255, 0.08);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    backdrop-filter: blur(40px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.02);
+    -webkit-backdrop-filter: blur(48px) saturate(200%) brightness(1.08);
+    backdrop-filter: blur(48px) saturate(200%) brightness(1.08);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.5),
-      inset 0 -1px 1px rgba(255, 255, 255, 0.12),
-      0 8px 30px rgba(0, 0, 0, 0.08);
+      inset 0 1.5px 1px -0.5px rgba(255, 255, 255, 0.85),
+      inset 0 -1px 1px -0.5px rgba(255, 255, 255, 0.2),
+      inset 0 0 20px rgba(255, 255, 255, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.10);
   }
 
   .dark .nav-material {
-    background: rgba(28, 28, 30, 0.12);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(28, 28, 30, 0.04);
+    -webkit-backdrop-filter: blur(48px) saturate(200%) brightness(1.3);
+    backdrop-filter: blur(48px) saturate(200%) brightness(1.3);
+    border-color: rgba(255, 255, 255, 0.16);
     box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.14),
-      inset 0 -1px 1px rgba(255, 255, 255, 0.04),
-      0 10px 36px rgba(0, 0, 0, 0.45);
+      inset 0 1.5px 1px -0.5px rgba(255, 255, 255, 0.24),
+      inset 0 -1px 1px -0.5px rgba(255, 255, 255, 0.06),
+      inset 0 0 20px rgba(255, 255, 255, 0.03),
+      0 10px 36px rgba(0, 0, 0, 0.5);
   }
 
   .surface-card {
