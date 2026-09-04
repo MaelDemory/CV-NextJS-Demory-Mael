@@ -126,7 +126,7 @@ export const translations: Record<Locale, Dictionary> = {
         },
         hero: {
             photoAlt: "Photo of Maël Demory",
-            tagline: "Passionate about new technology, future software engineer and PHP/JavaScript developer.",
+            tagline: "I turn business needs into technical solutions 500 people use every day.",
             availability: "Seeking a software engineering internship abroad · June – September 2027",
             studentAt: "Engineering student at",
             apprenticeAt: "Software Engineer Apprentice at",
@@ -154,7 +154,7 @@ export const translations: Record<Locale, Dictionary> = {
                     body: "Two apprenticeship contracts back to back, on software real teams use every day.",
                 },
                 {
-                    title: "I turn a business need into a technical solution",
+                    title: "I take a need from end to end",
                     body: "The need comes from the business. The technical design, the build and the follow-up with users are mine.",
                 },
                 {
@@ -199,10 +199,10 @@ export const translations: Record<Locale, Dictionary> = {
                 period: "Sept. 2025 – Present",
                 description: [
                     "Build and maintain the internal business applications that run the French subsidiary's operations, covering service contracts, equipment fleet, spare parts, technician scheduling and invoicing. Around 500 to 600 people use them daily. Stack: PHP 8, SQL Server, JavaScript, jQuery, Bootstrap, Vite.",
-                    "Built a complete spare-parts maintenance referential from scratch over six months, from a specification written by the technical support team: nine back-office pages, around 22,000 lines of code, 220 commits.",
+                    "Built from scratch, over six months, a complete spare-parts maintenance feature: nine back-office pages. From a specification formalised by the project managers, I handled the technical design, the development, then around thirty rounds of feedback from the user testers.",
                     "It replaces manual handling through Excel files and PDFs with a single source of truth, computes each customer's pricing automatically from the M3 ERP, and publishes approved parts to the customer portal.",
-                    "Contributed 213 commits across 391 files to a team-wide modernisation of a legacy monolith: migrated back-office tables to server-side pagination and sorting, rebuilt more than twenty scheduled jobs on a shared template, and traced a systemic data-access defect that had been causing nightly false alerts.",
-                    "Extended the SQL Server FileStream storage layer the team had introduced, around 1,300 lines extended rather than rewritten: built the supervision dashboard used by the IT department, and brought a second application onto it, putting around ten document directories under transactional backup.",
+                    "Contributed to a team-wide modernisation of a legacy monolith: migrated back-office tables to server-side pagination and sorting, rebuilt more than twenty scheduled jobs on a shared template, and fixed a data-access layer defect that was causing transaction rollbacks and unwarranted alerts.",
+                    "Extended, without rewriting it, the SQL Server FileStream storage layer the team had introduced: built the supervision page used by the DATA department, then brought a second application onto it, putting around ten document directories under transactional backup.",
                     "Set up the team's AI-assisted development workflow (custom agents, hooks and skills), now used on production code under systematic human review.",
                 ],
             },
@@ -289,7 +289,7 @@ export const translations: Record<Locale, Dictionary> = {
                 eyebrow: "Formula 1 puzzle site",
                 description: "A site of Formula 1 guessing games. You have to find a driver or a champion, and hints appear with each attempt. Six different modes, fed by the data of every Grand Prix since 1950.",
                 longDescription:
-                    "The project started as a plain Wordle clone applied to Formula 1 drivers, then grew to six game modes, one of which asks you to name the world champion of every season back to 1950. Most of the work sits behind the game though, in the part that stores and serves the data. Race results are kept in a local database rather than requested again for every match, and the site only reaches out to a public online source when a season is still missing. Tuning the hints took longer than the game logic: too few and the match comes down to luck, too many and there is nothing left to work out.",
+                    "The project started as a plain Wordle clone applied to Formula 1 drivers, then grew to six game modes, one of which asks you to name the world champion of every season back to 1950. Most of the work sits behind the game though, in the part that stores and serves the data. Race results are kept in a local database rather than requested again for every match, and the site only reaches out to a public online source when a season is still missing.",
                 status: "Live",
                 year: "2024 – 2026",
                 role: "Product, frontend, API and infrastructure",
@@ -298,11 +298,11 @@ export const translations: Record<Locale, Dictionary> = {
                 highlights: [
                     "Six modes sharing one engine, from the classic driver guess to Higher or Lower, Constructor Grid and a Connections board.",
                     "Laravel API over five tables covering every driver, champion and race since 1950, with results cached in MySQL and an external fallback when a season is missing.",
-                    "Three separate Fly.io apps, a public front end, a private API and MySQL on a volume, plus Prometheus and Grafana with a provisioned dashboard.",
+                    "Three separate Fly.io apps, a public front end, a private API and MySQL on a volume, plus Prometheus and Grafana with a dashboard.",
                     "Interface entirely in English and French, a component library built in-house, and 13 test files covering the game modes and the API.",
                 ],
                 stats: [
-                    { label: "Code", value: "~9,400 lines" },
+                    { label: "Infra", value: "3 Fly.io apps" },
                     { label: "Game modes", value: "6" },
                     { label: "Data", value: "F1 since 1950" },
                 ],
@@ -314,7 +314,7 @@ export const translations: Record<Locale, Dictionary> = {
                 eyebrow: "Open-source contribution, macOS",
                 description: "A macOS app that turns the MacBook notch into a small dashboard. I added six pieces of information, each one switchable on its own: weather, processor and memory load, VPN status, Bluetooth device battery, the Focus mode in use, and a DeepSeek account balance.",
                 longDescription:
-                    "Boring Notch is a free application built by a team that has already put more than 1,400 changes into it. I am not its author: I worked on my own copy of the project, what is called a fork, to add features and offer a fix. The six indicators I wrote all follow the same shape, one part that fetches the information, one that formats it and one that displays it, and each stays off until the user turns it on in Settings. I also fixed a defect in the original application: the replacement of macOS system indicators would switch itself off without warning, because a helper component did not inherit the permissions granted to the main app.",
+                    "Boring Notch is a free application built by a team that has already put more than 1,400 changes into it. I am not its author: I worked on my own copy of the project to add features and offer a fix. The six indicators I wrote all follow the same shape, one part that fetches the information, one that formats it and one that displays it, and each stays off until the user turns it on in Settings. I also fixed a defect in the original application: the replacement of macOS system indicators would switch itself off without warning, because a helper component did not inherit the permissions granted to the main app.",
                 status: "Open source",
                 year: "2026",
                 role: "Feature development and bug fix",
@@ -327,8 +327,8 @@ export const translations: Record<Locale, Dictionary> = {
                     "Translations added to the project's localisation file, and a README documenting the fork's additions along with the known limit on how the DeepSeek key is stored.",
                 ],
                 stats: [
-                    { label: "Contribution", value: "10 commits, +1,550 lines" },
-                    { label: "Indicators", value: "6" },
+                    { label: "Contribution", value: "6 indicators, 1 fix" },
+                    { label: "Bug fixed", value: "system HUD" },
                     { label: "Upstream", value: "1,400+ commits" },
                 ],
                 github: "https://github.com/MaelDemory/boring.notch",
@@ -339,7 +339,7 @@ export const translations: Record<Locale, Dictionary> = {
                 eyebrow: "Multiplayer engine, two games",
                 description: "Two multiplayer games playable in the browser, a Bomberman and a Worms. You create a match, share a four-letter code, and the others type it in to join. Both run on the same engine, which I wrote for the occasion.",
                 longDescription:
-                    "The engine shared by both games is 340 lines and holds nothing specific to either one: the time loop, the random draw and the messages exchanged over the network. The rules of Bomberman and those of Worms each live in their own module, and a registry declares them to the server and the client alike, so adding a game means writing its module and registering it there. Bomberman was the first case, Worms the validation. The shared difficulty is that the player's machine and the server must compute exactly the same match. The client therefore anticipates the outcome to react without waiting for the network, then corrects itself when the server's version arrives. The slightest difference in calculation between the two would make the match diverge, which is why decimal numbers are banned from the game state.",
+                    "The engine shared by both games is 340 lines and holds nothing specific to either one: the time loop, the random draw and the messages exchanged over the network. The rules of Bomberman and those of Worms each live in their own module, and a registry declares them to the server and the client alike, so adding a game means writing its module and registering it there. Bomberman was the first case, Worms the validation. The shared difficulty is that the player's machine and the server must compute exactly the same match. The client therefore anticipates the outcome to react without waiting for the network, then corrects itself when the server's version arrives. The slightest difference in calculation between the two would make the match diverge.",
                 status: "Live",
                 year: "2026",
                 role: "Engine, netcode, games, client and infrastructure",
@@ -349,10 +349,10 @@ export const translations: Record<Locale, Dictionary> = {
                     "A 340-line generic engine and a game registry: the rules of Bomberman and Worms are two interchangeable modules, imported identically by client and server.",
                     "Determinism enforced by fixed-point arithmetic, with no float in the game state, and by a trigonometric table computed in integers rather than through Math.sin, which is not specified bit for bit.",
                     "Client-side prediction with input replay reconciliation, so movement stays instant despite an authoritative server running at 20 Hz.",
-                    "11 test files, 2,003 lines, including a determinism test, a fixed-point test, one prediction test per game and an end-to-end test on the server.",
+                    "11 test files, including a determinism test, a fixed-point test, one prediction test per game and an end-to-end test on the server.",
                 ],
                 stats: [
-                    { label: "Code", value: "~6,200 lines of TS" },
+                    { label: "Games", value: "Bomberman and Worms" },
                     { label: "Tick rate", value: "20 Hz server" },
                     { label: "Players", value: "2 to 4" },
                 ],
@@ -364,7 +364,7 @@ export const translations: Record<Locale, Dictionary> = {
                 eyebrow: "Multi-backend rendering engine",
                 description: "A program that produces synthetic images by simulating the path of light. You describe a scene in a text file and it computes the render, with its shadows and reflections, using the graphics card when one is available and the processor otherwise.",
                 longDescription:
-                    "The project started as a university assignment and I picked it up again on my own time to work on its performance. Computing an image this way means following millions of light rays, which a graphics card does far faster than a processor. The program therefore tries three paths in order: Metal, Apple's interface for talking to graphics cards, then Vulkan, its cross-platform equivalent, and finally the processor alone if no card can be used. Metal comes first on a Mac because it addresses the hardware directly, where Vulkan has to go through a translation layer. A path that is unavailable hands over to the next without interrupting the render, and an option forces a given one so the three can be compared on the same machine.",
+                    "The project started as a university assignment and I picked it up again on my own time to work on its performance. The original version was designed to run all its computations on the CPU, yet computing an image this way means following millions of light rays, which a graphics card does far faster than a processor. The program therefore tries three paths in order: Metal, Apple's interface for talking to graphics cards, then Vulkan, its cross-platform equivalent, and finally the processor alone if no card can be used. Metal comes first on a Mac because it addresses the hardware directly, where Vulkan has to go through a translation layer. A path that is unavailable hands over to the next without interrupting the render, and an option forces a given one so the three can be compared on the same machine.",
                 status: "Open source",
                 year: "2025 – 2026",
                 role: "Backend architecture, optimisation and GPU programming",
@@ -373,7 +373,7 @@ export const translations: Record<Locale, Dictionary> = {
                 highlights: [
                     "Three backends behind one interface, probed in the order Metal, Vulkan, CPU, with automatic fallback and a system property to force a specific path.",
                     "The Metal path renders x2.0 to x13.9 faster than the CPU, measured on an Apple M5 at 1920x1080. The 100,000-triangle dragon gains x4.5, but the largest gain goes to a scene of only 92 primitives traced over twelve reflection bounces: the speedup follows the work each pixel demands, not the number of objects.",
-                    "490-line Metal kernel carrying the BVH, called from Java through the Foreign Function & Memory API; the Command Line Tools are enough, since the shader is compiled at runtime.",
+                    "Metal kernel carrying the BVH, called from Java through the Foreign Function & Memory API; the Command Line Tools are enough, since the shader is compiled at runtime.",
                     "Fidelity checked pixel by pixel across seven scenes of 2,073,600 pixels: between 0.007% and 0.84% differ from the CPU render, and the differences sit on silhouettes, where in single precision a grazing ray can fall on the wrong side of an edge.",
                 ],
                 stats: [
@@ -420,13 +420,13 @@ export const translations: Record<Locale, Dictionary> = {
                 tags: ["Solidity", "Ethereum", "Hardhat", "React", "ethers.js", "University"],
                 stack: ["Solidity", "Hardhat Ignition", "React", "Vite", "ethers.js", "Tailwind CSS", "Ganache", "MetaMask"],
                 highlights: [
-                    "1,004-line contract with 39 functions, fifteen events making every operation traceable on-chain, three access modifiers, and a pull-payment pattern so no single account can block a withdrawal.",
+                    "A contract of 39 functions and fifteen events making every operation traceable on-chain, three access modifiers, and a pull-payment pattern so no single account can block a withdrawal.",
                     "Dynamic pricing from -10% above 70% of seats remaining to +10% below 20%, resale capped at twice the price paid, a secondary market, per-race and per-category waiting lists, and loyalty points.",
                     "Refunds when a race is cancelled, one by one or in batches, including a forced refund reserved for the support role.",
-                    "5,543-line React front end over eight pages, bilingual, with PDF ticket export, contract event listeners and EVM errors translated into readable messages.",
+                    "React front end of eight pages, bilingual, with PDF ticket export, contract event listeners and EVM errors translated into readable messages.",
                 ],
                 stats: [
-                    { label: "Contract", value: "1,004 lines, 39 functions" },
+                    { label: "Contract", value: "39 functions, 15 events" },
                     { label: "Resale", value: "capped at 2x price paid" },
                     { label: "Front end", value: "8 pages, bilingual" },
                 ],
@@ -436,7 +436,7 @@ export const translations: Record<Locale, Dictionary> = {
             {
                 title: "Claude-config",
                 eyebrow: "AI development harness",
-                description: "A ready-to-use setup for working with an AI development assistant. One command installs it, and the assistant then inherits specialised roles, procedures for recurring tasks and the team's rules. It is the setup I put in place at Arjo.",
+                description: "A ready-to-use setup for working with an AI development assistant. One command installs it, and the assistant then inherits specialised roles, procedures for recurring tasks and the team's rules. It is a setup intended for my personal use.",
                 longDescription:
                     "Working with an AI on production code only pays off if it follows the same rules as the rest of the team. Those rules are therefore written down once as configuration: one specialised assistant per role, one procedure per recurring task, and an enforced sequence running from plan to build, then review, simplification and tests. The installer took most of the work, because it lands on a machine that already has a configuration of its own. It can be run again safely, backs up what it replaces, adds to existing settings without overwriting the ones already there, and simply skips a component when the tool it depends on is not installed.",
                 status: "Open source",
@@ -462,14 +462,14 @@ export const translations: Record<Locale, Dictionary> = {
                 eyebrow: "Distributed microservices",
                 description: "An online game where you summon monsters at random, level them up and send them into battle. A university project built by two of us for the Web API and data module of my engineering degree, split into seven independent services rather than one application.",
                 longDescription:
-                    "A university project built by two of us, for the Web API and data module of my engineering degree. Rather than one application, the game is split into seven independent programs talking to each other over the network, each responsible for one part of the game: accounts, players, monsters, summoning, combat. I took on the players service, the combat one, and the monitoring of the whole, meaning the tools that continuously collect what the seven services are doing and show it on dashboards. The part I would do differently is how a monster is attached to its owner: I had to change its identifier partway through, once another service needed it.",
+                    "A university project built by two of us, for the Web API and data module of my engineering degree. Rather than one application, the game is split into seven independent programs talking to each other over the network, each responsible for one part of the game: accounts, players, monsters, summoning, combat. I took on the players service, the combat one, and the monitoring of the whole, meaning the tools that continuously collect what the seven services are doing and show it on dashboards.",
                 status: "University project",
                 year: "2025",
                 role: "Player and Combat services, observability stack",
                 tags: ["Spring Boot", "MongoDB", "Next.js", "Docker", "Microservices", "Prometheus", "Grafana", "University"],
                 stack: ["Spring Boot", "MongoDB", "Next.js", "NGINX", "Docker", "Prometheus", "Grafana", "SonarQube"],
                 highlights: [
-                    "Built the Player service end to end on Spring Boot and MongoDB, from the model and repository through to the controller, including the refactor to UUID-based monster ownership.",
+                    "Built the Player service end to end on Spring Boot and MongoDB, from the model and repository through to the controller.",
                     "Built the Combat API and the monster renaming feature across the services it touched.",
                     "Set up the whole observability stack: Prometheus metrics collection and Grafana dashboards, with alerting rules.",
                 ],
@@ -480,54 +480,6 @@ export const translations: Record<Locale, Dictionary> = {
                 ],
                 github: "https://github.com/RayzerDev/Gatcha",
                 link: "https://gatcha-md-front.fly.dev/",
-            },
-            {
-                title: "Travel Social Network",
-                eyebrow: "Team project — lead developer",
-                description: "A social network built around travel, where everyone shares their destinations and follows other people's. A four-person team project from my bachelor's degree, where I was the lead developer.",
-                longDescription:
-                    "The largest team project of my degree, and my first experience of leading others. Beyond writing code, my role was to split the work, agree the conventions the four of us would follow, and settle the architecture decisions, meaning how the different parts of the software fit together, early enough that they would still assemble at the end. The time spent stopping two people from building the same thing was well beyond my initial estimate.",
-                status: "University project",
-                year: "2024",
-                role: "Lead developer",
-                tags: ["Spring Boot", "React", "REST API", "Team leadership", "University"],
-                stack: ["Spring Boot", "React", "REST API", "Relational database"],
-                highlights: [
-                    "Led a team of four: work breakdown, shared conventions and architecture decisions.",
-                    "Spring Boot REST API backing a React single-page front end.",
-                    "First hands-on experience of the coordination cost of a multi-developer codebase.",
-                ],
-                stats: [
-                    { label: "Team", value: "4 developers" },
-                    { label: "Role", value: "Lead developer" },
-                    { label: "Stack", value: "Spring Boot / React" },
-                ],
-                github: "",
-                link: "",
-            },
-            {
-                title: "Concert Ticket App",
-                eyebrow: "Team project — mobile",
-                description: "A mobile app for buying concert tickets and showing them at the door, including when the phone has no signal. A three-person team project from my bachelor's degree.",
-                longDescription:
-                    "A three-person project. The work was split in two, a server holding the tickets and the accounts, and the application installed on the phone, and I worked on both. The constraint that shaped everything was that a ticket has to stay usable when the phone has no signal, which inside a concert venue is most of the time.",
-                status: "University project",
-                year: "2024",
-                role: "Developer — API and mobile client",
-                tags: ["Laravel", "React Native", "Mobile", "REST API", "University"],
-                stack: ["Laravel", "React Native", "REST API", "MySQL"],
-                highlights: [
-                    "Laravel REST API consumed by a React Native client.",
-                    "Worked to a shared API contract with the rest of the team.",
-                    "Cross-platform mobile delivery from a single codebase.",
-                ],
-                stats: [
-                    { label: "Team", value: "3 developers" },
-                    { label: "Platforms", value: "iOS and Android" },
-                    { label: "Stack", value: "Laravel / React Native" },
-                ],
-                github: "",
-                link: "",
             },
             {
                 title: "Portfolio",
@@ -591,7 +543,7 @@ export const translations: Record<Locale, Dictionary> = {
         },
         hero: {
             photoAlt: "Photo de Maël Demory",
-            tagline: "Passionné par les nouvelles technologies, futur ingénieur logiciel et développeur PHP/JavaScript.",
+            tagline: "Je transforme des besoins métier en solutions techniques que 500 personnes utilisent chaque jour.",
             availability: "À la recherche d'un stage d'ingénieur logiciel à l'étranger · juin – septembre 2027",
             studentAt: "Étudiant ingénieur à",
             apprenticeAt: "Alternant ingénieur logiciel chez",
@@ -619,7 +571,7 @@ export const translations: Record<Locale, Dictionary> = {
                     body: "Deux contrats d'alternance consécutifs, sur des logiciels utilisés tous les jours par de vraies équipes.",
                 },
                 {
-                    title: "Je traduis un besoin métier en solution technique",
+                    title: "Je prends en charge un besoin de bout en bout",
                     body: "Le besoin vient du métier. La conception technique, le développement et le suivi auprès des utilisateurs relèvent de mon périmètre.",
                 },
                 {
@@ -664,10 +616,10 @@ export const translations: Record<Locale, Dictionary> = {
                 period: "Sept. 2025 – aujourd'hui",
                 description: [
                     "Développement et maintenance des applications de gestion internes qui pilotent l'activité de la filiale : contrats de service, parc d'équipements, pièces détachées, planification des interventions et facturation. Entre 500 et 600 utilisateurs. Stack : PHP 8, SQL Server, JavaScript, jQuery, Bootstrap, Vite.",
-                    "Création de zéro, sur six mois, d'une fonctionnalité complète de gestion des pièces détachées de maintenance : neuf pages de back-office, environ 22 000 lignes de code, 220 commits. À partir d'un cahier des charges formalisé par les cheffes de projet, j'ai assuré la conception technique, le développement, puis le traitement d'une trentaine de retours des utilisateurs testeurs.",
+                    "Création de zéro, sur six mois, d'une fonctionnalité complète de gestion des pièces détachées de maintenance, soit neuf pages de back-office. À partir d'un cahier des charges formalisé par les cheffes de projet, j'ai assuré la conception technique, le développement, puis le traitement d'une trentaine de retours des utilisateurs testeurs.",
                     "Elle remplace une gestion manuelle par fichiers Excel et PDF par un référentiel unique, calcule automatiquement la tarification de chaque client depuis l'ERP M3 et publie les pièces validées sur le portail client.",
-                    "Contribution de 213 commits sur 391 fichiers à un chantier collectif de modernisation d'un monolithe historique : migration des tableaux du back-office vers une pagination et un tri côté serveur, reconstruction de plus de vingt traitements planifiés sur un template commun, et correction d'un défaut de la couche d'accès aux données qui provoquait des annulations de transactions et des alertes injustifiées.",
-                    "Extension de la couche de stockage SQL Server FileStream mise en place par l'équipe (environ 1 300 lignes, étendues sans réécriture) : création de la page de supervision utilisée par le Service DATA, puis généralisation à un second périmètre applicatif, ce qui permet de placer une dizaine de répertoires documentaires sous sauvegarde transactionnelle.",
+                    "Contribution à un chantier collectif de modernisation d'un monolithe historique : migration des tableaux du back-office vers une pagination et un tri côté serveur, reconstruction de plus de vingt traitements planifiés sur un template commun, et correction d'un défaut de la couche d'accès aux données qui provoquait des annulations de transactions et des alertes injustifiées.",
+                    "Extension, sans réécriture, de la couche de stockage SQL Server FileStream mise en place par l'équipe : création de la page de supervision utilisée par le Service DATA, puis généralisation à un second périmètre applicatif, ce qui permet de placer une dizaine de répertoires documentaires sous sauvegarde transactionnelle.",
                     "Mise en place du workflow de développement assisté par IA de l'équipe (agents personnalisés, hooks, skills), appliqué à du code de production sous vérification humaine systématique.",
                 ],
             },
@@ -767,7 +719,7 @@ export const translations: Record<Locale, Dictionary> = {
                     "Interface intégralement en anglais et en français, une bibliothèque de composants maison, et 13 fichiers de tests sur les modes de jeu et l'API.",
                 ],
                 stats: [
-                    { label: "Code", value: "~9 400 lignes" },
+                    { label: "Infra", value: "3 apps Fly.io" },
                     { label: "Modes de jeu", value: "6" },
                     { label: "Données", value: "F1 depuis 1950" },
                 ],
@@ -792,8 +744,8 @@ export const translations: Record<Locale, Dictionary> = {
                     "Traductions ajoutées au fichier de localisation du projet, et README documentant les apports du fork ainsi que la limite connue du stockage de la clé DeepSeek.",
                 ],
                 stats: [
-                    { label: "Contribution", value: "10 commits, +1 550 lignes" },
-                    { label: "Indicateurs", value: "6" },
+                    { label: "Contribution", value: "6 indicateurs, 1 correctif" },
+                    { label: "Défaut corrigé", value: "HUD système" },
                     { label: "Projet amont", value: "1 400+ commits" },
                 ],
                 github: "https://github.com/MaelDemory/boring.notch",
@@ -814,10 +766,10 @@ export const translations: Record<Locale, Dictionary> = {
                     "Moteur générique de 340 lignes et registre de jeux : les règles de Bomberman et de Worms sont deux modules interchangeables, importés à l'identique par le client et par le serveur.",
                     "Déterminisme assuré par une arithmétique en virgule fixe, sans aucun flottant dans l'état du jeu, et par une table trigonométrique calculée en entiers plutôt que par Math.sin, qui n'est pas spécifiée bit à bit.",
                     "Prédiction côté client et réconciliation par rejeu des inputs, pour que le déplacement reste instantané malgré un serveur autoritaire à 20 Hz.",
-                    "11 fichiers de tests, soit 2 003 lignes, dont un test de déterminisme, un test de la virgule fixe, un test de prédiction par jeu et un test de bout en bout côté serveur.",
+                    "11 fichiers de tests, dont un test de déterminisme, un test de la virgule fixe, un test de prédiction par jeu et un test de bout en bout côté serveur.",
                 ],
                 stats: [
-                    { label: "Code", value: "~6 200 lignes de TS" },
+                    { label: "Jeux", value: "Bomberman et Worms" },
                     { label: "Fréquence", value: "serveur à 20 Hz" },
                     { label: "Joueurs", value: "2 à 4" },
                 ],
@@ -838,7 +790,7 @@ export const translations: Record<Locale, Dictionary> = {
                 highlights: [
                     "Trois backends derrière une même interface, sondés dans l'ordre Metal, Vulkan, CPU, avec repli automatique et sélection forçable par propriété système.",
                     "Le chemin Metal accélère le rendu de ×2,0 à ×13,9 par rapport au CPU, sur Apple M5 en 1920×1080. Le dragon de 100 000 triangles gagne ×4,5, mais le meilleur gain revient à une scène de 92 primitives seulement, à douze rebonds de réflexion : l'accélération suit le travail demandé par pixel, pas le nombre d'objets.",
-                    "Kernel Metal de 490 lignes embarquant le BVH, appelé depuis Java par la Foreign Function & Memory API ; les Command Line Tools suffisent, le shader étant compilé à l'exécution.",
+                    "Kernel Metal embarquant le BVH, appelé depuis Java par la Foreign Function & Memory API ; les Command Line Tools suffisent, le shader étant compilé à l'exécution.",
                     "Fidélité contrôlée pixel par pixel sur sept scènes de 2 073 600 pixels : entre 0,007 % et 0,84 % s'écartent du rendu CPU, et les différences se concentrent sur les silhouettes, où un rayon rasant peut basculer du mauvais côté d'une arête en simple précision.",
                 ],
                 stats: [
@@ -885,13 +837,13 @@ export const translations: Record<Locale, Dictionary> = {
                 tags: ["Solidity", "Ethereum", "Hardhat", "React", "ethers.js", "Universitaire"],
                 stack: ["Solidity", "Hardhat Ignition", "React", "Vite", "ethers.js", "Tailwind CSS", "Ganache", "MetaMask"],
                 highlights: [
-                    "Contrat de 1 004 lignes et 39 fonctions, quinze événements qui rendent chaque opération traçable on-chain, trois modificateurs d'accès, et un pattern pull-payment qui empêche qu'un compte bloque un retrait.",
+                    "Contrat de 39 fonctions et quinze événements qui rendent chaque opération traçable on-chain, trois modificateurs d'accès, et un pattern pull-payment qui empêche qu'un compte bloque un retrait.",
                     "Tarification dynamique de −10 % au-dessus de 70 % de places restantes à +10 % en dessous de 20 %, revente plafonnée au double du prix payé, marché secondaire, listes d'attente par course et par catégorie, et points de fidélité.",
                     "Remboursements à l'annulation d'une course, à l'unité ou par lot, y compris un remboursement forcé réservé au rôle support.",
-                    "Front React de 5 543 lignes réparties sur huit pages, bilingue, avec export PDF des billets, écoute des événements du contrat et traduction des erreurs EVM en messages lisibles.",
+                    "Front React de huit pages, bilingue, avec export PDF des billets, écoute des événements du contrat et traduction des erreurs EVM en messages lisibles.",
                 ],
                 stats: [
-                    { label: "Contrat", value: "1 004 lignes, 39 fonctions" },
+                    { label: "Contrat", value: "39 fonctions, 15 événements" },
                     { label: "Revente", value: "plafonnée à 2× le prix payé" },
                     { label: "Front", value: "8 pages, bilingue" },
                 ],
@@ -945,54 +897,6 @@ export const translations: Record<Locale, Dictionary> = {
                 ],
                 github: "https://github.com/RayzerDev/Gatcha",
                 link: "https://gatcha-md-front.fly.dev/",
-            },
-            {
-                title: "Réseau social Voyage",
-                eyebrow: "Projet d'équipe — lead développeur",
-                description: "Un réseau social consacré au voyage, où chacun partage ses destinations et suit celles des autres. Projet d'équipe du BUT réalisé à quatre, dont j'étais le lead développeur.",
-                longDescription:
-                    "Plus gros projet d'équipe du BUT, et première expérience d'encadrement. Au-delà du développement, mon rôle a consisté à découper le travail, à fixer les conventions communes aux quatre membres et à trancher les choix d'architecture, c'est-à-dire la façon dont les différentes parties du logiciel s'emboîtent, suffisamment tôt pour qu'elles restent assemblables à la fin. Le temps consacré à éviter que deux personnes développent la même chose a été nettement supérieur à mon estimation initiale.",
-                status: "Projet universitaire",
-                year: "2024",
-                role: "Lead développeur",
-                tags: ["Spring Boot", "React", "API REST", "Encadrement d'équipe", "Universitaire"],
-                stack: ["Spring Boot", "React", "API REST", "Base de données relationnelle"],
-                highlights: [
-                    "Encadrement d'une équipe de quatre : découpage du travail, conventions communes et décisions d'architecture.",
-                    "API REST Spring Boot alimentant un front React en single-page.",
-                    "Première confrontation concrète au coût de coordination d'une base de code à plusieurs.",
-                ],
-                stats: [
-                    { label: "Équipe", value: "4 développeurs" },
-                    { label: "Rôle", value: "Lead développeur" },
-                    { label: "Stack", value: "Spring Boot / React" },
-                ],
-                github: "",
-                link: "",
-            },
-            {
-                title: "Application de tickets de concert",
-                eyebrow: "Projet d'équipe — mobile",
-                description: "Une application mobile pour acheter ses billets de concert et les présenter à l'entrée, y compris quand le téléphone ne capte pas. Projet d'équipe du BUT réalisé à trois.",
-                longDescription:
-                    "Projet réalisé à trois. Le travail était séparé en deux parties, un serveur qui détient les billets et les comptes, et l'application installée sur le téléphone, et je suis intervenu sur les deux. La contrainte qui a tout structuré tenait à ce qu'un billet reste utilisable lorsque le téléphone ne capte pas, situation fréquente dans une salle de concert.",
-                status: "Projet universitaire",
-                year: "2024",
-                role: "Développeur — API et client mobile",
-                tags: ["Laravel", "React Native", "Mobile", "API REST", "Universitaire"],
-                stack: ["Laravel", "React Native", "API REST", "MySQL"],
-                highlights: [
-                    "API REST Laravel appelée par un client React Native.",
-                    "Travail sur un contrat d'API partagé avec le reste de l'équipe.",
-                    "Livraison mobile multiplateforme depuis une base de code unique.",
-                ],
-                stats: [
-                    { label: "Équipe", value: "3 développeurs" },
-                    { label: "Plateformes", value: "iOS et Android" },
-                    { label: "Stack", value: "Laravel / React Native" },
-                ],
-                github: "",
-                link: "",
             },
             {
                 title: "Portfolio",

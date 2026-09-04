@@ -21,7 +21,6 @@ import {
     FlaskLogo,
     FlutterLogo,
     GitLogo,
-    GithubLogo,
     GithubActionsLogo,
     GitlabCILogo,
     GrafanaLogo,
@@ -120,7 +119,6 @@ const coreLogos = [
     <MSSQLLogo key="mssql" />,
     <MysqlLogo key="mysql" />,
     <GitLogo key="git" />,
-    <GithubLogo key="github" />,
 ];
 
 const workingGroups = [
@@ -1047,7 +1045,7 @@ export default function Home() {
                 <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 text-sm text-muted-foreground sm:flex-row">
                     <p>&copy; {currentYear} Maël Demory. {t.footer.rights}</p>
                     <a
-                        href="https://github.com/MaelDemory/CV-NextJS-Demory-Mael.git"
+                        href="https://github.com/MaelDemory/CV-NextJS-Demory-Mael"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-medium text-primary hover:underline"
