@@ -13,19 +13,20 @@ import {
     type MotionValue,
 } from "framer-motion";
 import { translations, type Locale, type Project } from "@/app/translations";
+import { CV_PDF_AVAILABLE } from "@/app/site";
 import {
-    AngularLogo,
     BootstrapLogo,
+    AngularLogo,
     DockerLogo,
     FlaskLogo,
     FlutterLogo,
     GitLogo,
-    GithubActionsLogo,
     GithubLogo,
+    GithubActionsLogo,
     GitlabCILogo,
     GrafanaLogo,
-    IonicLogo,
     JavaLogo,
+    IonicLogo,
     JavaScriptLogo,
     LaravelLogo,
     LinkedInLogo,
@@ -34,52 +35,41 @@ import {
     MSSQLLogo,
     MysqlLogo,
     NextJSLogo,
-    NomadLogo,
     Php,
-    PLSQLLogo,
+    NomadLogo,
     PostmanLogo,
+    PLSQLLogo,
     PrometheusLogo,
-    PsqlLogo,
     PythonLogo,
+    PsqlLogo,
     ReactLogo,
     ReactNativeLogo,
-    RustLogo,
     SonarQubeLogo,
+    RustLogo,
     SpringBootLogo,
     SQLiteLogo,
     SwiftLogo,
     TailwindLogo,
-    TerraformLogo,
     TypeScriptLogo,
+    TerraformLogo,
     UMLLogo,
 } from "@/app/logos";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import {
-    AppWindow,
-    Bot,
-    Boxes,
-    Braces,
-    BrainCircuit,
     Briefcase,
     BriefcaseBusiness,
+    CalendarClock,
     ChevronDown,
     ChevronRight,
-    Database,
     FileDown,
     FolderOpen,
-    Globe,
     GraduationCap,
     Heart,
     House,
     Mail,
     MapPin,
-    Network,
-    Server,
-    Smartphone,
-    Sparkles,
-    SquareTerminal,
+    UserRound,
     Users,
-    Workflow,
     Wrench,
     X,
 } from "lucide-react";
@@ -97,21 +87,10 @@ const staggerContainer = {
     visible: { transition: { staggerChildren: 0.08 } },
 };
 
-function ParcoursDescription({ description }: { description: string }) {
-    const trimmedDescription = description.trim();
-
-    if (!trimmedDescription.startsWith("-")) {
-        return <p className="mt-4 text-sm leading-7 text-muted-foreground">{description}</p>;
-    }
-
-    const items = trimmedDescription
-        .split(/\s*-\s+/)
-        .map((item) => item.trim())
-        .filter(Boolean);
-
+function ParcoursDescription({ description }: { description: string[] }) {
     return (
         <ul className="mt-4 space-y-2.5 text-sm leading-7 text-muted-foreground">
-            {items.map((item) => (
+            {description.map((item) => (
                 <li key={item} className="relative pl-5">
                     <span className="absolute left-0 top-[0.8rem] h-1 w-1 rounded-full bg-muted-foreground/50" />
                     <span>{item}</span>
@@ -123,6 +102,7 @@ function ParcoursDescription({ description }: { description: string }) {
 
 const navItems = [
     { href: "#hero", icon: House, id: "hero" },
+    { href: "#about", icon: UserRound, id: "about" },
     { href: "#parcours", icon: BriefcaseBusiness, id: "parcours" },
     { href: "#competences", icon: Wrench, id: "competences" },
     { href: "#projets", icon: FolderOpen, id: "projets" },
@@ -130,91 +110,39 @@ const navItems = [
     { href: "#contact", icon: Mail, id: "contact" },
 ] as const;
 
-const competencesCategories = [
-    {
-        id: "web",
-        icon: Globe,
-        className: "md:col-span-2",
-        logos: [
-            <AngularLogo key="angular" />,
-            <BootstrapLogo key="bootstrap" />,
-            <FlaskLogo key="flask" />,
-            <JavaScriptLogo key="js" />,
-            <LaravelLogo key="laravel" />,
-            <NextJSLogo key="next" />,
-            <Php key="php" />,
-            <ReactLogo key="react" />,
-            <SpringBootLogo key="springboot" />,
-            <TailwindLogo key="tailwind" />,
-            <TypeScriptLogo key="ts" />,
-        ],
-    },
-    {
-        id: "mobile",
-        icon: Smartphone,
-        className: "md:col-span-1",
-        logos: [
-            <IonicLogo key="ionic" />,
-            <ReactNativeLogo key="rn" />,
-            <SwiftLogo key="swift" />,
-            <FlutterLogo key="flutter" />,
-        ],
-    },
-    {
-        id: "app",
-        icon: AppWindow,
-        className: "md:col-span-1",
-        logos: [
-            <JavaLogo key="java" />,
-            <PythonLogo key="python" />,
-            <RustLogo key="rust" />,
-            <TypeScriptLogo key="ts_app" />,
-        ],
-    },
-    {
-        id: "db",
-        icon: Database,
-        className: "md:col-span-2",
-        logos: [
-            <MongodbLogo key="mongo" />,
-            <MSSQLLogo key="mssql" />,
-            <MysqlLogo key="mysql" />,
-            <PLSQLLogo key="plsql" />,
-            <PsqlLogo key="psql" />,
-            <SQLiteLogo key="sqlite" />,
-        ],
-    },
-    {
-        id: "devops",
-        icon: Server,
-        className: "md:col-span-2",
-        logos: [
-            <DockerLogo key="docker" />,
-            <GithubActionsLogo key="github-actions" />,
-            <GitlabCILogo key="gitlab-ci" />,
-            <GrafanaLogo key="grafana" />,
-            <NomadLogo key="nomad" />,
-            <PostmanLogo key="postman" />,
-            <PrometheusLogo key="prometheus" />,
-            <SonarQubeLogo key="sonarqube" />,
-            <TerraformLogo key="terraform" />,
-        ],
-    },
-    {
-        id: "other",
-        icon: Workflow,
-        className: "md:col-span-2",
-        logos: [
-            <GitLogo key="git" />,
-            <GithubLogo key="github" />,
-            <LinuxLogo key="linux" />,
-            <UMLLogo key="uml" />,
-        ],
-    },
+/* Compétences : un seul bloc, trois niveaux de maîtrise décroissante.
+   Le niveau « cœur » garde de grandes tuiles, « maîtrise pratique » des tuiles
+   compactes sous-groupées par domaine, « exploré » de simples pastilles. */
+const coreLogos = [
+    <Php key="php" />,
+    <JavaScriptLogo key="js" />,
+    <LaravelLogo key="laravel" />,
+    <BootstrapLogo key="bootstrap" />,
+    <MSSQLLogo key="mssql" />,
+    <MysqlLogo key="mysql" />,
+    <GitLogo key="git" />,
+    <GithubLogo key="github" />,
+];
+
+const workingGroups = [
+    { id: "front", logos: [<TypeScriptLogo key="ts" />, <ReactLogo key="react" />, <NextJSLogo key="next" />, <TailwindLogo key="tailwind" />] },
+    { id: "back", logos: [<JavaLogo key="java" />, <SpringBootLogo key="springboot" />, <PythonLogo key="python" />, <FlaskLogo key="flask" />] },
+    { id: "mobile", logos: [<ReactNativeLogo key="rn" />, <SwiftLogo key="swift" />, <FlutterLogo key="flutter" />] },
+    { id: "data", logos: [<MongodbLogo key="mongo" />, <SQLiteLogo key="sqlite" />] },
+    { id: "devops", logos: [<DockerLogo key="docker" />, <GitlabCILogo key="gitlab-ci" />, <PrometheusLogo key="prometheus" />, <GrafanaLogo key="grafana" />, <LinuxLogo key="linux" />] },
+    { id: "quality", logos: [<SonarQubeLogo key="sonarqube" />, <PostmanLogo key="postman" />, <UMLLogo key="uml" />] },
 ] as const;
 
-// Ordre aligné sur t.competences.aiSkills
-const aiSkillIcons = [SquareTerminal, Boxes, Bot, Network, Braces, BrainCircuit];
+const exploredLogos = [
+    <AngularLogo key="angular" />,
+    <IonicLogo key="ionic" />,
+    <RustLogo key="rust" />,
+    <PsqlLogo key="psql" />,
+    <PLSQLLogo key="plsql" />,
+    <TerraformLogo key="terraform" />,
+    <NomadLogo key="nomad" />,
+    <GithubActionsLogo key="github-actions" />,
+];
 
 /* Élément signature : le nom du hero en display géant, dont la graisse
    (Geist variable, 100–900) réagit à la proximité du curseur, lettre par lettre. */
@@ -314,6 +242,15 @@ function HeroName() {
                 })}
             </span>
         </h1>
+    );
+}
+
+function SkillLevelHeading({ title, lede }: { title: string; lede: string }) {
+    return (
+        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+            <h3 className="text-base font-semibold tracking-tight">{title}</h3>
+            <p className="text-sm text-muted-foreground">{lede}</p>
+        </div>
     );
 }
 
@@ -724,6 +661,10 @@ export default function Home() {
                             <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
                                 {t.hero.tagline}
                             </p>
+                            <p className="mx-auto mt-6 inline-flex items-center gap-2.5 rounded-full bg-primary/10 px-4 py-2 text-[13px] font-medium leading-snug text-primary sm:text-sm">
+                                <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                                {t.hero.availability}
+                            </p>
                         </motion.div>
 
                         <motion.div variants={fadeUp} className="flex flex-col items-center gap-2.5 text-[15px] text-muted-foreground">
@@ -761,15 +702,17 @@ export default function Home() {
                             <a href="#contact" className="btn-filled">
                                 {t.hero.ctaContact}
                             </a>
-                            <a
-                                href="/cv-mael-demory.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-tinted"
-                            >
-                                <FileDown className="h-4 w-4" />
-                                {t.hero.ctaCv}
-                            </a>
+                            {CV_PDF_AVAILABLE && (
+                                <a
+                                    href="/cv-mael-demory.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-tinted"
+                                >
+                                    <FileDown className="h-4 w-4" />
+                                    {t.hero.ctaCv}
+                                </a>
+                            )}
                             <a
                                 href="#projets"
                                 className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75"
@@ -781,7 +724,7 @@ export default function Home() {
 
                         <motion.a
                             variants={fadeUp}
-                            href="#parcours"
+                            href="#about"
                             aria-label={t.hero.scrollLabel}
                             className="mt-6 text-muted-foreground/60 transition-colors hover:text-muted-foreground"
                         >
@@ -796,6 +739,90 @@ export default function Home() {
                     </motion.div>
                 </div>
             </section>
+
+            {/* À propos — ce que j'apporte, langues et disponibilité */}
+            <Section id="about" title={t.sections.about.title} lede={t.sections.about.lede}>
+                <motion.div
+                    variants={staggerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-80px" }}
+                    className="space-y-4"
+                >
+                    <motion.div variants={fadeUp} className="max-w-3xl space-y-4">
+                        {t.about.paragraphs.map((paragraph) => (
+                            <p key={paragraph} className="text-[15px] leading-7 text-muted-foreground">
+                                {paragraph}
+                            </p>
+                        ))}
+                    </motion.div>
+
+                    <motion.div variants={fadeUp} className="grid gap-4 pt-6 sm:grid-cols-2">
+                        {t.about.pillars.map((pillar) => (
+                            <div key={pillar.title} className="surface-card p-6 sm:p-7">
+                                <h3 className="text-[15px] font-semibold tracking-tight">{pillar.title}</h3>
+                                <p className="mt-2 text-sm leading-6 text-muted-foreground">{pillar.body}</p>
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-7">
+                        <div className="mb-5 flex items-center gap-3.5">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                                <Users className="h-5 w-5" />
+                            </div>
+                            <h3 className="text-lg font-semibold tracking-tight">{t.about.workStyleTitle}</h3>
+                        </div>
+                        <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                            {t.about.workStyle.map((item) => (
+                                <div key={item.title}>
+                                    <h4 className="text-sm font-semibold tracking-tight">{item.title}</h4>
+                                    <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{item.body}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-8">
+                        <div className="flex items-center gap-3.5">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                                <CalendarClock className="h-5 w-5" />
+                            </div>
+                            <h3 className="text-lg font-semibold tracking-tight">{t.about.availabilityTitle}</h3>
+                        </div>
+
+                        <p className="mt-5 max-w-2xl text-xl font-semibold leading-snug tracking-[-0.015em] sm:text-2xl">
+                            {t.about.availabilityLead}
+                        </p>
+
+                        <dl className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                            {t.about.availabilityHighlights.map((item) => (
+                                <div key={item.label} className="rounded-2xl bg-muted p-4">
+                                    <dt className="text-[13px] text-muted-foreground">{item.label}</dt>
+                                    <dd className="mt-1 text-base font-semibold leading-snug">{item.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+
+                        <dl className="mt-6 space-y-2.5">
+                            {t.about.availability.map((item) => (
+                                <div key={item.label} className="sm:flex sm:gap-5">
+                                    <dt className="shrink-0 text-[13px] leading-6 text-muted-foreground sm:w-32">{item.label}</dt>
+                                    <dd className="text-[13px] leading-6 text-foreground">{item.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+
+                        <div className="mt-6 flex flex-col gap-4 border-t border-border/60 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                            <p className="max-w-xl text-[13px] leading-6 text-foreground">{t.about.availabilityNote}</p>
+                            <a href="#contact" className="btn-filled shrink-0">
+                                {t.about.availabilityCta}
+                                <ChevronRight className="h-4 w-4" />
+                            </a>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            </Section>
 
             {/* Parcours */}
             <Section id="parcours" title={t.sections.parcours.title} lede={t.sections.parcours.lede}>
@@ -827,7 +854,20 @@ export default function Home() {
                                 </span>
                             </div>
                             <h3 className="mt-5 text-lg font-semibold tracking-tight sm:text-xl">{item.title}</h3>
+                            <p className="mt-2 text-sm leading-6 text-muted-foreground/80">{item.context}</p>
                             <ParcoursDescription description={item.description} />
+                            {item.modules && (
+                                <div className="mt-6 border-t border-border/60 pt-5">
+                                    <p className="eyebrow">{t.parcoursLabels.modules}</p>
+                                    <div className="mt-3 flex flex-wrap gap-2">
+                                        {item.modules.map((module) => (
+                                            <span key={module} className="chip">
+                                                {module}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </motion.article>
                     ))}
                 </motion.div>
@@ -840,73 +880,59 @@ export default function Home() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-80px" }}
-                    className="grid gap-4 md:grid-cols-2"
                 >
-                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-7 md:col-span-2">
-                        <div className="mb-6 flex items-center gap-3.5">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-                                <Sparkles className="h-5 w-5" />
+                    <motion.div variants={fadeUp} className="surface-card divide-y divide-border/60 p-6 sm:p-8">
+                        <div className="pb-7">
+                            <SkillLevelHeading title={t.competences.core} lede={t.competences.coreLede} />
+                            <div className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(6.5rem,1fr))] gap-2.5 [&_h3]:text-sm [&_img]:!h-11 [&_img]:!w-11 [&_svg]:!h-11 [&_svg]:!w-11 [&>div>div]:py-5">
+                                {coreLogos.map((logo, index) => (
+                                    <div key={index} className="min-w-0">
+                                        {logo}
+                                    </div>
+                                ))}
                             </div>
-                            <h3 className="text-lg font-semibold tracking-tight">{t.competences.ai}</h3>
                         </div>
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-2.5">
-                            {t.competences.aiSkills.map((skill, index) => {
-                                const Icon = aiSkillIcons[index];
 
-                                return (
-                                    <div
-                                        key={skill}
-                                        className="flex h-full flex-col items-center justify-center gap-2.5 rounded-2xl bg-muted px-3 py-4"
-                                    >
-                                        <Icon className="h-9 w-9 text-foreground/75" strokeWidth={1.5} />
-                                        <span className="text-center text-[13px] font-medium leading-tight tracking-tight">
-                                            {skill}
-                                        </span>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </motion.div>
-
-                    {competencesCategories.map((category) => {
-                        const Icon = category.icon;
-
-                        return (
-                            <motion.div
-                                key={category.id}
-                                variants={fadeUp}
-                                className={`surface-card p-6 sm:p-7 ${category.className}`}
-                            >
-                                <div className="mb-6 flex items-center gap-3.5">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-                                        <Icon className="h-5 w-5" />
-                                    </div>
-                                    <h3 className="text-lg font-semibold tracking-tight">{t.competences[category.id]}</h3>
-                                </div>
-                                <div className="grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-2.5">
-                                    {category.logos.map((logo, idx) => (
-                                        <div key={idx} className="min-w-0">
-                                            {logo}
+                        <div className="py-7">
+                            <SkillLevelHeading title={t.competences.working} lede={t.competences.workingLede} />
+                            <div className="mt-5 space-y-4">
+                                {workingGroups.map((group) => (
+                                    <div key={group.id} className="sm:flex sm:items-start sm:gap-5">
+                                        <p className="shrink-0 pt-2 text-[13px] text-muted-foreground sm:w-44">
+                                            {t.competences.groups[group.id]}
+                                        </p>
+                                        <div className="mt-2 flex flex-1 flex-wrap gap-2 sm:mt-0 [&_h3]:text-[11px] [&_img]:!h-7 [&_img]:!w-7 [&_svg]:!h-7 [&_svg]:!w-7 [&>div>div]:gap-2 [&>div>div]:px-2 [&>div>div]:py-2.5">
+                                            {group.logos.map((logo, index) => (
+                                                <div key={index} className="w-[4.75rem]">
+                                                    {logo}
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        );
-                    })}
-
-                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-7 md:col-span-2">
-                        <div className="mb-6 flex items-center gap-3.5">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-                                <Users className="h-5 w-5" />
+                                    </div>
+                                ))}
                             </div>
-                            <h3 className="text-lg font-semibold tracking-tight">{t.competences.soft}</h3>
                         </div>
-                        <div className="flex flex-wrap gap-2.5">
-                            {t.competences.softSkills.map((skill) => (
-                                <span key={skill} className="chip px-4 py-2 text-sm text-foreground/80">
-                                    {skill}
-                                </span>
-                            ))}
+
+                        <div className="py-7">
+                            <SkillLevelHeading title={t.competences.explored} lede={t.competences.exploredLede} />
+                            <div className="mt-5 flex flex-wrap gap-2 [&_h3]:text-[11px] [&_img]:!h-7 [&_img]:!w-7 [&_svg]:!h-7 [&_svg]:!w-7 [&>div>div]:gap-2 [&>div>div]:px-2 [&>div>div]:py-2.5">
+                                {exploredLogos.map((logo, index) => (
+                                    <div key={index} className="w-[4.75rem]">
+                                        {logo}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="pt-7">
+                            <SkillLevelHeading title={t.competences.ai} lede={t.competences.aiLede} />
+                            <div className="mt-4 flex flex-wrap gap-2">
+                                {t.competences.aiSkills.map((skill) => (
+                                    <span key={skill} className="chip">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -1028,6 +1054,7 @@ export default function Home() {
                         </a>
                     </motion.div>
                 </motion.div>
+                <p className="mt-6 text-center text-sm text-muted-foreground">{t.contact.note}</p>
             </Section>
 
             {/* Footer */}
