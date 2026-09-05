@@ -646,8 +646,8 @@ export default function Home() {
                             <Image
                                 src={photoCV}
                                 alt={t.hero.photoAlt}
-                                width={180}
-                                height={180}
+                                width={320}
+                                height={320}
                                 priority
                                 className="h-36 w-36 rounded-full object-cover shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-black/5 dark:ring-white/10 sm:h-40 sm:w-40"
                             />
