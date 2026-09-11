@@ -1,7 +1,7 @@
-// ⚠️ Remplacez cette valeur par votre domaine réel une fois le site déployé
-// (ou définissez NEXT_PUBLIC_SITE_URL dans l'environnement de déploiement).
 // Utilisée par les métadonnées Open Graph, le sitemap et robots.txt.
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://cv-demory-mael.vercel.app";
+// Pour brancher un domaine personnalisé, définir NEXT_PUBLIC_SITE_URL dans les
+// variables d'environnement Vercel : inutile de toucher à cette valeur de repli.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://cv-next-js-demory-mael.vercel.app";
 
 // Passe à `true` une fois le fichier `public/cv-mael-demory.pdf` déposé.
 // Tant que c'est `false`, le bouton « Télécharger mon CV » du hero est masqué

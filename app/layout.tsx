@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     title: "Maël Demory — Portfolio",
-    description: "Two years shipping production software in a medical-device group. Seeking a software engineering internship abroad, June to September 2027.",
+    description: "Passionate about new technology, future software engineer and PHP/JavaScript developer. Seeking a software engineering internship abroad, June to September 2027.",
     url: "/",
     siteName: "Maël Demory",
     type: "website",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Maël Demory — Portfolio",
-    description: "Two years shipping production software in a medical-device group. Seeking a software engineering internship abroad, June to September 2027.",
+    description: "Passionate about new technology, future software engineer and PHP/JavaScript developer. Seeking a software engineering internship abroad, June to September 2027.",
   },
 };
 
