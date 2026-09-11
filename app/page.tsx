@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { Fragment, useEffect, useRef, useState } from "react";
+import Image, { type StaticImageData } from "next/image";
 import photoCV from "@/assets/images/photo_cv.png";
+import shotF1dle from "@/assets/images/projects/f1dle.png";
+import shotBoringNotch from "@/assets/images/projects/boring-notch.gif";
+import shotKablam from "@/assets/images/projects/kablam.png";
+import shotRayTracer from "@/assets/images/projects/raytracer.jpg";
+import shotRetroGames from "@/assets/images/projects/retro-games.png";
+import shotF1TicketSystem from "@/assets/images/projects/f1-ticket-system.png";
+import shotGatcha from "@/assets/images/projects/gatcha.jpg";
 import {
     AnimatePresence,
     MotionConfig,
@@ -57,21 +64,26 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import {
     Briefcase,
     BriefcaseBusiness,
+    Building2,
     CalendarClock,
     ChevronDown,
     ChevronRight,
+    ChevronUp,
     FileDown,
+    FlaskConical,
     FolderOpen,
     GraduationCap,
     Heart,
     House,
     Mail,
     MapPin,
+    Puzzle,
+    Route,
+    ShieldCheck,
+    Sparkles,
     UserRound,
     Wrench,
-    X,
 } from "lucide-react";
-import { PassionsSection } from "@/components/passions-section";
 
 const spring = { type: "spring", duration: 0.7, bounce: 0 };
 
@@ -87,7 +99,7 @@ const staggerContainer = {
 
 function ParcoursDescription({ description }: { description: string[] }) {
     return (
-        <ul className="mt-4 space-y-2.5 text-sm leading-7 text-muted-foreground">
+        <ul className="mt-4 max-w-[70ch] space-y-2.5 text-sm leading-7 text-muted-foreground">
             {description.map((item) => (
                 <li key={item} className="relative pl-5">
                     <span className="absolute left-0 top-[0.8rem] h-1 w-1 rounded-full bg-muted-foreground/50" />
@@ -98,13 +110,92 @@ function ParcoursDescription({ description }: { description: string[] }) {
     );
 }
 
+/* Explorateur de projets, sur le modèle du module « De plus près » des pages
+   produit Apple : sélecteurs à gauche (rangée défilante en mobile), panneau de
+   détail à droite. Les slugs sont alignés sur l'ordre du tableau `projets`,
+   identique dans les deux locales ; ils servent d'ancre ?project= et de clé
+   pour les captures des démos en ligne. */
+const projectSlugs = [
+    "f1dle",
+    "boring-notch",
+    "kablam",
+    "raytracer",
+    "retro-games",
+    "f1-ticket-system",
+    "claude-config",
+    "gatcha",
+    "portfolio",
+] as const;
+
+const projectShots: Partial<Record<(typeof projectSlugs)[number], StaticImageData>> = {
+    f1dle: shotF1dle,
+    "boring-notch": shotBoringNotch,
+    kablam: shotKablam,
+    raytracer: shotRayTracer,
+    "retro-games": shotRetroGames,
+    "f1-ticket-system": shotF1TicketSystem,
+    gatcha: shotGatcha,
+};
+
+/* Les six premiers projets forment la sélection mise en avant ; un séparateur
+   les distingue des suivants dans la liste. */
+const PROJECT_FEATURED_COUNT = 6;
+
+/* Mots-clés mis en avant dans l'intro « À propos », façon paragraphe
+   d'introduction des pages produit Apple : le paragraphe entier en gris,
+   les segments porteurs en encre. Les chaînes ci-dessous sont des extraits
+   EXACTS de about.paragraphs — à tenir à jour avec translations.ts. */
+const aboutEmphasis: Record<Locale, string[][]> = {
+    en: [
+        ["PHP and JavaScript developer", "Arjo France", "internal applications"],
+        ["business need", "workable technical solution", "old, shared codebases", "useful quickly in a new team"],
+    ],
+    fr: [
+        ["développeur PHP et JavaScript", "Arjo France", "applications de gestion internes"],
+        ["besoin exprimé par un métier", "solution technique réalisable", "bases de code legacy", "rapidement opérationnel"],
+    ],
+};
+
+/* Parameters
+     text — le paragraphe d'origine, jamais modifié.
+     marks — extraits exacts de ce paragraphe à mettre en avant.
+   What it does
+     Découpe le texte sur chaque extrait et enveloppe ces derniers dans un
+     <strong> en encre, le reste du paragraphe restant en gris.
+   Output
+     La suite de nœuds React du paragraphe. */
+function EmphasizedText({ text, marks }: { text: string; marks: string[] }) {
+    if (marks.length === 0) {
+        return <>{text}</>;
+    }
+    const escaped = marks.map((m) => m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const parts = text.split(new RegExp(`(${escaped.join("|")})`, "g"));
+    return (
+        <>
+            {parts.map((part, index) =>
+                marks.includes(part) ? (
+                    <strong key={index} className="font-semibold text-foreground">
+                        {part}
+                    </strong>
+                ) : (
+                    part
+                )
+            )}
+        </>
+    );
+}
+
+/* Une icône par pilier « À propos », dans l'ordre du tableau `pillars`
+   (identique dans les deux locales) : entreprise, bout en bout, cadre régulé,
+   workflow IA, tests et mesure, intervention sans réécriture. */
+const pillarIcons = [Building2, Route, ShieldCheck, Sparkles, FlaskConical, Puzzle] as const;
+
 const navItems = [
     { href: "#hero", icon: House, id: "hero" },
     { href: "#about", icon: UserRound, id: "about" },
     { href: "#parcours", icon: BriefcaseBusiness, id: "parcours" },
     { href: "#competences", icon: Wrench, id: "competences" },
     { href: "#projets", icon: FolderOpen, id: "projets" },
-    { href: "#passions", icon: Heart, id: "passions" },
     { href: "#contact", icon: Mail, id: "contact" },
 ] as const;
 
@@ -232,7 +323,9 @@ function HeroName() {
                                 />
                             ))}
                             {lineIndex === NAME_LINES.length - 1 && (
-                                <span className="font-bold text-primary">.</span>
+                                /* Point dessiné plutôt que le glyphe « . » : carré dans
+                                   Geist à cette graisse, alors que le CV a un point rond. */
+                                <span className="ml-[0.06em] inline-block h-[0.13em] w-[0.13em] rounded-full bg-primary" />
                             )}
                         </span>
                     );
@@ -265,15 +358,17 @@ function Section({
     return (
         <section id={id} className="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-24">
             <div className="mx-auto w-full max-w-5xl">
-                <motion.h2
+                <motion.div
                     variants={fadeUp}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-80px" }}
-                    className="max-w-3xl text-3xl font-semibold leading-[1.12] tracking-[-0.022em] sm:text-[2.6rem]"
                 >
-                    {title} <span className="text-muted-foreground">{lede}</span>
-                </motion.h2>
+                    <p className="eyebrow">{title}</p>
+                    <h2 className="mt-3 max-w-3xl text-[2.4rem] font-semibold leading-[1.08] tracking-[-0.025em] sm:text-[3.25rem]">
+                        {lede}
+                    </h2>
+                </motion.div>
                 <div className="mt-10 sm:mt-12">{children}</div>
             </div>
         </section>
@@ -288,112 +383,179 @@ function GithubMarkIcon({ className = "h-5 w-5" }: { className?: string }) {
     );
 }
 
-function ProjectModal({
-    project,
+function ProjectExplorer({
+    projects,
     labels,
-    onClose,
+    prevLabel,
+    nextLabel,
 }: {
-    project: Project | null;
+    projects: Project[];
     labels: (typeof translations)[Locale]["modal"];
-    onClose: () => void;
+    prevLabel: string;
+    nextLabel: string;
 }) {
-    const dialogRef = useRef<HTMLDivElement | null>(null);
-    const previouslyFocusedElement = useRef<HTMLElement | null>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-    useEffect(() => {
-        if (!project) {
-            return;
+    const select = (index: number, moveFocus = false) => {
+        const clamped = Math.max(0, Math.min(projects.length - 1, index));
+        setActiveIndex(clamped);
+        // Lien profond ?project=<slug>, même logique que ?lang=.
+        const url = new URL(window.location.href);
+        url.searchParams.set("project", projectSlugs[clamped]);
+        window.history.replaceState(null, "", url);
+        if (moveFocus) {
+            // Le sélecteur est sticky : le focus n'a pas besoin de déplacer la
+            // page, c'est le panneau qui pilote le défilement.
+            tabRefs.current[clamped]?.focus({ preventScroll: true });
         }
-
-        previouslyFocusedElement.current = document.activeElement as HTMLElement | null;
-        const frame = requestAnimationFrame(() => dialogRef.current?.focus());
-
-        return () => {
-            cancelAnimationFrame(frame);
-            previouslyFocusedElement.current?.focus();
-        };
-    }, [project]);
-
-    const trapTabKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key !== "Tab" || !dialogRef.current) {
-            return;
-        }
-
-        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
-            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        );
-
-        if (focusables.length === 0) {
-            return;
-        }
-
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement;
-
-        if (event.shiftKey && (active === first || active === dialogRef.current)) {
-            event.preventDefault();
-            last.focus();
-        } else if (!event.shiftKey && active === last) {
-            event.preventDefault();
-            first.focus();
+        // Si la lecture avait fait défiler le panneau, le nouveau projet
+        // repart de son début plutôt que d'hériter de la position courante.
+        const panel = document.getElementById("project-panel");
+        if (panel && panel.getBoundingClientRect().top < 0) {
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            panel.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
         }
     };
 
-    return (
-        <AnimatePresence>
-            {project ? (
-                <motion.div
-                    key={project.title}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="fixed inset-0 z-[70] flex items-end justify-center bg-black/40 px-0 backdrop-blur-sm sm:items-center sm:px-6"
-                    onClick={onClose}
-                >
-                    <motion.div
-                        initial={{ opacity: 0, y: 48, scale: 0.97 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 32, scale: 0.97 }}
-                        transition={{ type: "spring", duration: 0.5, bounce: 0 }}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="project-modal-title"
-                        aria-describedby="project-modal-description"
-                        ref={dialogRef}
-                        tabIndex={-1}
-                        onKeyDown={trapTabKey}
-                        onClick={(event) => event.stopPropagation()}
-                        className="relative flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden bg-card text-left shadow-[0_30px_90px_rgba(0,0,0,0.3)] focus:outline-none max-sm:rounded-t-[1.75rem] sm:my-8 sm:rounded-[1.75rem]"
-                    >
-                        <div className="absolute inset-x-0 top-0 z-10 flex justify-center pt-3 sm:hidden">
-                            <span className="h-1.5 w-12 rounded-full bg-foreground/15" />
-                        </div>
+    useEffect(() => {
+        const slug = new URLSearchParams(window.location.search).get("project");
+        const index = projectSlugs.indexOf(slug as (typeof projectSlugs)[number]);
+        if (index > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setActiveIndex(index);
+        }
+    }, []);
 
+    const handleTablistKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        const targets: Record<string, number> = {
+            ArrowDown: activeIndex + 1,
+            ArrowRight: activeIndex + 1,
+            ArrowUp: activeIndex - 1,
+            ArrowLeft: activeIndex - 1,
+            Home: 0,
+            End: projects.length - 1,
+        };
+        if (event.key in targets) {
+            event.preventDefault();
+            select(targets[event.key], true);
+        }
+    };
+
+    const project = projects[activeIndex];
+    const slug = projectSlugs[activeIndex];
+    const shot = projectShots[slug];
+
+    return (
+        <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="surface-card overflow-clip p-0"
+        >
+            <div className="flex flex-col md:grid md:grid-cols-[264px_1fr]">
+                {/* Sélecteur : colonne en desktop, rangée défilante sous le panneau en mobile. */}
+                <div className="order-2 border-t border-border/60 p-4 md:order-1 md:border-r md:border-t-0 md:p-6">
+                    <div className="md:sticky md:top-24 md:flex md:flex-col">
+                    <div
+                        role="tablist"
+                        aria-orientation="vertical"
+                        onKeyDown={handleTablistKeyDown}
+                        className="flex gap-2 overflow-x-auto pb-1 md:flex-col md:items-stretch md:gap-1.5 md:overflow-visible md:pb-0"
+                    >
+                        {projects.map((item, index) => (
+                            <Fragment key={projectSlugs[index]}>
+                                {index === PROJECT_FEATURED_COUNT && (
+                                    <div
+                                        role="none"
+                                        className="mx-1 w-px shrink-0 self-stretch bg-border/70 md:mx-1 md:my-2.5 md:h-px md:w-auto md:self-auto"
+                                    />
+                                )}
+                                <button
+                                    ref={(element) => {
+                                        tabRefs.current[index] = element;
+                                    }}
+                                    type="button"
+                                    role="tab"
+                                    id={`project-tab-${projectSlugs[index]}`}
+                                    aria-selected={index === activeIndex}
+                                    aria-controls="project-panel"
+                                    tabIndex={index === activeIndex ? 0 : -1}
+                                    onClick={() => select(index)}
+                                    className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-left text-sm font-medium transition-colors duration-200 active:scale-[0.98] ${
+                                        index === activeIndex
+                                            ? "bg-primary text-primary-foreground"
+                                            : "bg-muted text-foreground/80 hover:text-foreground"
+                                    }`}
+                                >
+                                    {item.title}
+                                </button>
+                            </Fragment>
+                        ))}
+                    </div>
+
+                    <div className="mt-5 hidden gap-2 md:flex">
                         <button
                             type="button"
-                            onClick={onClose}
-                            className="absolute right-5 top-5 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-muted text-muted-foreground transition-[background-color,color,transform] duration-200 hover:text-foreground active:scale-90"
-                            aria-label={labels.close}
+                            onClick={() => select(activeIndex - 1, true)}
+                            disabled={activeIndex === 0}
+                            aria-label={prevLabel}
+                            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:text-foreground disabled:opacity-35 disabled:hover:text-muted-foreground"
                         >
-                            <X className="h-4 w-4" />
+                            <ChevronUp className="h-4 w-4" />
                         </button>
+                        <button
+                            type="button"
+                            onClick={() => select(activeIndex + 1, true)}
+                            disabled={activeIndex === projects.length - 1}
+                            aria-label={nextLabel}
+                            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:text-foreground disabled:opacity-35 disabled:hover:text-muted-foreground"
+                        >
+                            <ChevronDown className="h-4 w-4" />
+                        </button>
+                    </div>
+                    </div>
+                </div>
 
-                        <div className="overflow-y-auto px-6 py-10 sm:px-10 sm:py-12">
-                            <p className="eyebrow">{project.eyebrow}</p>
-                            <h3
-                                id="project-modal-title"
-                                className="mt-2 max-w-2xl text-3xl font-semibold leading-[1.1] tracking-[-0.022em] sm:text-4xl"
-                            >
+                {/* Panneau de détail : le contenu intégral de l'ancienne modale. */}
+                <div
+                    id="project-panel"
+                    role="tabpanel"
+                    aria-labelledby={`project-tab-${slug}`}
+                    className="order-1 scroll-mt-24 p-6 sm:p-8 md:order-2 lg:p-10"
+                >
+                    <AnimatePresence mode="wait" initial={false}>
+                        <motion.div
+                            key={slug}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -8 }}
+                            transition={{ duration: 0.28, ease: "easeOut" }}
+                        >
+                            {shot && (
+                                <div className="mb-7 overflow-hidden rounded-2xl border border-border/60">
+                                    <Image
+                                        src={shot}
+                                        alt={project.title}
+                                        sizes="(min-width: 768px) 720px, 100vw"
+                                        className="w-full"
+                                        placeholder={shot.blurDataURL ? "blur" : "empty"}
+                                    />
+                                </div>
+                            )}
+
+                            <div className="flex items-start justify-between gap-4">
+                                <p className="eyebrow">{project.eyebrow}</p>
+                                <span className="shrink-0 text-sm tabular-nums text-muted-foreground">{project.year}</span>
+                            </div>
+                            <h3 className="mt-2 max-w-2xl text-2xl font-semibold leading-[1.1] tracking-[-0.022em] sm:text-3xl">
                                 {project.title}
                             </h3>
                             <p className="mt-2 text-sm text-muted-foreground">
-                                {project.year} · {project.status} · {project.role}
+                                {project.status} · {project.role}
                             </p>
-                            <p id="project-modal-description" className="mt-5 max-w-2xl text-[15px] leading-7 text-muted-foreground">
-                                {project.description}
-                            </p>
+                            <p className="mt-5 max-w-2xl text-[15px] leading-7 text-muted-foreground">{project.description}</p>
 
                             {(project.github || (project.link && project.link !== "#")) && (
                                 <div className="mt-6 flex flex-wrap gap-3">
@@ -431,7 +593,7 @@ function ProjectModal({
 
                                 <div>
                                     <h4 className="text-lg font-semibold tracking-tight">{labels.highlights}</h4>
-                                    <ul className="mt-3 space-y-2.5 text-sm leading-7 text-muted-foreground">
+                                    <ul className="mt-3 max-w-2xl space-y-2.5 text-sm leading-7 text-muted-foreground">
                                         {project.highlights.map((highlight) => (
                                             <li key={highlight} className="relative pl-5">
                                                 <span className="absolute left-0 top-[0.8rem] h-1 w-1 rounded-full bg-muted-foreground/50" />
@@ -463,11 +625,11 @@ function ProjectModal({
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </motion.div>
-                </motion.div>
-            ) : null}
-        </AnimatePresence>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+            </div>
+        </motion.div>
     );
 }
 
@@ -475,14 +637,16 @@ export default function Home() {
     const currentYear = new Date().getFullYear();
     const [locale, setLocale] = useState<Locale>("en");
     const [activeSection, setActiveSection] = useState("hero");
-    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
     const t = translations[locale];
 
     const switchLocale = (nextLocale: Locale) => {
         setLocale(nextLocale);
         window.localStorage.setItem("locale", nextLocale);
-        setSelectedProject(null);
+        // L'URL reste partageable dans la langue affichée.
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", nextLocale);
+        window.history.replaceState(null, "", url);
     };
 
     useEffect(() => {
@@ -490,11 +654,19 @@ export default function Home() {
     }, [locale]);
 
     useEffect(() => {
-        if (window.localStorage.getItem("locale") === "fr") {
-            // Synchronisation post-hydratation : le HTML est prérendu en anglais,
-            // la préférence de langue n'est connue que côté client.
+        // Synchronisation post-hydratation : le HTML est prérendu en anglais,
+        // la langue vient d'abord de l'URL (lien partageable), sinon de la
+        // préférence enregistrée.
+        const urlLang = new URLSearchParams(window.location.search).get("lang");
+        const initialLocale =
+            urlLang === "fr" || urlLang === "en"
+                ? urlLang
+                : window.localStorage.getItem("locale") === "fr"
+                  ? "fr"
+                  : null;
+        if (initialLocale) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
-            setLocale("fr");
+            setLocale(initialLocale);
         }
 
         const sections = navItems
@@ -533,30 +705,15 @@ export default function Home() {
         };
     }, []);
 
-    useEffect(() => {
-        if (!selectedProject) {
-            return;
-        }
-
-        const previousOverflow = document.body.style.overflow;
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "Escape") {
-                setSelectedProject(null);
-            }
-        };
-
-        document.body.style.overflow = "hidden";
-        window.addEventListener("keydown", handleKeyDown);
-
-        return () => {
-            document.body.style.overflow = previousOverflow;
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [selectedProject]);
-
     return (
         <MotionConfig reducedMotion="user">
         <div className="flex min-h-screen flex-col pb-24 font-[family-name:var(--font-geist-sans)] sm:pb-0">
+            <a
+                href="#main"
+                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+            >
+                {t.a11y.skipToContent}
+            </a>
             {/* Navigation */}
             <div className="pointer-events-none fixed inset-x-0 bottom-5 z-50 flex justify-center px-4 sm:bottom-auto sm:top-5">
                 <motion.nav
@@ -634,6 +791,7 @@ export default function Home() {
             </div>
 
             {/* Hero */}
+            <main id="main">
             <section id="hero" className="flex min-h-screen items-center justify-center px-4 pt-24 sm:px-6 sm:pt-20">
                 <div className="mx-auto w-full max-w-3xl">
                     <motion.div
@@ -649,7 +807,7 @@ export default function Home() {
                                 width={320}
                                 height={320}
                                 priority
-                                className="h-36 w-36 rounded-full object-cover shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-black/5 dark:ring-white/10 sm:h-40 sm:w-40"
+                                className="h-36 w-36 rounded-full object-cover [filter:saturate(.72)_contrast(1.02)] shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-black/10 dark:ring-white/10 sm:h-40 sm:w-40"
                             />
                         </motion.div>
 
@@ -723,7 +881,7 @@ export default function Home() {
                             variants={fadeUp}
                             href="#about"
                             aria-label={t.hero.scrollLabel}
-                            className="mt-6 text-muted-foreground/60 transition-colors hover:text-muted-foreground"
+                            className="mt-6 text-muted-foreground/60 transition-colors hover:text-muted-foreground max-sm:hidden"
                         >
                             <motion.span
                                 animate={{ y: [0, 6, 0] }}
@@ -738,7 +896,7 @@ export default function Home() {
             </section>
 
             {/* À propos — ce que j'apporte, langues et disponibilité */}
-            <Section id="about" title={t.sections.about.title} lede={t.sections.about.lede}>
+            <Section id="about" title={t.nav.about} lede={t.sections.about.title}>
                 <motion.div
                     variants={staggerContainer}
                     initial="hidden"
@@ -746,21 +904,36 @@ export default function Home() {
                     viewport={{ once: true, margin: "-80px" }}
                     className="space-y-4"
                 >
-                    <motion.div variants={fadeUp} className="space-y-4">
-                        {t.about.paragraphs.map((paragraph) => (
-                            <p key={paragraph} className="text-[15px] leading-7 text-muted-foreground">
-                                {paragraph}
+                    <motion.div variants={fadeUp} className="max-w-3xl space-y-5">
+                        {t.about.paragraphs.map((paragraph, index) => (
+                            <p key={paragraph} className="text-[17px] font-medium leading-8 text-muted-foreground">
+                                <EmphasizedText text={paragraph} marks={aboutEmphasis[locale][index] ?? []} />
                             </p>
                         ))}
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="grid gap-4 pt-6 sm:grid-cols-2">
-                        {t.about.pillars.map((pillar) => (
-                            <div key={pillar.title} className="surface-card p-6 sm:p-7">
-                                <h3 className="text-[15px] font-semibold tracking-tight">{pillar.title}</h3>
-                                <p className="mt-2 text-sm leading-6 text-muted-foreground">{pillar.body}</p>
+                    <motion.div variants={fadeUp} className="grid grid-cols-1 gap-7 pb-2 pt-8 sm:grid-cols-3 sm:gap-6">
+                        {t.about.stats.map((stat) => (
+                            <div key={stat.label} className="border-t border-border pt-5">
+                                <p className="text-[13px] leading-5 text-muted-foreground">{stat.label}</p>
+                                <p className="mt-1.5 text-5xl font-semibold tracking-[-0.03em] sm:text-[3.4rem]">{stat.value}</p>
                             </div>
                         ))}
+                    </motion.div>
+
+                    <motion.div variants={fadeUp} className="grid gap-4 pt-6 sm:grid-cols-2">
+                        {t.about.pillars.map((pillar, index) => {
+                            const PillarIcon = pillarIcons[index % pillarIcons.length];
+                            return (
+                                <div key={pillar.title} className="surface-card p-6 sm:p-7">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                                        <PillarIcon className="h-5 w-5" />
+                                    </div>
+                                    <h3 className="mt-4 text-[15px] font-semibold tracking-tight">{pillar.title}</h3>
+                                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{pillar.body}</p>
+                                </div>
+                            );
+                        })}
                     </motion.div>
 
                     <motion.div variants={fadeUp} className="surface-card p-6 sm:p-8">
@@ -801,11 +974,32 @@ export default function Home() {
                             </a>
                         </div>
                     </motion.div>
+
+                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-8">
+                        <div className="flex items-center gap-3.5">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                                <Heart className="h-5 w-5" />
+                            </div>
+                            <h3 className="text-lg font-semibold tracking-tight">
+                                {t.passions.title} <span className="font-normal text-muted-foreground">{t.passions.lede}</span>
+                            </h3>
+                        </div>
+                        <div className="mt-5 flex flex-wrap gap-2.5">
+                            {[...t.passions.main, ...t.passions.subs].map((passion) => (
+                                <span
+                                    key={passion}
+                                    className="inline-flex items-center rounded-full bg-muted px-4 py-2 text-sm font-medium text-foreground/80"
+                                >
+                                    {passion}
+                                </span>
+                            ))}
+                        </div>
+                    </motion.div>
                 </motion.div>
             </Section>
 
             {/* Parcours */}
-            <Section id="parcours" title={t.sections.parcours.title} lede={t.sections.parcours.lede}>
+            <Section id="parcours" title={t.nav.parcours} lede={t.sections.parcours.title}>
                 <motion.div
                     variants={staggerContainer}
                     initial="hidden"
@@ -834,7 +1028,7 @@ export default function Home() {
                                 </span>
                             </div>
                             <h3 className="mt-5 text-lg font-semibold tracking-tight sm:text-xl">{item.title}</h3>
-                            <p className="mt-2 text-sm leading-6 text-muted-foreground/80">{item.context}</p>
+                            <p className="mt-2 max-w-[70ch] text-sm leading-6 text-muted-foreground/80">{item.context}</p>
                             <ParcoursDescription description={item.description} />
                             {item.modules && (
                                 <div className="mt-6 border-t border-border/60 pt-5">
@@ -854,7 +1048,7 @@ export default function Home() {
             </Section>
 
             {/* Compétences */}
-            <Section id="competences" title={t.sections.competences.title} lede={t.sections.competences.lede}>
+            <Section id="competences" title={t.nav.competences} lede={t.sections.competences.title}>
                 <motion.div
                     variants={staggerContainer}
                     initial="hidden"
@@ -919,62 +1113,41 @@ export default function Home() {
             </Section>
 
             {/* Projets */}
-            <Section id="projets" title={t.sections.projets.title} lede={t.sections.projets.lede}>
+            <Section id="projets" title={t.nav.projets} lede={t.sections.projets.title}>
+                <ProjectExplorer
+                    projects={t.projets}
+                    labels={t.modal}
+                    prevLabel={t.a11y.prevProject}
+                    nextLabel={t.a11y.nextProject}
+                />
+            </Section>
+
+            {/* FAQ */}
+            <Section id="faq" title={t.sections.faq.title} lede={t.sections.faq.lede}>
                 <motion.div
-                    variants={staggerContainer}
+                    variants={fadeUp}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-80px" }}
-                    className="grid grid-cols-1 gap-4 md:grid-cols-2"
+                    className="border-t border-border/70"
                 >
-                    {/* Clé positionnelle et non le titre : celui-ci change avec la locale,
-                        ce qui remontait la carte à l'opacité 0 sans que le `whileInView`
-                        du parent (once: true) ne se rejoue. */}
-                    {t.projets.map((projet, index) => (
-                        <motion.button
-                            key={index}
-                            type="button"
-                            onClick={() => setSelectedProject(projet)}
-                            variants={fadeUp}
-                            whileHover={{ y: -3 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                            className="surface-card surface-card-interactive flex flex-col justify-between p-6 text-left sm:p-8"
-                        >
-                            <div>
-                                <div className="flex items-start justify-between gap-4">
-                                    <p className="eyebrow">{projet.eyebrow}</p>
-                                    <span className="shrink-0 text-sm tabular-nums text-muted-foreground">{projet.year}</span>
-                                </div>
-                                <h3 className="mt-2 text-xl font-semibold tracking-tight">{projet.title}</h3>
-                                <p className="mt-3 text-sm leading-7 text-muted-foreground">{projet.description}</p>
-                            </div>
-
-                            <div className="mt-6 space-y-5">
-                                <div className="flex flex-wrap gap-2">
-                                    {projet.tags.slice(0, 4).map((tag) => (
-                                        <span key={tag} className="chip">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                                <span className="inline-flex items-center gap-1 text-[15px] font-medium text-primary">
-                                    {t.projectCardCta}
-                                    <ChevronRight className="h-4 w-4" />
-                                </span>
-                            </div>
-                        </motion.button>
+                    {t.faq.map((item) => (
+                        <details key={item.question} className="group border-b border-border/70">
+                            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg font-semibold tracking-tight transition-colors hover:text-muted-foreground sm:py-7 sm:text-xl [&::-webkit-details-marker]:hidden">
+                                {item.question}
+                                <ChevronDown
+                                    aria-hidden="true"
+                                    className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 group-open:rotate-180"
+                                />
+                            </summary>
+                            <p className="max-w-2xl pb-7 text-[15px] leading-7 text-muted-foreground">{item.answer}</p>
+                        </details>
                     ))}
                 </motion.div>
             </Section>
 
-            <ProjectModal project={selectedProject} labels={t.modal} onClose={() => setSelectedProject(null)} />
-
-            {/* Passions */}
-            <PassionsSection locale={locale} />
-
             {/* Contact */}
-            <Section id="contact" title={t.sections.contact.title} lede={t.sections.contact.lede}>
+            <Section id="contact" title={t.nav.contact} lede={t.sections.contact.title}>
                 <motion.div
                     variants={staggerContainer}
                     initial="hidden"
@@ -1041,6 +1214,8 @@ export default function Home() {
             </Section>
 
             {/* Footer */}
+            </main>
+
             <footer className="border-t border-border/60 px-4 py-8">
                 <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 text-sm text-muted-foreground sm:flex-row">
                     <p>&copy; {currentYear} Maël Demory. {t.footer.rights}</p>

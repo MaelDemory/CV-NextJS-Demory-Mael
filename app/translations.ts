@@ -60,10 +60,12 @@ type Dictionary = {
         parcours: { title: string; lede: string };
         competences: { title: string; lede: string };
         projets: { title: string; lede: string };
+        faq: { title: string; lede: string };
         contact: { title: string; lede: string };
     };
     about: {
         paragraphs: string[];
+        stats: { label: string; value: string }[];
         pillars: TitledBody[];
         availabilityTitle: string;
         availabilityLead: string;
@@ -103,6 +105,7 @@ type Dictionary = {
         main: string[];
         subs: string[];
     };
+    faq: { question: string; answer: string }[];
     contact: {
         email: { title: string; subtitle: string; cta: string };
         github: { title: string; subtitle: string; cta: string };
@@ -110,7 +113,14 @@ type Dictionary = {
         note: string;
     };
     footer: { rights: string; source: string };
-    a11y: { toggleTheme: string; github: string; switchLang: string };
+    a11y: {
+        toggleTheme: string;
+        github: string;
+        switchLang: string;
+        skipToContent: string;
+        prevProject: string;
+        nextProject: string;
+    };
 };
 
 export const translations: Record<Locale, Dictionary> = {
@@ -126,7 +136,7 @@ export const translations: Record<Locale, Dictionary> = {
         },
         hero: {
             photoAlt: "Photo of Maël Demory",
-            tagline: "I turn business needs into technical solutions 500 people use every day.",
+            tagline: "I turn business needs into technical solutions that 500 people use every day.",
             availability: "Seeking a software engineering internship abroad · June – September 2027",
             studentAt: "Engineering student at",
             apprenticeAt: "Software Engineer Apprentice at",
@@ -141,12 +151,18 @@ export const translations: Record<Locale, Dictionary> = {
             parcours: { title: "Engineering education and apprenticeship experience.", lede: "" },
             competences: { title: "The technologies I work with, and how well I know them.", lede: "" },
             projets: { title: "A selection of personal and university projects.", lede: "" },
+            faq: { title: "FAQ", lede: "Answers to your questions." },
             contact: { title: "Let's talk about your projects or an opportunity.", lede: "" },
         },
         about: {
             paragraphs: [
                 "I'm a PHP and JavaScript developer at Arjo France, the French arm of a Swedish medical-device group. I work day to day on the internal applications the subsidiary runs on, both extending them and keeping them running.",
                 "My job is to turn a business need into a workable technical solution, then maintain it over time. A good part of that happens in old, shared codebases, where staying consistent with what is already there matters more than an elegant solution of my own. That is what would make me useful quickly in a new team.",
+            ],
+            stats: [
+                { label: "In industry", value: "2 years" },
+                { label: "Daily users of my code", value: "500+" },
+                { label: "English", value: "TOEIC 900" },
             ],
             pillars: [
                 {
@@ -522,6 +538,24 @@ export const translations: Record<Locale, Dictionary> = {
             main: ["Formula 1 🏎️", "New technologies 🚀", "Cars 🚗"],
             subs: ["Travel ✈️ — 8 countries", "Fashion 👟", "Video games 🎮", "Photography 📸", "Weight training 🏋️"],
         },
+        faq: [
+            {
+                question: "When are you available, and for how long?",
+                answer: "From 21 June to late September 2027, for 9 to 12 weeks. I am open to relocating anywhere in the world.",
+            },
+            {
+                question: "Do you need a visa or sponsorship?",
+                answer: "French engineering-school internship agreement (IMT Nord Europe). EU citizen: no visa required within the EU and the EEA.",
+            },
+            {
+                question: "Which language for day-to-day work and interviews?",
+                answer: "French day to day with the team, English for code, commits and documentation. Technical interviews in either language.",
+            },
+            {
+                question: "Is this internship part of your degree?",
+                answer: "Yes. The course includes a compulsory period of international mobility, which is the internship I am currently looking for.",
+            },
+        ],
         contact: {
             email: { title: "Email", subtitle: "Direct channel", cta: "Send me an email" },
             github: { title: "GitHub", subtitle: "Code & projects", cta: "View my GitHub" },
@@ -529,7 +563,14 @@ export const translations: Record<Locale, Dictionary> = {
             note: "Based in France (CET). I usually reply within 24 hours.",
         },
         footer: { rights: "All rights reserved.", source: "Portfolio source code" },
-        a11y: { toggleTheme: "Toggle theme", github: "GitHub", switchLang: "Switch language" },
+        a11y: {
+            toggleTheme: "Toggle theme",
+            github: "GitHub",
+            switchLang: "Switch language",
+            skipToContent: "Skip to content",
+            prevProject: "Previous project",
+            nextProject: "Next project",
+        },
     },
     fr: {
         nav: {
@@ -558,12 +599,18 @@ export const translations: Record<Locale, Dictionary> = {
             parcours: { title: "Formation d'ingénieur et expérience en alternance.", lede: "" },
             competences: { title: "Les technologies que j'utilise, et à quel niveau.", lede: "" },
             projets: { title: "Une sélection de projets personnels et universitaires.", lede: "" },
+            faq: { title: "FAQ", lede: "Des réponses à vos questions." },
             contact: { title: "Discutons de vos projets ou d'une opportunité.", lede: "" },
         },
         about: {
             paragraphs: [
                 "Je suis développeur PHP et JavaScript chez Arjo France, filiale française d'un groupe suédois de dispositifs médicaux. J'interviens au quotidien sur les applications de gestion internes qui pilotent l'activité de la filiale, aussi bien pour les faire évoluer que pour les maintenir.",
                 "Mon travail consiste à traduire un besoin exprimé par un métier en une solution technique réalisable, puis à en assurer la maintenance dans la durée. Une bonne partie se déroule dans des bases de code legacy, où la cohérence avec l'existant compte davantage que l'élégance d'une solution isolée. C'est ce qui me rendrait rapidement opérationnel dans une nouvelle équipe.",
+            ],
+            stats: [
+                { label: "En entreprise", value: "2 ans" },
+                { label: "Utilisateurs quotidiens de mon code", value: "500+" },
+                { label: "Anglais", value: "TOEIC 900" },
             ],
             pillars: [
                 {
@@ -939,6 +986,24 @@ export const translations: Record<Locale, Dictionary> = {
             main: ["Formule 1 🏎️", "Nouvelles technologies 🚀", "Voitures 🚗"],
             subs: ["Voyage ✈️ — 8 pays", "Mode 👟", "Jeux vidéo 🎮", "Photographie 📸", "Musculation 🏋️"],
         },
+        faq: [
+            {
+                question: "Quand êtes-vous disponible, et pour combien de temps ?",
+                answer: "Du 21 juin à fin septembre 2027, pour 9 à 12 semaines. Je suis mobile partout dans le monde.",
+            },
+            {
+                question: "Faut-il un visa ou un parrainage ?",
+                answer: "Convention de stage d'école d'ingénieur (IMT Nord Europe). Citoyen de l'UE, aucun visa requis dans l'UE et l'EEE.",
+            },
+            {
+                question: "Quelle langue au quotidien et en entretien ?",
+                answer: "Français au quotidien avec l'équipe, anglais pour le code, les commits et la documentation. Entretien technique dans l'une ou l'autre langue.",
+            },
+            {
+                question: "Ce stage fait-il partie de votre cursus ?",
+                answer: "Oui. Le cursus comprend une période de mobilité internationale obligatoire, qui correspond au stage que je recherche actuellement.",
+            },
+        ],
         contact: {
             email: { title: "Email", subtitle: "Canal direct", cta: "M'envoyer un email" },
             github: { title: "GitHub", subtitle: "Code et projets", cta: "Voir mon GitHub" },
@@ -946,6 +1011,13 @@ export const translations: Record<Locale, Dictionary> = {
             note: "Basé en France (CET). Je réponds généralement sous 24 heures.",
         },
         footer: { rights: "Tous droits réservés.", source: "Code source du portfolio" },
-        a11y: { toggleTheme: "Changer de thème", github: "GitHub", switchLang: "Changer de langue" },
+        a11y: {
+            toggleTheme: "Changer de thème",
+            github: "GitHub",
+            switchLang: "Changer de langue",
+            skipToContent: "Aller au contenu",
+            prevProject: "Projet précédent",
+            nextProject: "Projet suivant",
+        },
     },
 };

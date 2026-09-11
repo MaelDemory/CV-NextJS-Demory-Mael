@@ -31,9 +31,11 @@ CardHeader.displayName = "CardHeader"
 
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
+  React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <h3
+  // Un nom de technologie n'est pas un titre : en <h3>, les ~30 tuiles de
+  // logos noyaient le plan du document lu par les lecteurs d'écran.
+  <p
     ref={ref}
     className={cn("text-center text-[13px] font-medium leading-tight tracking-tight", className)}
     {...props}
