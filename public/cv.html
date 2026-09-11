@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV — Maël Demory</title>
+<style>
+/* CV une page, piste « colonne latérale » : fond blanc, un seul accent bleu,
+   texte réel de bout en bout pour que l'export PDF garde une couche texte
+   propre (ATS). L'ordre du DOM reste linéaire : en-tête, colonne principale,
+   puis colonne latérale. */
+:root {
+    --ink: #1d1d1f;
+    --muted: #6e6e73;
+    --accent: #0071e3;
+    --card: #f5f5f7;
+    --rule: #d2d2d7;
+    --rule-soft: #e8e8ed;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #eef1f5;
+    font-size: 9.3pt;
+    line-height: 1.38;
+    font-feature-settings: "kern" 1, "liga" 1, "tnum" 1;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Barre d'outils (écran uniquement) ---------- */
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(238, 241, 245, .92);
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 13px;
+}
+.toolbar button,
+.toolbar label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.toolbar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.toolbar .print { background: var(--ink); border-color: var(--ink); color: #fff; }
+.toolbar .hint { flex-basis: 100%; text-align: center; color: var(--muted); font-size: 12px; }
+
+/* ---------- Page A4 ---------- */
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    padding: 8mm 13mm 6mm;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(29, 29, 31, .12);
+    display: none;
+    flex-direction: column;
+}
+body[data-lang="en"] .page-en,
+body[data-lang="fr"] .page-fr { display: flex; }
+
+/* ---------- En-tête ---------- */
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8mm;
+    padding-bottom: 3.5mm;
+}
+.name {
+    font-size: 26pt;
+    font-weight: 700;
+    letter-spacing: -.022em;
+    line-height: 1.05;
+}
+.name .dot { color: var(--accent); }
+.role {
+    font-size: 11pt;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: -.01em;
+    margin-top: 1.2mm;
+}
+.contact {
+    font-size: 8.6pt;
+    color: var(--muted);
+    margin-top: 2mm;
+}
+.contact b { color: var(--ink); font-weight: 600; }
+.photo {
+    display: none;
+    width: 26mm;
+    height: 26mm;
+    object-fit: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+body.with-photo .photo { display: block; }
+
+/* ---------- Corps deux colonnes ---------- */
+.cols {
+    display: grid;
+    /* Piste 8 : colonne d'infos à gauche. Le HTML garde l'ordre récit → infos
+       (couche texte du PDF lisible par les ATS), la grille inverse l'affichage. */
+    grid-template-columns: 54mm 1fr;
+    gap: 8mm;
+    margin-top: 4mm;
+    flex: 1;
+}
+
+h2 {
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--accent);
+    margin: 4mm 0 2mm;
+}
+.main { grid-column: 2; grid-row: 1; }
+.aside { grid-column: 1; grid-row: 1; }
+
+.main > h2:first-child, .aside > h2:first-of-type { margin-top: 0; }
+
+.item { margin-bottom: 3.2mm; }
+.item:last-child { margin-bottom: 0; }
+.item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6mm;
+}
+.item-head h3 { font-size: 10pt; font-weight: 700; }
+.item-head .period { font-size: 8.6pt; color: var(--muted); white-space: nowrap; }
+.context { font-size: 8.6pt; color: var(--muted); margin-top: .4mm; }
+
+ul { list-style: none; margin-top: 1.2mm; }
+li { position: relative; padding-left: 4mm; margin-bottom: 1.1mm; }
+li::before {
+    content: "";
+    position: absolute;
+    left: .4mm;
+    top: .58em;
+    width: 1.3mm;
+    height: 1.3mm;
+    border-radius: 50%;
+    background: #b3b6bc;
+}
+.stack { font-size: 8.6pt; color: var(--muted); margin-top: 1.4mm; }
+.stack b { color: var(--ink); font-weight: 600; }
+
+.project { margin-bottom: 2.8mm; }
+.project:last-of-type { margin-bottom: 0; }
+.project b { font-weight: 700; }
+.project .tech { color: var(--muted); }
+.more {
+    font-size: 8.6pt;
+    color: var(--muted);
+    margin-top: 2.4mm;
+}
+.more b { color: var(--accent); font-weight: 650; }
+.more a { white-space: nowrap; }
+
+/* ---------- Colonne latérale ---------- */
+.aside {
+    font-size: 9pt;
+    display: flex;
+    flex-direction: column;
+    gap: 4.5mm;
+}
+.aside h2 { margin-top: 0; }
+.box {
+    background: var(--card);
+    border-radius: 3mm;
+    padding: 4mm 4.2mm;
+}
+.box h2 { margin: 0 0 2mm; }
+.box p { margin-bottom: 1mm; }
+.box p:last-child { margin-bottom: 0; }
+.box b { font-weight: 650; }
+
+.skill-group { margin-bottom: 3.2mm; }
+.skill-group:last-child { margin-bottom: 0; }
+.skill-group b {
+    display: block;
+    font-size: 8.8pt;
+    font-weight: 650;
+    color: var(--ink);
+    margin-bottom: .5mm;
+}
+.skill-group { color: var(--muted); }
+
+.lang-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4mm;
+    margin-bottom: 1.6mm;
+}
+.lang-row span:last-child { color: var(--muted); text-align: right; }
+
+.interests { color: var(--muted); }
+
+/* ---------- Impression ---------- */
+@page { size: A4; margin: 0; }
+@media print {
+    body { background: #fff; }
+    .toolbar { display: none; }
+    /* min-height 297mm exact provoque une 2e page vide par arrondi : en
+       impression on laisse la hauteur libre, le format vient de @page. */
+    .page { margin: 0; box-shadow: none; width: auto; min-height: 0; }
+    a { color: inherit; }
+}
+</style>
+</head>
+<body data-lang="en">
+
+<div class="toolbar">
+    <button id="btn-en" aria-pressed="true" onclick="setLang('en')">English</button>
+    <button id="btn-fr" aria-pressed="false" onclick="setLang('fr')">Français</button>
+    <label><input type="checkbox" id="photo-toggle" onchange="document.body.classList.toggle('with-photo', this.checked)"> Photo</label>
+    <button class="print" onclick="window.print()">Imprimer / PDF</button>
+    <span class="hint">Export : bouton Imprimer → « Enregistrer au format PDF ». Marges gérées par la page, ne rien régler.</span>
+</div>
+
+<!-- ================================================= EN ================= -->
+<div class="page page-en" lang="en">
+    <header class="head">
+        <div>
+            <p class="name">Maël Demory<span class="dot">.</span></p>
+            <p class="role">Software Engineer — Apprentice</p>
+            <p class="contact">
+                Hauts-de-France, France · <a href="mailto:mael.demory@gmail.com"><b>mael.demory@gmail.com</b></a><br>
+                <a href="https://github.com/MaelDemory">github.com/MaelDemory</a> · <a href="https://www.linkedin.com/in/mael-demory/">linkedin.com/in/mael-demory</a> · Portfolio: <a href="https://mael-demory.dev"><b>mael-demory.dev</b></a>
+            </p>
+        </div>
+        <img class="photo" src="photo-cv.png" alt="Photo of Maël Demory">
+    </header>
+
+    <div class="cols">
+        <div class="main">
+            <h2>Summary</h2>
+            <p>Software engineer apprentice with two years of in-company experience, building and maintaining the internal applications used daily by 500+ people at Arjo, a Swedish medical-device group (ISO 13485). I take a business need from technical design to delivery and follow-up with users. Seeking a software engineering internship abroad.</p>
+
+            <h2>Experience</h2>
+            <div class="item">
+                <div class="item-head">
+                    <h3>Software Engineer Apprentice — Arjo France</h3>
+                    <span class="period">Sept. 2025 – Present</span>
+                </div>
+                <p class="context">Swedish medical-device group, 7,000 employees in 100+ countries · ISO 13485 / ISO 9001</p>
+                <ul>
+                    <li>Built end to end a spare-parts maintenance module (nine back-office pages): technical design, development, then ~30 rounds of user feedback. Replaces Excel/PDF handling and computes each customer's pricing from the M3 ERP.</li>
+                    <li>Contributed to modernising a legacy monolith: server-side pagination and sorting, 20+ scheduled jobs rebuilt on a shared template, and a data-access defect fixed.</li>
+                    <li>Set up the team's AI-assisted development workflow (custom agents, hooks, skills), used on production code under systematic human review.</li>
+                </ul>
+                <p class="stack"><b>Stack:</b> PHP 8 · SQL Server · JavaScript · jQuery · Bootstrap · Vite</p>
+            </div>
+            <div class="item">
+                <div class="item-head">
+                    <h3>Web Developer Apprentice — IMT Nord Europe</h3>
+                    <span class="period">Feb. 2024 – Aug. 2025</span>
+                </div>
+                <p class="context">Digital Tools &amp; Services team of the school's IT department</p>
+                <ul>
+                    <li>Sole developer on three intranet applications (~100 users): database design, back end and front end.</li>
+                    <li>GitLab kanban workflow, one issue per task, staged deployment through pre-production.</li>
+                </ul>
+                <p class="stack"><b>Stack:</b> PHP / Laravel · MySQL · JavaScript · Bootstrap</p>
+            </div>
+
+            <h2>Projects</h2>
+            <p class="project"><b>RayTracer</b> <span class="tech">— Java, Metal, Vulkan.</span> GPU rendering engine with three interchangeable backends and automatic fallback; the Metal path renders ×2.0 to ×13.9 faster than the CPU, verified pixel by pixel on seven scenes.</p>
+            <p class="project"><b>F1dle</b> <span class="tech">— React/TypeScript, Laravel, MySQL, Docker.</span> Live Formula 1 puzzle site: six game modes, bilingual, three Fly.io apps, Prometheus/Grafana monitoring.</p>
+            <p class="project"><b>F1 Ticket System</b> <span class="tech">— Solidity, React.</span> Ethereum ticketing dApp: 39-function smart contract, pull-payment pattern, dynamic pricing, bilingual front end.</p>
+            <p class="more">Six more projects, with code and live demos, on my portfolio: <a href="https://mael-demory.dev"><b>mael-demory.dev</b></a></p>
+
+            <h2>Education</h2>
+            <div class="item">
+                <div class="item-head">
+                    <h3>MSc in Engineering (Diplôme d'Ingénieur), Computer Science — IMT Nord Europe</h3>
+                    <span class="period">2025 – 2028</span>
+                </div>
+                <p class="context">French Grande École, Institut Mines-Télécom · apprenticeship track · this internship is the compulsory international mobility</p>
+            </div>
+            <div class="item">
+                <div class="item-head">
+                    <h3>BUT in Computer Science (3-year Bachelor of Technology) — IUT de Lens</h3>
+                    <span class="period">2022 – 2025</span>
+                </div>
+                <p class="context">Application design and development track · Université d'Artois</p>
+            </div>
+        </div>
+
+        <div class="aside">
+            <div class="aside-sec">
+            <div class="box">
+                <h2>Internship sought</h2>
+                <p><b>21 June – late Sept. 2027</b></p>
+                <p>9 to 12 weeks · worldwide</p>
+                <p>EU citizen — no visa required in the EU / EEA</p>
+                <p>French school internship agreement</p>
+            </div>
+            </div>
+            <div class="aside-sec">
+            <h2>Skills</h2>
+            <div class="skill-group"><b>Daily, in production</b>PHP · JavaScript · Laravel · SQL Server · MySQL · Bootstrap · Git</div>
+            <div class="skill-group"><b>Shipped with</b>TypeScript · React · Next.js · Java · Spring Boot · Python · Docker · GitLab CI · Prometheus · Grafana · Linux · MongoDB</div>
+            <div class="skill-group"><b>AI-assisted development</b>Claude Code · custom agents · MCP</div>
+            </div>
+            <div class="aside-sec">
+            <h2>Languages</h2>
+            <div class="lang-row"><span>French</span><span>Native</span></div>
+            <div class="lang-row"><span>English</span><span>C1 — TOEIC 900/990</span></div>
+            <div class="lang-row"><span>Spanish</span><span>B1</span></div>
+            </div>
+            <div class="aside-sec">
+            <h2>Interests</h2>
+            <p class="interests">Formula 1 · travel (8 countries) · photography · weight training</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================= FR ================= -->
+<div class="page page-fr" lang="fr">
+    <header class="head">
+        <div>
+            <p class="name">Maël Demory<span class="dot">.</span></p>
+            <p class="role">Ingénieur logiciel — Alternant</p>
+            <p class="contact">
+                Hauts-de-France, France · <a href="mailto:mael.demory@gmail.com"><b>mael.demory@gmail.com</b></a><br>
+                <a href="https://github.com/MaelDemory">github.com/MaelDemory</a> · <a href="https://www.linkedin.com/in/mael-demory/">linkedin.com/in/mael-demory</a> · Portfolio : <a href="https://mael-demory.dev"><b>mael-demory.dev</b></a>
+            </p>
+        </div>
+        <img class="photo" src="photo-cv.png" alt="Photo de Maël Demory">
+    </header>
+
+    <div class="cols">
+        <div class="main">
+            <h2>Profil</h2>
+            <p>Alternant ingénieur logiciel avec deux ans d'expérience en entreprise : je développe et maintiens les applications internes utilisées chaque jour par plus de 500 personnes chez Arjo, groupe suédois de dispositifs médicaux (ISO 13485). Je prends en charge un besoin métier de la conception technique jusqu'au suivi auprès des utilisateurs. Je recherche un stage d'ingénieur logiciel à l'étranger.</p>
+
+            <h2>Expérience</h2>
+            <div class="item">
+                <div class="item-head">
+                    <h3>Ingénieur logiciel en alternance — Arjo France</h3>
+                    <span class="period">Sept. 2025 – aujourd'hui</span>
+                </div>
+                <p class="context">Groupe suédois de dispositifs médicaux, 7 000 collaborateurs dans plus de 100 pays · ISO 13485 / ISO 9001</p>
+                <ul>
+                    <li>Création de bout en bout d'un module de gestion des pièces détachées (neuf pages de back-office) : conception technique, développement, puis une trentaine de retours utilisateurs. Remplace une gestion Excel/PDF et calcule la tarification de chaque client depuis l'ERP M3.</li>
+                    <li>Contribution à la modernisation d'un monolithe historique : pagination et tri côté serveur, plus de vingt traitements planifiés reconstruits sur un template commun, correction d'un défaut de la couche d'accès aux données.</li>
+                    <li>Mise en place du workflow de développement assisté par IA de l'équipe (agents personnalisés, hooks, skills), appliqué au code de production sous vérification humaine systématique.</li>
+                </ul>
+                <p class="stack"><b>Stack :</b> PHP 8 · SQL Server · JavaScript · jQuery · Bootstrap · Vite</p>
+            </div>
+            <div class="item">
+                <div class="item-head">
+                    <h3>Développeur web en alternance — IMT Nord Europe</h3>
+                    <span class="period">Févr. 2024 – août 2025</span>
+                </div>
+                <p class="context">Pôle Outils et Services Numériques de la direction informatique de l'école</p>
+                <ul>
+                    <li>Seul développeur sur trois applications web de l'intranet (~100 utilisateurs) : modélisation de la base, back-end et front-end.</li>
+                    <li>Kanban GitLab, une issue par tâche, déploiement en pré-production avant mise en production.</li>
+                </ul>
+                <p class="stack"><b>Stack :</b> PHP / Laravel · MySQL · JavaScript · Bootstrap</p>
+            </div>
+
+            <h2>Projets</h2>
+            <p class="project"><b>RayTracer</b> <span class="tech">— Java, Metal, Vulkan.</span> Moteur de rendu GPU à trois backends interchangeables avec repli automatique ; le chemin Metal calcule de ×2,0 à ×13,9 plus vite que le CPU, vérifié pixel par pixel sur sept scènes.</p>
+            <p class="project"><b>F1dle</b> <span class="tech">— React/TypeScript, Laravel, MySQL, Docker.</span> Site de jeux Formule 1 en ligne : six modes, bilingue, trois apps Fly.io, monitoring Prometheus/Grafana.</p>
+            <p class="project"><b>F1 Ticket System</b> <span class="tech">— Solidity, React.</span> Billetterie Ethereum : smart contract de 39 fonctions, pattern pull-payment, tarification dynamique, front bilingue.</p>
+            <p class="more">Six autres projets, avec code et démos en ligne, sur mon portfolio : <a href="https://mael-demory.dev"><b>mael-demory.dev</b></a></p>
+
+            <h2>Formation</h2>
+            <div class="item">
+                <div class="item-head">
+                    <h3>Diplôme d'ingénieur, informatique — IMT Nord Europe</h3>
+                    <span class="period">2025 – 2028</span>
+                </div>
+                <p class="context">Grande école, Institut Mines-Télécom · en apprentissage · ce stage constitue la mobilité internationale obligatoire</p>
+            </div>
+            <div class="item">
+                <div class="item-head">
+                    <h3>BUT Informatique — IUT de Lens</h3>
+                    <span class="period">2022 – 2025</span>
+                </div>
+                <p class="context">Parcours Conception et développement d'applications · Université d'Artois</p>
+            </div>
+        </div>
+
+        <div class="aside">
+            <div class="aside-sec">
+            <div class="box">
+                <h2>Stage recherché</h2>
+                <p><b>21 juin – fin sept. 2027</b></p>
+                <p>9 à 12 semaines · monde entier</p>
+                <p>Citoyen UE — aucun visa requis dans l'UE / EEE</p>
+                <p>Convention de stage d'école d'ingénieur</p>
+            </div>
+            </div>
+            <div class="aside-sec">
+            <h2>Compétences</h2>
+            <div class="skill-group"><b>Au quotidien, en production</b>PHP · JavaScript · Laravel · SQL Server · MySQL · Bootstrap · Git</div>
+            <div class="skill-group"><b>Déjà livré avec</b>TypeScript · React · Next.js · Java · Spring Boot · Python · Docker · GitLab CI · Prometheus · Grafana · Linux · MongoDB</div>
+            <div class="skill-group"><b>Développement assisté par IA</b>Claude Code · agents personnalisés · MCP</div>
+            </div>
+            <div class="aside-sec">
+            <h2>Langues</h2>
+            <div class="lang-row"><span>Français</span><span>Langue maternelle</span></div>
+            <div class="lang-row"><span>Anglais</span><span>C1 — TOEIC 900/990</span></div>
+            <div class="lang-row"><span>Espagnol</span><span>B1</span></div>
+            </div>
+            <div class="aside-sec">
+            <h2>Centres d'intérêt</h2>
+            <p class="interests">Formule 1 · voyages (8 pays) · photographie · musculation</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setLang(lang) {
+    document.body.dataset.lang = lang;
+    document.getElementById("btn-en").setAttribute("aria-pressed", String(lang === "en"));
+    document.getElementById("btn-fr").setAttribute("aria-pressed", String(lang === "fr"));
+    document.title = lang === "fr" ? "CV — Maël Demory" : "Resume — Maël Demory";
+}
+// Paramètres d'URL pour l'export automatisé : ?lang=fr&photo=1
+const params = new URLSearchParams(location.search);
+if (params.get("lang") === "fr") setLang("fr");
+if (params.get("photo") === "1") {
+    document.getElementById("photo-toggle").checked = true;
+    document.body.classList.add("with-photo");
+}
+</script>
+</body>
+</html>
