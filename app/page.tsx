@@ -1387,7 +1387,7 @@ export default function Home() {
                         </div>
                         <a
                             href="mailto:mael.demory@gmail.com"
-                            className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75"
+                            className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75 max-sm:ml-auto max-sm:shrink-0 max-sm:whitespace-nowrap"
                         >
                             {t.contact.email.cta}
                             <ChevronRight className="h-4 w-4" />
@@ -1406,7 +1406,7 @@ export default function Home() {
                             href="https://github.com/MaelDemory"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75"
+                            className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75 max-sm:ml-auto max-sm:shrink-0 max-sm:whitespace-nowrap"
                         >
                             {t.contact.github.cta}
                             <ChevronRight className="h-4 w-4" />
@@ -1425,7 +1425,7 @@ export default function Home() {
                             href="https://www.linkedin.com/in/mael-demory/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75"
+                            className="inline-flex items-center gap-1 text-[15px] font-medium text-primary transition-opacity hover:opacity-75 max-sm:ml-auto max-sm:shrink-0 max-sm:whitespace-nowrap"
                         >
                             {t.contact.linkedin.cta}
                             <ChevronRight className="h-4 w-4" />
