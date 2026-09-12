@@ -74,7 +74,7 @@ type Dictionary = {
         availabilityNote: string;
         availabilityCta: string;
     };
-    parcoursLabels: { experience: string; formation: string; modules: string };
+    parcoursLabels: { experience: string; formation: string; modules: string; showDetails: string };
     parcours: ParcoursItem[];
     competences: {
         core: string;
@@ -205,7 +205,7 @@ export const translations: Record<Locale, Dictionary> = {
             availabilityNote: "French day to day with the team, English for code, commits and documentation. Technical interviews in either language.",
             availabilityCta: "Get in touch",
         },
-        parcoursLabels: { experience: "Experience", formation: "Education", modules: "Modules" },
+        parcoursLabels: { experience: "Experience", formation: "Education", modules: "Modules", showDetails: "See the details" },
         parcours: [
             {
                 type: "experience",
@@ -653,7 +653,7 @@ export const translations: Record<Locale, Dictionary> = {
             availabilityNote: "Français au quotidien avec l'équipe, anglais pour le code, les commits et la documentation. Entretien technique dans l'une ou l'autre langue.",
             availabilityCta: "Me contacter",
         },
-        parcoursLabels: { experience: "Expérience", formation: "Formation", modules: "Modules" },
+        parcoursLabels: { experience: "Expérience", formation: "Formation", modules: "Modules", showDetails: "Voir le détail" },
         parcours: [
             {
                 type: "experience",

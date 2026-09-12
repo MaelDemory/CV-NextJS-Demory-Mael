@@ -97,6 +97,21 @@ const staggerContainer = {
     visible: { transition: { staggerChildren: 0.08 } },
 };
 
+function ParcoursModules({ modules, label }: { modules: string[]; label: string }) {
+    return (
+        <div className="mt-6 border-t border-border/60 pt-5">
+            <p className="eyebrow">{label}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+                {modules.map((module) => (
+                    <span key={module} className="chip">
+                        {module}
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 function ParcoursDescription({ description }: { description: string[] }) {
     return (
         <ul className="mt-4 max-w-[70ch] space-y-2.5 text-sm leading-7 text-muted-foreground">
@@ -182,6 +197,95 @@ function EmphasizedText({ text, marks }: { text: string; marks: string[] }) {
                 )
             )}
         </>
+    );
+}
+
+/* Parameters
+     className, children, rest — transmis tels quels au conteneur défilant.
+   What it does
+     Enveloppe une rangée défilante horizontale et superpose un fondu sur le
+     bord gauche ou droit tant qu'il reste du contenu de ce côté : l'affordance
+     disparaît d'elle-même en fin de course et sur les rangées qui tiennent.
+   Output
+     Le conteneur défilant décoré de ses deux fondus. */
+function ScrollRow({ className, children, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
+    const scrollerRef = useRef<HTMLDivElement | null>(null);
+    const [edges, setEdges] = useState({ left: false, right: false });
+
+    const updateEdges = () => {
+        const el = scrollerRef.current;
+        if (!el) {
+            return;
+        }
+        setEdges({
+            left: el.scrollLeft > 8,
+            right: el.scrollLeft + el.clientWidth < el.scrollWidth - 8,
+        });
+    };
+
+    useEffect(() => {
+        updateEdges();
+        window.addEventListener("resize", updateEdges);
+        return () => window.removeEventListener("resize", updateEdges);
+    }, []);
+
+    return (
+        <div className="relative">
+            <div ref={scrollerRef} onScroll={updateEdges} className={className} {...rest}>
+                {children}
+            </div>
+            <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-card to-transparent transition-opacity duration-300 ${
+                    edges.left ? "opacity-100" : "opacity-0"
+                }`}
+            />
+            <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-card to-transparent transition-opacity duration-300 ${
+                    edges.right ? "opacity-100" : "opacity-0"
+                }`}
+            />
+        </div>
+    );
+}
+
+/* Parameters
+     count — nombre de cartes du carrousel.
+     active — indice de la carte courante.
+     labels — intitulés servant de noms accessibles aux points.
+     onSelect — rappel de sélection d'un point.
+   What it does
+     Affiche les points de pagination du carrousel mobile, le point actif
+     étant étiré en pilule comme sur les pages produit Apple.
+   Output
+     La rangée de points, masquée à partir du point de rupture sm. */
+function CarouselDots({
+    count,
+    active,
+    labels,
+    onSelect,
+}: {
+    count: number;
+    active: number;
+    labels: string[];
+    onSelect: (index: number) => void;
+}) {
+    return (
+        <div className="mt-4 flex justify-center gap-2 sm:hidden">
+            {Array.from({ length: count }, (_, index) => (
+                <button
+                    key={index}
+                    type="button"
+                    aria-label={labels[index]}
+                    aria-current={index === active}
+                    onClick={() => onSelect(index)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                        index === active ? "w-5 bg-foreground/70" : "w-1.5 bg-muted-foreground/30"
+                    }`}
+                />
+            ))}
+        </div>
     );
 }
 
@@ -356,7 +460,7 @@ function Section({
     children: React.ReactNode;
 }) {
     return (
-        <section id={id} className="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-24">
+        <section id={id} className="scroll-mt-24 px-4 py-12 sm:px-6 sm:py-24">
             <div className="mx-auto w-full max-w-5xl">
                 <motion.div
                     variants={fadeUp}
@@ -388,14 +492,34 @@ function ProjectExplorer({
     labels,
     prevLabel,
     nextLabel,
+    floatingSelector,
 }: {
     projects: Project[];
     labels: (typeof translations)[Locale]["modal"];
     prevLabel: string;
     nextLabel: string;
+    /* Vrai quand la section Projets est celle à l'écran : en mobile, le dock
+       principal s'efface et la pilule de sélection prend son emplacement. */
+    floatingSelector: boolean;
 }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const floatingScrollRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        // Centre la pastille active dans la pilule flottante à l'apparition
+        // comme à chaque changement de projet.
+        const scroller = floatingScrollRef.current;
+        const chip = scroller?.querySelector<HTMLButtonElement>('[aria-selected="true"]');
+        if (!scroller || !chip) {
+            return;
+        }
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        scroller.scrollTo({
+            left: chip.offsetLeft - (scroller.clientWidth - chip.clientWidth) / 2,
+            behavior: reduceMotion ? "auto" : "smooth",
+        });
+    }, [floatingSelector, activeIndex]);
 
     const select = (index: number, moveFocus = false) => {
         const clamped = Math.max(0, Math.min(projects.length - 1, index));
@@ -447,6 +571,7 @@ function ProjectExplorer({
     const shot = projectShots[slug];
 
     return (
+        <>
         <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -456,13 +581,13 @@ function ProjectExplorer({
         >
             <div className="flex flex-col md:grid md:grid-cols-[264px_1fr]">
                 {/* Sélecteur : colonne en desktop, rangée défilante sous le panneau en mobile. */}
-                <div className="order-2 border-t border-border/60 p-4 md:order-1 md:border-r md:border-t-0 md:p-6">
+                <div className="order-2 border-t border-border/60 bg-card/95 p-4 backdrop-blur-md max-sm:hidden sm:max-md:sticky sm:max-md:bottom-4 sm:max-md:z-10 md:order-1 md:border-r md:border-t-0 md:bg-transparent md:p-6 md:backdrop-blur-none">
                     <div className="md:sticky md:top-24 md:flex md:flex-col">
-                    <div
+                    <ScrollRow
                         role="tablist"
                         aria-orientation="vertical"
                         onKeyDown={handleTablistKeyDown}
-                        className="flex gap-2 overflow-x-auto pb-1 md:flex-col md:items-stretch md:gap-1.5 md:overflow-visible md:pb-0"
+                        className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-col md:items-stretch md:gap-1.5 md:overflow-visible md:pb-0"
                     >
                         {projects.map((item, index) => (
                             <Fragment key={projectSlugs[index]}>
@@ -493,7 +618,7 @@ function ProjectExplorer({
                                 </button>
                             </Fragment>
                         ))}
-                    </div>
+                    </ScrollRow>
 
                     <div className="mt-5 hidden gap-2 md:flex">
                         <button
@@ -523,7 +648,7 @@ function ProjectExplorer({
                     id="project-panel"
                     role="tabpanel"
                     aria-labelledby={`project-tab-${slug}`}
-                    className="order-1 scroll-mt-24 p-6 sm:p-8 md:order-2 lg:p-10"
+                    className="order-1 scroll-mt-24 p-5 sm:p-8 md:order-2 lg:p-10"
                 >
                     <AnimatePresence mode="wait" initial={false}>
                         <motion.div
@@ -630,6 +755,49 @@ function ProjectExplorer({
                 </div>
             </div>
         </motion.div>
+
+        {/* Mobile : la pilule de sélection occupe l'emplacement du dock tant que
+            la section est à l'écran. Rendue hors de la carte animée, car un
+            ancêtre transformé neutraliserait son position:fixed. */}
+        <AnimatePresence>
+            {floatingSelector && (
+                <motion.div
+                    initial={{ opacity: 0, y: 14, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 14, scale: 0.96 }}
+                    transition={spring}
+                    className="fixed inset-x-0 bottom-5 z-50 flex justify-center px-4 sm:hidden"
+                >
+                    <div
+                        ref={floatingScrollRef}
+                        role="tablist"
+                        aria-orientation="horizontal"
+                        onKeyDown={handleTablistKeyDown}
+                        className="nav-material flex max-w-full snap-x items-center gap-1 overflow-x-auto rounded-full p-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    >
+                        {projects.map((item, index) => (
+                            <button
+                                key={projectSlugs[index]}
+                                type="button"
+                                role="tab"
+                                aria-selected={index === activeIndex}
+                                aria-controls="project-panel"
+                                tabIndex={index === activeIndex ? 0 : -1}
+                                onClick={() => select(index)}
+                                className={`shrink-0 snap-center whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 active:scale-[0.98] ${
+                                    index === activeIndex
+                                        ? "bg-primary text-primary-foreground"
+                                        : "text-foreground/75"
+                                }`}
+                            >
+                                {item.title}
+                            </button>
+                        ))}
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+        </>
     );
 }
 
@@ -637,6 +805,33 @@ export default function Home() {
     const currentYear = new Date().getFullYear();
     const [locale, setLocale] = useState<Locale>("en");
     const [activeSection, setActiveSection] = useState("hero");
+    const pillarScrollRef = useRef<HTMLDivElement | null>(null);
+    const [activePillar, setActivePillar] = useState(0);
+
+    const handlePillarScroll = () => {
+        const el = pillarScrollRef.current;
+        if (!el) {
+            return;
+        }
+        const max = el.scrollWidth - el.clientWidth;
+        if (max <= 0) {
+            return;
+        }
+        setActivePillar(Math.round((el.scrollLeft / max) * (translations[locale].about.pillars.length - 1)));
+    };
+
+    const scrollToPillar = (index: number) => {
+        const el = pillarScrollRef.current;
+        if (!el) {
+            return;
+        }
+        const max = el.scrollWidth - el.clientWidth;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        el.scrollTo({
+            left: (max * index) / (translations[locale].about.pillars.length - 1),
+            behavior: reduceMotion ? "auto" : "smooth",
+        });
+    };
 
     const t = translations[locale];
 
@@ -669,8 +864,10 @@ export default function Home() {
             setLocale(initialLocale);
         }
 
-        const sections = navItems
-            .map((item) => document.getElementById(item.id))
+        // La FAQ n'a pas d'entrée dans le dock mais doit être suivie, sans quoi
+        // la pilule de projets s'attarderait sur elle en mobile.
+        const sections = [...navItems.map((item) => item.id), "faq"]
+            .map((id) => document.getElementById(id))
             .filter((section): section is HTMLElement => section !== null);
 
         let ticking = false;
@@ -715,12 +912,18 @@ export default function Home() {
                 {t.a11y.skipToContent}
             </a>
             {/* Navigation */}
-            <div className="pointer-events-none fixed inset-x-0 bottom-5 z-50 flex justify-center px-4 sm:bottom-auto sm:top-5">
+            <div
+                className={`pointer-events-none fixed inset-x-0 bottom-5 z-50 flex justify-center px-4 transition-[opacity,transform] duration-300 sm:bottom-auto sm:top-5 ${
+                    activeSection === "projets" ? "max-sm:translate-y-3 max-sm:opacity-0" : ""
+                }`}
+            >
                 <motion.nav
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={spring}
-                    className="pointer-events-auto"
+                    className={`pointer-events-auto ${
+                        activeSection === "projets" ? "max-sm:pointer-events-none" : ""
+                    }`}
                 >
                     <div className="nav-material flex items-center gap-1 rounded-full p-1.5">
                         {navItems.map((item) => {
@@ -912,20 +1115,25 @@ export default function Home() {
                         ))}
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="grid grid-cols-1 gap-7 pb-2 pt-8 sm:grid-cols-3 sm:gap-6">
+                    <motion.div variants={fadeUp} className="grid grid-cols-3 gap-3 pb-2 pt-7 sm:gap-6 sm:pt-8">
                         {t.about.stats.map((stat) => (
-                            <div key={stat.label} className="border-t border-border pt-5">
-                                <p className="text-[13px] leading-5 text-muted-foreground">{stat.label}</p>
-                                <p className="mt-1.5 text-5xl font-semibold tracking-[-0.03em] sm:text-[3.4rem]">{stat.value}</p>
+                            <div key={stat.label} className="border-t border-border pt-3 sm:pt-5">
+                                <p className="text-[11px] leading-4 text-muted-foreground sm:text-[13px] sm:leading-5">{stat.label}</p>
+                                <p className="mt-1.5 text-[1.55rem] font-semibold leading-tight tracking-[-0.03em] sm:text-[3.4rem] sm:leading-none">{stat.value}</p>
                             </div>
                         ))}
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="grid gap-4 pt-6 sm:grid-cols-2">
+                    <motion.div variants={fadeUp} className="pt-6">
+                        <div
+                            ref={pillarScrollRef}
+                            onScroll={handlePillarScroll}
+                            className="flex snap-x snap-mandatory gap-3.5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-sm:-mx-4 max-sm:px-4 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:pb-0"
+                        >
                         {t.about.pillars.map((pillar, index) => {
                             const PillarIcon = pillarIcons[index % pillarIcons.length];
                             return (
-                                <div key={pillar.title} className="surface-card p-6 sm:p-7">
+                                <div key={pillar.title} className="surface-card w-[80vw] shrink-0 snap-center p-5 sm:w-auto sm:shrink sm:snap-align-none sm:p-7">
                                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
                                         <PillarIcon className="h-5 w-5" />
                                     </div>
@@ -934,9 +1142,16 @@ export default function Home() {
                                 </div>
                             );
                         })}
+                        </div>
+                        <CarouselDots
+                            count={t.about.pillars.length}
+                            active={activePillar}
+                            labels={t.about.pillars.map((pillar) => pillar.title)}
+                            onSelect={scrollToPillar}
+                        />
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-8">
+                    <motion.div variants={fadeUp} className="surface-card p-5 sm:p-8">
                         <div className="flex items-center gap-3.5">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
                                 <CalendarClock className="h-5 w-5" />
@@ -975,7 +1190,7 @@ export default function Home() {
                         </div>
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="surface-card p-6 sm:p-8">
+                    <motion.div variants={fadeUp} className="surface-card p-5 sm:p-8">
                         <div className="flex items-center gap-3.5">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
                                 <Heart className="h-5 w-5" />
@@ -1008,7 +1223,7 @@ export default function Home() {
                     className="space-y-4"
                 >
                     {t.parcours.map((item, index) => (
-                        <motion.article key={index} variants={fadeUp} className="surface-card p-6 sm:p-8">
+                        <motion.article key={index} variants={fadeUp} className="surface-card p-5 sm:p-8">
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
@@ -1029,19 +1244,25 @@ export default function Home() {
                             </div>
                             <h3 className="mt-5 text-lg font-semibold tracking-tight sm:text-xl">{item.title}</h3>
                             <p className="mt-2 max-w-[70ch] text-sm leading-6 text-muted-foreground/80">{item.context}</p>
-                            <ParcoursDescription description={item.description} />
-                            {item.modules && (
-                                <div className="mt-6 border-t border-border/60 pt-5">
-                                    <p className="eyebrow">{t.parcoursLabels.modules}</p>
-                                    <div className="mt-3 flex flex-wrap gap-2">
-                                        {item.modules.map((module) => (
-                                            <span key={module} className="chip">
-                                                {module}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+
+                            {/* Desktop : tout est visible. */}
+                            <div className="max-sm:hidden">
+                                <ParcoursDescription description={item.description} />
+                                {item.modules && <ParcoursModules modules={item.modules} label={t.parcoursLabels.modules} />}
+                            </div>
+
+                            {/* Mobile : première puce, le reste derrière un dépliant. */}
+                            <div className="sm:hidden">
+                                <ParcoursDescription description={item.description.slice(0, 1)} />
+                                <details className="group mt-3">
+                                    <summary className="flex cursor-pointer list-none items-center gap-1.5 text-sm font-medium text-primary [&::-webkit-details-marker]:hidden">
+                                        {t.parcoursLabels.showDetails}
+                                        <ChevronDown aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-open:rotate-180" />
+                                    </summary>
+                                    <ParcoursDescription description={item.description.slice(1)} />
+                                    {item.modules && <ParcoursModules modules={item.modules} label={t.parcoursLabels.modules} />}
+                                </details>
+                            </div>
                         </motion.article>
                     ))}
                 </motion.div>
@@ -1055,16 +1276,16 @@ export default function Home() {
                     whileInView="visible"
                     viewport={{ once: true, margin: "-80px" }}
                 >
-                    <motion.div variants={fadeUp} className="surface-card divide-y divide-border/60 p-6 sm:p-8">
+                    <motion.div variants={fadeUp} className="surface-card divide-y divide-border/60 p-5 sm:p-8">
                         <div className="pb-7">
                             <SkillLevelHeading title={t.competences.core} lede={t.competences.coreLede} />
-                            <div className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(6.5rem,1fr))] gap-2.5 [&_h3]:text-sm [&_img]:!h-11 [&_img]:!w-11 [&_svg]:!h-11 [&_svg]:!w-11 [&>div>div]:py-5">
+                            <ScrollRow className="mt-5 flex snap-x gap-2.5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-[repeat(auto-fill,minmax(6.5rem,1fr))] sm:overflow-visible sm:pb-0 [&_p]:text-sm [&_img]:!h-11 [&_img]:!w-11 [&_svg]:!h-11 [&_svg]:!w-11 [&>div>div]:py-5">
                                 {coreLogos.map((logo, index) => (
-                                    <div key={index} className="min-w-0">
+                                    <div key={index} className="w-24 shrink-0 snap-start sm:w-auto sm:min-w-0 sm:shrink">
                                         {logo}
                                     </div>
                                 ))}
-                            </div>
+                            </ScrollRow>
                         </div>
 
                         <div className="py-7">
@@ -1075,13 +1296,13 @@ export default function Home() {
                                         <p className="shrink-0 pt-2 text-[13px] text-muted-foreground sm:w-44">
                                             {t.competences.groups[group.id]}
                                         </p>
-                                        <div className="mt-2 flex flex-1 flex-wrap gap-2 sm:mt-0 [&_h3]:text-[11px] [&_img]:!h-7 [&_img]:!w-7 [&_svg]:!h-7 [&_svg]:!w-7 [&>div>div]:gap-2 [&>div>div]:px-2 [&>div>div]:py-2.5">
+                                        <ScrollRow className="mt-2 flex flex-1 flex-nowrap gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-0 sm:flex-wrap sm:overflow-visible sm:pb-0 [&_p]:text-[11px] [&_img]:!h-7 [&_img]:!w-7 [&_svg]:!h-7 [&_svg]:!w-7 [&>div>div]:gap-2 [&>div>div]:px-2 [&>div>div]:py-2.5">
                                             {group.logos.map((logo, index) => (
-                                                <div key={index} className="w-[4.75rem]">
+                                                <div key={index} className="w-[4.75rem] shrink-0 sm:shrink">
                                                     {logo}
                                                 </div>
                                             ))}
-                                        </div>
+                                        </ScrollRow>
                                     </div>
                                 ))}
                             </div>
@@ -1089,13 +1310,13 @@ export default function Home() {
 
                         <div className="py-7">
                             <SkillLevelHeading title={t.competences.explored} lede={t.competences.exploredLede} />
-                            <div className="mt-5 flex flex-wrap gap-2 [&_h3]:text-[11px] [&_img]:!h-7 [&_img]:!w-7 [&_svg]:!h-7 [&_svg]:!w-7 [&>div>div]:gap-2 [&>div>div]:px-2 [&>div>div]:py-2.5">
+                            <ScrollRow className="mt-5 flex flex-nowrap gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:pb-0 [&_p]:text-[11px] [&_img]:!h-7 [&_img]:!w-7 [&_svg]:!h-7 [&_svg]:!w-7 [&>div>div]:gap-2 [&>div>div]:px-2 [&>div>div]:py-2.5">
                                 {exploredLogos.map((logo, index) => (
-                                    <div key={index} className="w-[4.75rem]">
+                                    <div key={index} className="w-[4.75rem] shrink-0 sm:shrink">
                                         {logo}
                                     </div>
                                 ))}
-                            </div>
+                            </ScrollRow>
                         </div>
 
                         <div className="pt-7">
@@ -1119,6 +1340,7 @@ export default function Home() {
                     labels={t.modal}
                     prevLabel={t.a11y.prevProject}
                     nextLabel={t.a11y.nextProject}
+                    floatingSelector={activeSection === "projets"}
                 />
             </Section>
 
@@ -1155,8 +1377,8 @@ export default function Home() {
                     viewport={{ once: true, margin: "-80px" }}
                     className="grid gap-4 sm:grid-cols-3"
                 >
-                    <motion.div variants={fadeUp} className="surface-card flex flex-col items-center gap-4 p-8 text-center">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+                    <motion.div variants={fadeUp} className="surface-card flex items-center gap-4 p-5 text-left sm:flex-col sm:p-8 sm:text-center">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted text-muted-foreground sm:h-12 sm:w-12">
                             <Mail className="h-5 w-5" />
                         </div>
                         <div>
@@ -1172,8 +1394,8 @@ export default function Home() {
                         </a>
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="surface-card flex flex-col items-center gap-4 p-8 text-center">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+                    <motion.div variants={fadeUp} className="surface-card flex items-center gap-4 p-5 text-left sm:flex-col sm:p-8 sm:text-center">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted text-muted-foreground sm:h-12 sm:w-12">
                             <GithubMarkIcon className="h-5 w-5" />
                         </div>
                         <div>
@@ -1191,8 +1413,8 @@ export default function Home() {
                         </a>
                     </motion.div>
 
-                    <motion.div variants={fadeUp} className="surface-card flex flex-col items-center gap-4 p-8 text-center">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_img]:h-5 [&_img]:w-5">
+                    <motion.div variants={fadeUp} className="surface-card flex items-center gap-4 p-5 text-left sm:flex-col sm:p-8 sm:text-center">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted text-muted-foreground sm:h-12 sm:w-12 [&_img]:h-5 [&_img]:w-5">
                             <LinkedInLogo />
                         </div>
                         <div>
