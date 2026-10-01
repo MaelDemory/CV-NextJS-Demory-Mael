@@ -40,5 +40,6 @@ Pour modifier le contenu (à propos, parcours, projets, passions), éditez `app/
 chaque entrée existe en anglais et en français. Les compétences sont groupées par niveau de maîtrise
 dans `competenceLevels` (`app/page.tsx`).
 
-Le bouton « Télécharger mon CV » du hero est masqué tant que `CV_PDF_AVAILABLE` vaut `false`
-(`app/site.ts`) : passez-le à `true` après avoir déposé `public/cv-mael-demory.pdf`.
+Le bouton « Télécharger mon CV » du hero télécharge le CV de la langue active :
+`public/cv-mael-demory.pdf` (anglais) ou `public/cv-mael-demory-fr.pdf` (français), déclarés dans
+`CV_PDF` (`app/site.ts`). Passer `CV_PDF_AVAILABLE` à `false` masque le bouton.

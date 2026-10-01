@@ -20,7 +20,7 @@ import {
     type MotionValue,
 } from "framer-motion";
 import { translations, type Locale, type Project } from "@/app/translations";
-import { CV_PDF_AVAILABLE } from "@/app/site";
+import { CV_PDF, CV_PDF_AVAILABLE } from "@/app/site";
 import {
     BootstrapLogo,
     AngularLogo,
@@ -1062,9 +1062,8 @@ export default function Home() {
                             </a>
                             {CV_PDF_AVAILABLE && (
                                 <a
-                                    href="/cv-mael-demory.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href={CV_PDF[locale].href}
+                                    download={CV_PDF[locale].fileName}
                                     className="btn-tinted"
                                 >
                                     <FileDown className="h-4 w-4" />
